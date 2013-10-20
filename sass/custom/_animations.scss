@@ -1,0 +1,26 @@
+#awesome {
+font-size: 12px;
+position: relative;
+width: 10px;
+height: 10px;
+margin-bottom: 10px;
+background-color: #eee;
+-webkit-transition: all 4s cubic-bezier(1.000, -0.530, 0.405, 1.425);
+-moz-transition: all 4s cubic-bezier(1.000, -0.530, 0.405, 1.425);
+-o-transition: all 4s cubic-bezier(1.000, -0.530, 0.405, 1.425);
+transition: all 4s cubic-bezier(1.000, -0.530, 0.405, 1.425);
+border: 1px #000 dotted;
+}
+
+#header:hover #awesome {
+-webkit-border-radius: 30px;
+-moz-border-radius: 30px;
+border-radius: 30px;
+-webkit-transform: rotate(720deg);
+-moz-transform: rotate(720deg);
+-o-transform: rotate(720deg);
+-ms-transform: rotate(720deg);
+transform: rotate(720deg);
+margin-left: 420px;
+background-color: #fff;
+}
