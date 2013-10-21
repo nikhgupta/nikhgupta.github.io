@@ -344,6 +344,7 @@ body {
     .left-col:hover {
       width: 77%;
       margin-right: 10px;
+      border-right: 7px solid white;
       #header {
         margin-left: 0;
         margin-right: 0;
@@ -365,6 +366,18 @@ body {
         #authorinfo {
           right: 5%;
           top: 20%;
+        }
+      }
+    }
+  }
+}
+@media screen and (min-width: 1240px){
+  .container {
+    .left-col {
+      #header {
+        #authorinfo {
+          right: 9%;
+          top: 23%;
         }
       }
     }
