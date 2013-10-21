@@ -152,10 +152,12 @@ working directory.</p>
 <p>Let   s set up a default set of hooks that Git will use as a template when
 creating or cloning a repository (requires Git 1.7.1 or newer):</p>
 
-<pre><code>#!bash
-git config --global init.templatedir '~/.git_template'
-mkdir -p ~/.git_template/hooks
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git config --global init.templatedir <span class="s1">&#39;~/.git_template&#39;</span>
+</span><span class='line'>mkdir -p ~/.git_template/hooks
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>I, usually, put all my Git related stuff in <code>~/Code/__dotfiles/git/</code> and
 hence, the above template directory lands up as
@@ -166,10 +168,14 @@ hence, the above template directory lands up as
 a script the other hooks will call. Place in <code>~/.git_template/hooks/ctags</code> and
 mark as executable:</p>
 
-<pre><code>#!bash
-#!/bin/sh
-rm -f .git/tags ctags --tag-relative -Rf.git/tags --exclude=.git --languages=-javascript,sql
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'>rm -f .git/tags ctags --tag-relative -Rf.git/tags <span class="se">\</span>
+</span><span class='line'>  --exclude<span class="o">=</span>.git --languages<span class="o">=</span>-javascript,sql
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Although, make sure that the <code>ctags</code> version is the GNU one, and the above
 script runs without showing any errors. If installing via <code>Homebrew</code> make sure
@@ -191,20 +197,26 @@ files in the <code>~/.git_template/hooks</code> folder needs to be marked as exe
 You should use the following content for: <code>post-commit</code>, <code>post-merge</code>, and
 <code>post-checkout</code> hooks (which simply calls the <code>ctags</code> hook, we create above):</p>
 
-<pre><code>#!bash
-#!/bin/sh
-.git/hooks/ctags &gt;/dev/null 2&gt;&amp;1 &amp;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'>.git/hooks/ctags &gt;/dev/null 2&gt;&amp;1 &amp;
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Additionally, if you feel tags should also be generated on using <code>git rebase</code>,
 add the following code to <code>post-rewrite</code> hook:</p>
 
-<pre><code>#!bash
-#!/bin/sh
-case "$1" in
-  rebase) exec .git/hooks/post-merge ;;
-esac
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="k">case</span> <span class="s2">&quot;$1&quot;</span> in
+</span><span class='line'>  rebase<span class="o">)</span> <span class="nb">exec</span> .git/hooks/post-merge ;;
+</span><span class='line'><span class="k">esac</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Once, the above is done, all we need to do is to issue a <code>git init</code> command to
 create Ctags for an already existing repository. All new git repositories will
@@ -219,71 +231,129 @@ a one-off shell script that does this work for me, and store the generated
 tags file in a directory such as <code>~/.tags/</code> with a suitable name. O&#8217;course it
 does not make sense to version this directory.</p>
 
-<pre><code>#!bash
-#!/usr/bin/env sh
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/usr/bin/env sh</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">RubyVersion</span><span class="o">=</span><span class="s2">&quot;1.9.3-p194&quot;</span>
+</span><span class='line'><span class="nv">LaravelPath</span><span class="o">=</span><span class="s2">&quot;${HOME}/Code/projects/lab/laravel&quot;</span>
+</span><span class='line'>
+</span><span class='line'>mkdir -p <span class="s2">&quot;${HOME}/.ctags&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># RVM: Ruby version 1.9.3-p194</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;${RubyVersion}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">  </span>mkdir -p <span class="s2">&quot;${HOME}/.ctags/ruby/${RubyVersion}&quot;</span>
+</span><span class='line'>  <span class="nv">TAG_FILE</span><span class="o">=</span><span class="s2">&quot;${HOME}/.ctags/ruby/${RubyVersion}/tags&quot;</span>
+</span><span class='line'>  rm -f <span class="s2">&quot;${TAG_FILE}&quot;</span>
+</span><span class='line'>  <span class="k">for </span>rubydir in <span class="sb">`</span>find <span class="s2">&quot;${HOME}/.rvm/gems&quot;</span> -type d -depth 1 -iname <span class="s2">&quot;*${RubyVersion}*&quot;</span><span class="sb">`</span>; <span class="k">do</span>
+</span><span class='line'><span class="k">    if</span> <span class="o">[</span> -d <span class="s2">&quot;${rubydir}/gems&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">      </span><span class="nb">echo</span> <span class="s2">&quot;Looking inside: ${rubydir}/gems&quot;</span>
+</span><span class='line'>      ctags --recurse --tag-relative <span class="se">\</span>
+</span><span class='line'>        --languages<span class="o">=</span>-javascript,sql <span class="se">\</span>
+</span><span class='line'>        --exclude<span class="o">=</span>.git <span class="se">\</span>
+</span><span class='line'>        --sort<span class="o">=</span>yes --append <span class="se">\</span>
+</span><span class='line'>        -f <span class="s2">&quot;${TAG_FILE}&quot;</span> <span class="se">\</span>
+</span><span class='line'>        <span class="nv">$rubydir</span>/gems/*
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'><span class="k">  done</span>
+</span><span class='line'><span class="k">  </span><span class="nb">echo</span>
+</span><span class='line'><span class="nb">  echo</span> <span class="s2">&quot;------ generated ctags for: ${RubyVersion} ------&quot;</span>
+</span><span class='line'>  cat <span class="s2">&quot;${TAG_FILE}&quot;</span> | wc
+</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;---------------------------------------------&quot;</span>
+</span><span class='line'>  <span class="nb">echo</span>
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Laravel</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;${LaravelPath}&quot;</span> -a -d <span class="s2">&quot;${LaravelPath}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">  </span>mkdir -p <span class="s2">&quot;${HOME}/.ctags/php/laravel&quot;</span>
+</span><span class='line'>  <span class="nv">TAG_FILE</span><span class="o">=</span><span class="s2">&quot;${HOME}/.ctags/php/laravel/tags&quot;</span>
+</span><span class='line'>  rm -f <span class="s2">&quot;${TAG_FILE}&quot;</span>
+</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;Looking inside: ${LaravelPath}&quot;</span>
+</span><span class='line'>  ctags --recurse --tag-relative <span class="se">\</span>
+</span><span class='line'>    --languages<span class="o">=</span>-javascript,sql <span class="se">\</span>
+</span><span class='line'>    --exclude<span class="o">=</span>.git <span class="se">\</span>
+</span><span class='line'>    --sort<span class="o">=</span>yes --append <span class="se">\</span>
+</span><span class='line'>    --PHP-kinds<span class="o">=</span>+cf <span class="se">\</span>
+</span><span class='line'>    --regex-PHP<span class="o">=</span><span class="s1">&#39;/abstract class ([^ ]*)/\1/c/&#39;</span> <span class="se">\</span>
+</span><span class='line'>    --regex-PHP<span class="o">=</span><span class="s1">&#39;/interface ([^ ]*)/\1/c/&#39;</span> <span class="se">\</span>
+</span><span class='line'>    --regex-PHP<span class="o">=</span><span class="s1">&#39;/(public |static |abstract |protected |private )+function ([^ (]*)/\2/f/&#39;</span> <span class="se">\</span>
+</span><span class='line'>    -f <span class="s2">&quot;${TAG_FILE}&quot;</span> <span class="se">\</span>
+</span><span class='line'>    <span class="nv">$LaravelPath</span>
+</span><span class='line'>  <span class="nb">echo</span>
+</span><span class='line'><span class="nb">  echo</span> <span class="s2">&quot;-------- generated ctags for: Laravel -------&quot;</span>
+</span><span class='line'>  cat <span class="s2">&quot;${TAG_FILE}&quot;</span> | wc
+</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;---------------------------------------------&quot;</span>
+</span><span class='line'>  <span class="nb">echo</span>
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
 
-RubyVersion="1.9.3-p194"
-LaravelPath="${HOME}/Code/projects/lab/laravel"
-
-mkdir -p "${HOME}/.ctags"
-
-# RVM: Ruby version 1.9.3-p194
-if [ -n "${RubyVersion}" ]; then
-  mkdir -p "${HOME}/.ctags/ruby/${RubyVersion}"
-  TAG_FILE="${HOME}/.ctags/ruby/${RubyVersion}/tags"
-  rm -f "${TAG_FILE}"
-  for rubydir in `find "${HOME}/.rvm/gems" -type d -depth 1 -iname "*${RubyVersion}*"`; do
-    if [ -d "${rubydir}/gems" ]; then
-      echo "Looking inside: ${rubydir}/gems"
-      ctags --recurse --tag-relative \
-        --languages=-javascript,sql \
-        --exclude=.git \
-        --sort=yes --append \
-        -f "${TAG_FILE}" \
-        $rubydir/gems/*
-    fi
-  done
-  echo
-  echo "------ generated ctags for: ${RubyVersion} ------"
-  cat "${TAG_FILE}" | wc
-  echo "---------------------------------------------"
-  echo
-fi
-
-# Laravel
-if [ -n "${LaravelPath}" -a -d "${LaravelPath}" ]; then
-  mkdir -p "${HOME}/.ctags/php/laravel"
-  TAG_FILE="${HOME}/.ctags/php/laravel/tags"
-  rm -f "${TAG_FILE}"
-  echo "Looking inside: ${LaravelPath}"
-  ctags --recurse --tag-relative \
-    --languages=-javascript,sql \
-    --exclude=.git \
-    --sort=yes --append \
-    --PHP-kinds=+cf \
-    --regex-PHP='/abstract class ([^ ]*)/\1/c/' \
-    --regex-PHP='/interface ([^ ]*)/\1/c/' \
-    --regex-PHP='/(public |static |abstract |protected |private )+function ([^ (]*)/\2/f/' \
-    -f "${TAG_FILE}" \
-    $LaravelPath
-  echo
-  echo "-------- generated ctags for: Laravel -------"
-  cat "${TAG_FILE}" | wc
-  echo "---------------------------------------------"
-  echo
-fi
-</code></pre>
 
 <p>Finally, I set the following inside my <code>~/.vimrc</code> file:</p>
 
-<pre><code>#!vim
-set tags=./tags;/
-augroup TagFileType
-  autocmd!
-  autocmd FileType * setl tags&lt;
-  autocmd FileType * exe 'setl tags+=~/.ctags/' . &amp;filetype . '/*/tags'
-augroup END
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">set</span> <span class="k">tags</span><span class="p">=</span>.<span class="sr">/tags;/</span>
+</span><span class='line'>augroup TagFileType
+</span><span class='line'>  autocmd<span class="p">!</span>
+</span><span class='line'>  autocmd <span class="nb">FileType</span> * <span class="k">setl</span> <span class="k">tags</span><span class="p">&lt;</span>
+</span><span class='line'>  autocmd <span class="nb">FileType</span> * exe <span class="s1">&#39;setl tags+=~/.ctags/&#39;</span> . &amp;<span class="k">filetype</span> . <span class="s1">&#39;/*/tags&#39;</span>
+</span><span class='line'>augroup END
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>This basically tells vim to only load ctags for the current filetype, i.e. for
 a <code>ruby</code> buffer, vim will load all ctags files inside <code>~/.ctags/ruby</code>

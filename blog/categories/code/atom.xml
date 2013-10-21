@@ -4,7 +4,7 @@
   <title><![CDATA[Category: code | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-10-21T06:37:00+05:30</updated>
+  <updated>2013-10-21T07:17:12+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -61,10 +61,10 @@ working directory.</p>
 <p>Let   s set up a default set of hooks that Git will use as a template when
 creating or cloning a repository (requires Git 1.7.1 or newer):</p>
 
-<pre><code>#!bash
+<p><code>bash
 git config --global init.templatedir '~/.git_template'
 mkdir -p ~/.git_template/hooks
-</code></pre>
+</code></p>
 
 <p>I, usually, put all my Git related stuff in <code>~/Code/__dotfiles/git/</code> and
 hence, the above template directory lands up as
@@ -75,10 +75,13 @@ hence, the above template directory lands up as
 a script the other hooks will call. Place in <code>~/.git_template/hooks/ctags</code> and
 mark as executable:</p>
 
-<pre><code>#!bash
-#!/bin/sh
-rm -f .git/tags ctags --tag-relative -Rf.git/tags --exclude=.git --languages=-javascript,sql
-</code></pre>
+<p>``` bash</p>
+
+<h1>!/bin/sh</h1>
+
+<p>rm -f .git/tags ctags &mdash;tag-relative -Rf.git/tags \
+  &mdash;exclude=.git &mdash;languages=-javascript,sql
+```</p>
 
 <p>Although, make sure that the <code>ctags</code> version is the GNU one, and the above
 script runs without showing any errors. If installing via <code>Homebrew</code> make sure
@@ -100,20 +103,24 @@ files in the <code>~/.git_template/hooks</code> folder needs to be marked as exe
 You should use the following content for: <code>post-commit</code>, <code>post-merge</code>, and
 <code>post-checkout</code> hooks (which simply calls the <code>ctags</code> hook, we create above):</p>
 
-<pre><code>#!bash
-#!/bin/sh
-.git/hooks/ctags &gt;/dev/null 2&gt;&amp;1 &amp;
-</code></pre>
+<p>``` bash</p>
+
+<h1>!/bin/sh</h1>
+
+<p>.git/hooks/ctags >/dev/null 2>&amp;1 &amp;
+```</p>
 
 <p>Additionally, if you feel tags should also be generated on using <code>git rebase</code>,
 add the following code to <code>post-rewrite</code> hook:</p>
 
-<pre><code>#!bash
-#!/bin/sh
-case "$1" in
+<p>``` bash</p>
+
+<h1>!/bin/sh</h1>
+
+<p>case &ldquo;$1&rdquo; in
   rebase) exec .git/hooks/post-merge ;;
 esac
-</code></pre>
+```</p>
 
 <p>Once, the above is done, all we need to do is to issue a <code>git init</code> command to
 create Ctags for an already existing repository. All new git repositories will
@@ -128,71 +135,80 @@ a one-off shell script that does this work for me, and store the generated
 tags file in a directory such as <code>~/.tags/</code> with a suitable name. O'course it
 does not make sense to version this directory.</p>
 
-<pre><code>#!bash
-#!/usr/bin/env sh
+<p>``` bash</p>
 
-RubyVersion="1.9.3-p194"
-LaravelPath="${HOME}/Code/projects/lab/laravel"
+<h1>!/usr/bin/env sh</h1>
 
-mkdir -p "${HOME}/.ctags"
+<p>RubyVersion=&ldquo;1.9.3-p194&rdquo;
+LaravelPath=&ldquo;${HOME}/Code/projects/lab/laravel&rdquo;</p>
 
-# RVM: Ruby version 1.9.3-p194
-if [ -n "${RubyVersion}" ]; then
-  mkdir -p "${HOME}/.ctags/ruby/${RubyVersion}"
-  TAG_FILE="${HOME}/.ctags/ruby/${RubyVersion}/tags"
-  rm -f "${TAG_FILE}"
-  for rubydir in `find "${HOME}/.rvm/gems" -type d -depth 1 -iname "*${RubyVersion}*"`; do
-    if [ -d "${rubydir}/gems" ]; then
-      echo "Looking inside: ${rubydir}/gems"
-      ctags --recurse --tag-relative \
-        --languages=-javascript,sql \
-        --exclude=.git \
-        --sort=yes --append \
-        -f "${TAG_FILE}" \
-        $rubydir/gems/*
-    fi
-  done
-  echo
-  echo "------ generated ctags for: ${RubyVersion} ------"
-  cat "${TAG_FILE}" | wc
-  echo "---------------------------------------------"
-  echo
-fi
+<p>mkdir -p &ldquo;${HOME}/.ctags&rdquo;</p>
 
-# Laravel
-if [ -n "${LaravelPath}" -a -d "${LaravelPath}" ]; then
-  mkdir -p "${HOME}/.ctags/php/laravel"
-  TAG_FILE="${HOME}/.ctags/php/laravel/tags"
-  rm -f "${TAG_FILE}"
-  echo "Looking inside: ${LaravelPath}"
+<h1>RVM: Ruby version 1.9.3-p194</h1>
+
+<p>if [ -n &ldquo;${RubyVersion}&rdquo; ]; then
+  mkdir -p &ldquo;${HOME}/.ctags/ruby/${RubyVersion}&rdquo;
+  TAG_FILE=&ldquo;${HOME}/.ctags/ruby/${RubyVersion}/tags&rdquo;
+  rm -f &ldquo;${TAG_FILE}&rdquo;
+  for rubydir in <code>find "${HOME}/.rvm/gems" -type d -depth 1 -iname "*${RubyVersion}*"</code>; do</p>
+
+<pre><code>if [ -d "${rubydir}/gems" ]; then
+  echo "Looking inside: ${rubydir}/gems"
   ctags --recurse --tag-relative \
     --languages=-javascript,sql \
     --exclude=.git \
     --sort=yes --append \
-    --PHP-kinds=+cf \
-    --regex-PHP='/abstract class ([^ ]*)/\1/c/' \
-    --regex-PHP='/interface ([^ ]*)/\1/c/' \
-    --regex-PHP='/(public |static |abstract |protected |private )+function ([^ (]*)/\2/f/' \
     -f "${TAG_FILE}" \
-    $LaravelPath
-  echo
-  echo "-------- generated ctags for: Laravel -------"
-  cat "${TAG_FILE}" | wc
-  echo "---------------------------------------------"
-  echo
+    $rubydir/gems/*
 fi
 </code></pre>
 
+<p>  done
+  echo
+  echo &ldquo;&mdash;&mdash;&mdash; generated ctags for: ${RubyVersion} &mdash;&mdash;&mdash;&rdquo;
+  cat &ldquo;${TAG_FILE}&rdquo; | wc
+  echo &ldquo;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;&rdquo;
+  echo
+fi</p>
+
+<h1>Laravel</h1>
+
+<p>if [ -n &ldquo;${LaravelPath}&rdquo; -a -d &ldquo;${LaravelPath}&rdquo; ]; then
+  mkdir -p &ldquo;${HOME}/.ctags/php/laravel&rdquo;
+  TAG_FILE=&ldquo;${HOME}/.ctags/php/laravel/tags&rdquo;
+  rm -f &ldquo;${TAG_FILE}&rdquo;
+  echo &ldquo;Looking inside: ${LaravelPath}&rdquo;
+  ctags &mdash;recurse &mdash;tag-relative \</p>
+
+<pre><code>--languages=-javascript,sql \
+--exclude=.git \
+--sort=yes --append \
+--PHP-kinds=+cf \
+--regex-PHP='/abstract class ([^ ]*)/\1/c/' \
+--regex-PHP='/interface ([^ ]*)/\1/c/' \
+--regex-PHP='/(public |static |abstract |protected |private )+function ([^ (]*)/\2/f/' \
+-f "${TAG_FILE}" \
+$LaravelPath
+</code></pre>
+
+<p>  echo
+  echo &ldquo;&mdash;&mdash;&mdash;&mdash; generated ctags for: Laravel &mdash;&mdash;&mdash;&ndash;&rdquo;
+  cat &ldquo;${TAG_FILE}&rdquo; | wc
+  echo &ldquo;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;&rdquo;
+  echo
+fi
+```</p>
+
 <p>Finally, I set the following inside my <code>~/.vimrc</code> file:</p>
 
-<pre><code>#!vim
+<p><code>vim
 set tags=./tags;/
 augroup TagFileType
   autocmd!
   autocmd FileType * setl tags&lt;
   autocmd FileType * exe 'setl tags+=~/.ctags/' . &amp;filetype . '/*/tags'
 augroup END
-</code></pre>
+</code></p>
 
 <p>This basically tells vim to only load ctags for the current filetype, i.e. for
 a <code>ruby</code> buffer, vim will load all ctags files inside <code>~/.ctags/ruby</code>
@@ -235,11 +251,17 @@ can do something &ndash; undo it and redo it, i.e. you can traverse on path <cod
 is to say, I can even go to edits not in the same timeline, i.e. I am able to
 traverse <code>ABCDEFG</code> as they happened.</p>
 
-<pre><code>#!text
-          / `---------- C ---- D
-A--- B -- |
-          \,----------------------- E ----- F ------- G
+<p>``` text</p>
+
+<pre><code>      / `---------- C ---- D
 </code></pre>
+
+<p>A&mdash;&ndash; B &mdash; |</p>
+
+<pre><code>      \,----------------------- E ----- F ------- G
+</code></pre>
+
+<p>```</p>
 
 <p>We can use the <code>:earlier Nm</code> command to go back a few minutes (and even
 seconds, hours, days). We can use <code>:GundoToggle</code> to view a quick Ascii tree of
@@ -252,22 +274,26 @@ align assignments I can use something like <code>:Tab /=</code> and, if I prefer
 the spaces attached to the code on the left, I can use something like <code>:Tab
 /=\zs</code> The effects will be as below:</p>
 
-<pre><code>#!ruby
-# no tabularize
-a = 1322
+<p>``` ruby</p>
+
+<h1>no tabularize</h1>
+
+<p>a = 1322
 abc = 1323
-abcde = 1324
+abcde = 1324</p>
 
-# :Tab /=
-a     = 1322
+<h1>:Tab /=</h1>
+
+<p>a     = 1322
 abc   = 1323
-abcde = 1324
+abcde = 1324</p>
 
-# :Tab /=\zs
-a =     1322
+<h1>:Tab /=\zs</h1>
+
+<p>a =     1322
 abc =   1323
 abcde = 1324
-</code></pre>
+```</p>
 ]]></content>
   </entry>
   
@@ -309,85 +335,91 @@ even, obsolete by the time you lay yours eyes on this post :)</p>
 
 <h5>Install Rails</h5>
 
-<pre><code>#!bash
+<p><code>bash
 rails new my_app -T -d mysql -j jquery
-</code></pre>
+</code></p>
 
 <h5>Initialize a git repository</h5>
 
-<pre><code>#!bash
+<p><code>bash
 cd my_app
 git flow init -d # initialize git work-flow
 git add .
 git commit -am "Installed Rails"
 git flow feature start prepare_base
-</code></pre>
+</code></p>
 
 <h5>Create a RVM configuration file</h5>
 
-<pre><code>#!bash
+<p><code>bash
 rvm use 1.9.3@rails --rvmrc
-</code></pre>
+</code></p>
 
 <h5>Add some starting gems to Gemfile</h5>
 
-<pre><code>#!ruby
-gem 'haml'
-# gem 'kaminari'
-# gem 'devise'
-# gem 'capistrano'
-# gem 'unicorn'
+<p>``` ruby
+gem &lsquo;haml&rsquo;</p>
 
-group :test, :development do
-  gem 'turn'
-  gem 'haml-rails'
-  gem 'rspec-rails'
-  gem 'cucumber-rails'
-  gem 'factory_girl_rails'
-  gem 'capybara'
-  gem 'capybara-webkit'
-  gem 'database_cleaner'
-  gem 'guard-rspec'
-  gem 'guard-cucumber'
-  # gem 'guard-unicorn'
-  gem 'ruby_gntp'
-  gem 'minitest'
-  gem 'launchy'
+<h1>gem &lsquo;kaminari&rsquo;</h1>
+
+<h1>gem &lsquo;devise&rsquo;</h1>
+
+<h1>gem &lsquo;capistrano&rsquo;</h1>
+
+<h1>gem &lsquo;unicorn&rsquo;</h1>
+
+<p>group :test, :development do
+  gem &lsquo;turn&rsquo;
+  gem &lsquo;haml-rails&rsquo;
+  gem &lsquo;rspec-rails&rsquo;
+  gem &lsquo;cucumber-rails&rsquo;
+  gem &lsquo;factory_girl_rails&rsquo;
+  gem &lsquo;capybara&rsquo;
+  gem &lsquo;capybara-webkit&rsquo;
+  gem &lsquo;database_cleaner&rsquo;
+  gem &lsquo;guard-rspec&rsquo;
+  gem &lsquo;guard-cucumber&rsquo;
+  # gem &lsquo;guard-unicorn&rsquo;
+  gem &lsquo;ruby_gntp&rsquo;
+  gem &lsquo;minitest&rsquo;
+  gem &lsquo;launchy&rsquo;
 end
-</code></pre>
+```</p>
 
 <h5>Run Bundle Install</h5>
 
-<pre><code>#!bash
+<p><code>bash
 bundle install
-</code></pre>
+</code></p>
 
 <h5>Add database settings in config/database.yml</h5>
 
-<pre><code>#!bash
+<p><code>bash
 rake db:create:all
-</code></pre>
+</code></p>
 
 <h5>Change Home Page</h5>
 
-<pre><code>#!bash
+<p>``` bash
 rails generate controller home index
 rm -rf public/index.html
-find . -type f -iname "*.erb" -delete # remove all erb files since we are using haml
-# add 'root :to =&gt; "Home#index"' in config/routes.rb
-</code></pre>
+find . -type f -iname &ldquo;*.erb&rdquo; -delete # remove all erb files since we are using haml</p>
+
+<h1>add &lsquo;root :to => &ldquo;Home#index&rdquo;&rsquo; in config/routes.rb</h1>
+
+<p>```</p>
 
 <h5>Lets, make some generations, huh.</h5>
 
-<pre><code>#!bash
+<p><code>bash
 rails generate rspec:install
 rails generate cucumber:install --capybara
 guard init rspec &amp;&amp; guard init cucumber
-</code></pre>
+</code></p>
 
 <h5>Make some changes to the <code>features/support/env.rb</code> file:</h5>
 
-<pre><code>#!ruby
+<p><code>ruby
 require 'cucumber/rails'
 require 'capybara/rails'
 require 'capybara/cucumber'
@@ -398,50 +430,55 @@ Capybara.javascript_driver = :webkit
 ActionController::Base.allow_rescue = false
 DatabaseCleaner.strategy = :transaction
 Cucumber::Rails::Database.javascript_strategy = :truncation
-</code></pre>
+</code></p>
 
 <h5>Lets, add some Cucumber Tests (<code>features/test.feature</code> file):</h5>
 
-<pre><code>#!ruby
+<p>``` ruby
 Feature: Testing Configuration
   In order to have a base for my new application
   As a developer
-  I want to test the configuration settings for this application
+  I want to test the configuration settings for this application</p>
 
-  Scenario: Test Home Page
-    Given I am on the home page
-    Then  I should see "Home#index"
+<p>  Scenario: Test Home Page</p>
+
+<pre><code>Given I am on the home page
+Then  I should see "Home#index"
 </code></pre>
+
+<p>```</p>
 
 <h5>And, the corresponding steps in <code>features/step_definitions/test_steps.rb</code> file:</h5>
 
-<pre><code>#!ruby
+<p>``` ruby
 Given /^I am on the home page$/ do
-  visit "/"
-end
+  visit &ldquo;/&rdquo;
+end</p>
 
-Then /^I should see "([^"]*)"$/ do |text|
+<p>Then /^I should see &ldquo;([^&rdquo;]*)&ldquo;$/ do |text|
   page.should have_content text
 end
-</code></pre>
+```</p>
 
 <h5>Open a iTerm2 tab each for the following processes:</h5>
 
-<pre><code>#!bash
-# default tab
-guard
+<p>``` bash</p>
+
+<h1>default tab</h1>
+
+<p>guard
 tail -fn0 log/test.log
 rails console
 tail -fn0 log/development.log
 rails server
-</code></pre>
+```</p>
 
 <h5>Merge our feature into development</h5>
 
-<pre><code>#!bash
+<p><code>bash
 git commit -am "finished with preparing base"
 git flow feature finish prepare_base
-</code></pre>
+</code></p>
 ]]></content>
   </entry>
   
@@ -466,11 +503,19 @@ on).</p>
 <p>Now, I do understand that the language (or I should say Syntax) is easy to
 learn and gorgeously, so.</p>
 
-<pre><code># Think PHP:
-if (!empty($my_variable)) do_this();
-# v/s Ruby:
-do_this if my_variable
-</code></pre>
+<p>``` php</p>
+
+<h1>Think PHP:</h1>
+
+<p>if (!empty($my_variable)) do_this();
+```</p>
+
+<p>``` ruby</p>
+
+<h1>v/s Ruby:</h1>
+
+<p>do_this if my_variable
+```</p>
 
 <p>But, then again, learning RubyOnRails has been a tough job. Primarily, due to
 the steep learning curve on <em>how-to-get-started-with-ruby-on-rails</em> frontier.</p>

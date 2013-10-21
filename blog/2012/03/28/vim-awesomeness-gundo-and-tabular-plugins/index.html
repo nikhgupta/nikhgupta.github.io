@@ -128,11 +128,14 @@ can do something &ndash; undo it and redo it, i.e. you can traverse on path <cod
 is to say, I can even go to edits not in the same timeline, i.e. I am able to
 traverse <code>ABCDEFG</code> as they happened.</p>
 
-<pre><code>#!text
-          / `---------- C ---- D
-A--- B -- |
-          \,----------------------- E ----- F ------- G
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>      / `---------- C ---- D
+</span><span class='line'>A--- B -- |
+</span><span class='line'>      \,----------------------- E ----- F ------- G
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>We can use the <code>:earlier Nm</code> command to go back a few minutes (and even
 seconds, hours, days). We can use <code>:GundoToggle</code> to view a quick Ascii tree of
@@ -145,22 +148,36 @@ align assignments I can use something like <code>:Tab /=</code> and, if I prefer
 the spaces attached to the code on the left, I can use something like <code>:Tab
 /=\zs</code> The effects will be as below:</p>
 
-<pre><code>#!ruby
-# no tabularize
-a = 1322
-abc = 1323
-abcde = 1324
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># no tabularize</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">1322</span>
+</span><span class='line'><span class="n">abc</span> <span class="o">=</span> <span class="mi">1323</span>
+</span><span class='line'><span class="n">abcde</span> <span class="o">=</span> <span class="mi">1324</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># :Tab /=</span>
+</span><span class='line'><span class="n">a</span>     <span class="o">=</span> <span class="mi">1322</span>
+</span><span class='line'><span class="n">abc</span>   <span class="o">=</span> <span class="mi">1323</span>
+</span><span class='line'><span class="n">abcde</span> <span class="o">=</span> <span class="mi">1324</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># :Tab /=\zs</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span>     <span class="mi">1322</span>
+</span><span class='line'><span class="n">abc</span> <span class="o">=</span>   <span class="mi">1323</span>
+</span><span class='line'><span class="n">abcde</span> <span class="o">=</span> <span class="mi">1324</span>
+</span></code></pre></td></tr></table></div></figure>
 
-# :Tab /=
-a     = 1322
-abc   = 1323
-abcde = 1324
-
-# :Tab /=\zs
-a =     1322
-abc =   1323
-abcde = 1324
-</code></pre>
 </div>
 
 </article>

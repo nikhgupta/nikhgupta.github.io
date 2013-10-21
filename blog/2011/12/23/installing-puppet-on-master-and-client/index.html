@@ -118,58 +118,111 @@ connect the client to the master.</p>
 
 
 <ul>
-<li><p>On <strong>Master</strong> and <strong>Client</strong>:</p>
+<li>On <strong>Master</strong> and <strong>Client</strong>:</li>
+</ul>
 
-<pre><code>  # update our ubuntu
-  sudo apt-get update
 
-  # install ruby and ruby-dev
-  sudo apt-get install irb libopenssl-ruby libreadline-ruby ruby ruby-dev
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># update our ubuntu</span>
+</span><span class='line'>sudo apt-get update
+</span><span class='line'>
+</span><span class='line'><span class="c"># install ruby and ruby-dev</span>
+</span><span class='line'>sudo apt-get install irb libopenssl-ruby libreadline-ruby ruby ruby-dev
+</span><span class='line'>
+</span><span class='line'><span class="c"># install and update rubygems</span>
+</span><span class='line'><span class="nb">cd</span> /usr/local/src
+</span><span class='line'>sudo wget http://production.cf.rubygems.org/rubygems/rubygems-1.5.2.tgz
+</span><span class='line'>sudo tar -xzf rubygems-1.5.2.tgz
+</span><span class='line'><span class="nb">cd </span>rubygems-1.5.2
+</span><span class='line'>sudo ruby setup.rb
+</span><span class='line'>sudo update-alternatives --install /usr/bin/gem gem /usr/bin/gem1.8 1
+</span><span class='line'>sudo gem update --system
+</span><span class='line'>
+</span><span class='line'><span class="c"># install puppet</span>
+</span><span class='line'>gem install puppet --no-ri --no-rdoc
+</span></code></pre></td></tr></table></div></figure>
 
-  # install and update rubygems
-  cd /usr/local/src
-  sudo wget http://production.cf.rubygems.org/rubygems/rubygems-1.5.2.tgz
-  sudo tar -xzf rubygems-1.5.2.tgz
-  cd rubygems-1.5.2
-  sudo ruby setup.rb
-  sudo update-alternatives --install /usr/bin/gem gem /usr/bin/gem1.8 1
-  sudo gem update --system
 
-  # install puppet
-  gem install puppet --no-ri --no-rdoc
-</code></pre></li>
+<ul>
 <li><p>Make sure that the client and the master can ping each other on network, or
 better yet setup SSH access from/to master.</p></li>
-<li><p>On <strong>Master</strong>:</p>
-
-<pre><code>  # download puppet configuration
-  cd /etc
-  sudo wget http://bitfieldconsulting.com/files/powering-up-with-puppet.tar.gz
-  sudo tar -xzf powering-up-with-puppet.tar.gz
-
-  # start puppet daemon, along with users
-  sudo puppet master --mkusers --verbose --no-daemonize
-  # file ownership fix, if required
-  chown -R puppet:puppet /var/lib/puppet
-
-  # start puppet master
-  sudo puppet master
-
-  # check puppet
-  sudo puppet agent --test --server=`hostname`
-</code></pre></li>
-<li><p>On <strong>Client</strong>:</p>
-
-<pre><code>  # connect with mast to get certificate
-  puppet agent --server=&amp;lt;puppetmaster&amp;gt; --waitforcert 60 --test
-</code></pre></li>
-<li><p>On <strong>Master</strong>:</p>
-
-<pre><code>  # check the cert requests and grant cert to client
-  sudo puppetca list
-  sudo puppetca sign &amp;lt;puppetclient&amp;gt;
-</code></pre></li>
+<li><p>On <strong>Master</strong>:</p></li>
 </ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># download puppet configuration</span>
+</span><span class='line'><span class="nb">cd</span> /etc
+</span><span class='line'>sudo wget http://bitfieldconsulting.com/files/powering-up-with-puppet.tar.gz
+</span><span class='line'>sudo tar -xzf powering-up-with-puppet.tar.gz
+</span><span class='line'>
+</span><span class='line'><span class="c"># start puppet daemon, along with users</span>
+</span><span class='line'>sudo puppet master --mkusers --verbose --no-daemonize
+</span><span class='line'><span class="c"># file ownership fix, if required</span>
+</span><span class='line'>chown -R puppet:puppet /var/lib/puppet
+</span><span class='line'>
+</span><span class='line'><span class="c"># start puppet master</span>
+</span><span class='line'>sudo puppet master
+</span><span class='line'>
+</span><span class='line'><span class="c"># check puppet</span>
+</span><span class='line'>sudo puppet agent --test --server<span class="o">=</span><span class="sb">`</span>hostname<span class="sb">`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>On <strong>Client</strong>:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># connect with mast to get certificate</span>
+</span><span class='line'>puppet agent --server<span class="o">=</span>&amp;lt;puppetmaster&amp;gt; --waitforcert 60 --test
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>On <strong>Master</strong>:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># check the cert requests and grant cert to client</span>
+</span><span class='line'>sudo puppetca list
+</span><span class='line'>sudo puppetca sign &amp;lt;puppetclient&amp;gt;
+</span></code></pre></td></tr></table></div></figure>
 
 </div>
 

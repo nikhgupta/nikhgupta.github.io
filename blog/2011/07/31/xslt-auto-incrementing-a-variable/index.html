@@ -114,27 +114,37 @@ issue when I needed to auto-increment a variable for my records. After a bit
 of Google searching, I came across a somewhat usable method, which I improved
 upon to get this:</p>
 
+<!-- more -->
+
+
 <p>We first insert a node in our XSL under the node where we want the variable to
 be auto-incremented:</p>
 
-<pre><code>#!xml
-&lt;xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;
-&lt;xsl:template match="/"&gt;
-&lt;ul class="flickrGallery"&gt;
-&lt;xsl:variable name="my_var"&gt;
-&lt;xsl:value-of select="position()"/&gt;
-&lt;/xsl:variable&gt;
-&lt;xsl:for-each select="//photo"&gt;
-.
-.
-.
-</code></pre>
+<figure class='code'><figcaption><span>Position The Variable start:1 mark:4-5</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;xsl:stylesheet</span> <span class="na">version=</span><span class="s">&quot;1.0&quot;</span> <span class="na">xmlns:xsl=</span><span class="s">&quot;http://www.w3.org/1999/XSL/Transform&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;xsl:template</span> <span class="na">match=</span><span class="s">&quot;/&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;flickrGallery&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;xsl:variable</span> <span class="na">name=</span><span class="s">&quot;my_var&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">&quot;position()&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/xsl:variable&gt;</span>
+</span><span class='line'><span class="nt">&lt;xsl:for-each</span> <span class="na">select=</span><span class="s">&quot;//photo&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    ...
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Now, we will actually be printing the value of this variable as below:</p>
 
-<pre><code>#!xml
-&lt;xsl:attribute name="rel"&gt;flickr&lt;xsl:copy-of select="$my_var" /&gt;&lt;/xsl:attribute&gt;
-</code></pre>
+<figure class='code'><figcaption><span>print the value of the variable</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;xsl:attribute</span> <span class="na">name=</span><span class="s">&quot;rel&quot;</span><span class="nt">&gt;</span>flickr<span class="nt">&lt;xsl:copy-of</span> <span class="na">select=</span><span class="s">&quot;$my_var&quot;</span> <span class="nt">/&gt;&lt;/xsl:attribute&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 </article>

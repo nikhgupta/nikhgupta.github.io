@@ -119,139 +119,210 @@ even, obsolete by the time you lay yours eyes on this post :)</p>
 
 <h5>Install Rails</h5>
 
-<pre><code>#!bash
-rails new my_app -T -d mysql -j jquery
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails new my_app -T -d mysql -j jquery
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Initialize a git repository</h5>
 
-<pre><code>#!bash
-cd my_app
-git flow init -d # initialize git work-flow
-git add .
-git commit -am "Installed Rails"
-git flow feature start prepare_base
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd </span>my_app
+</span><span class='line'>git flow init -d <span class="c"># initialize git work-flow</span>
+</span><span class='line'>git add .
+</span><span class='line'>git commit -am <span class="s2">&quot;Installed Rails&quot;</span>
+</span><span class='line'>git flow feature start prepare_base
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Create a RVM configuration file</h5>
 
-<pre><code>#!bash
-rvm use 1.9.3@rails --rvmrc
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rvm use 1.9.3@rails --rvmrc
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Add some starting gems to Gemfile</h5>
 
-<pre><code>#!ruby
-gem 'haml'
-# gem 'kaminari'
-# gem 'devise'
-# gem 'capistrano'
-# gem 'unicorn'
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;haml&#39;</span>
+</span><span class='line'><span class="c1"># gem &#39;kaminari&#39;</span>
+</span><span class='line'><span class="c1"># gem &#39;devise&#39;</span>
+</span><span class='line'><span class="c1"># gem &#39;capistrano&#39;</span>
+</span><span class='line'><span class="c1"># gem &#39;unicorn&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">group</span> <span class="ss">:test</span><span class="p">,</span> <span class="ss">:development</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;turn&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;haml-rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rspec-rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;cucumber-rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;factory_girl_rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;capybara&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;capybara-webkit&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;database_cleaner&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-rspec&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-cucumber&#39;</span>
+</span><span class='line'>  <span class="c1"># gem &#39;guard-unicorn&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;ruby_gntp&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;launchy&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-group :test, :development do
-  gem 'turn'
-  gem 'haml-rails'
-  gem 'rspec-rails'
-  gem 'cucumber-rails'
-  gem 'factory_girl_rails'
-  gem 'capybara'
-  gem 'capybara-webkit'
-  gem 'database_cleaner'
-  gem 'guard-rspec'
-  gem 'guard-cucumber'
-  # gem 'guard-unicorn'
-  gem 'ruby_gntp'
-  gem 'minitest'
-  gem 'launchy'
-end
-</code></pre>
 
 <h5>Run Bundle Install</h5>
 
-<pre><code>#!bash
-bundle install
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bundle install
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Add database settings in config/database.yml</h5>
 
-<pre><code>#!bash
-rake db:create:all
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake db:create:all
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Change Home Page</h5>
 
-<pre><code>#!bash
-rails generate controller home index
-rm -rf public/index.html
-find . -type f -iname "*.erb" -delete # remove all erb files since we are using haml
-# add 'root :to =&gt; "Home#index"' in config/routes.rb
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails generate controller home index
+</span><span class='line'>rm -rf public/index.html
+</span><span class='line'>find . -type f -iname <span class="s2">&quot;*.erb&quot;</span> -delete <span class="c"># remove all erb files since we are using haml</span>
+</span><span class='line'><span class="c"># add &#39;root :to =&gt; &quot;Home#index&quot;&#39; in config/routes.rb</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Lets, make some generations, huh.</h5>
 
-<pre><code>#!bash
-rails generate rspec:install
-rails generate cucumber:install --capybara
-guard init rspec &amp;&amp; guard init cucumber
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails generate rspec:install
+</span><span class='line'>rails generate cucumber:install --capybara
+</span><span class='line'>guard init rspec <span class="o">&amp;&amp;</span> guard init cucumber
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Make some changes to the <code>features/support/env.rb</code> file:</h5>
 
-<pre><code>#!ruby
-require 'cucumber/rails'
-require 'capybara/rails'
-require 'capybara/cucumber'
-require 'capybara/session'
-require "factory_girl/step_definitions"
-Capybara.default_selector  = :css
-Capybara.javascript_driver = :webkit
-ActionController::Base.allow_rescue = false
-DatabaseCleaner.strategy = :transaction
-Cucumber::Rails::Database.javascript_strategy = :truncation
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;cucumber/rails&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/rails&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/cucumber&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/session&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s2">&quot;factory_girl/step_definitions&quot;</span>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">default_selector</span>  <span class="o">=</span> <span class="ss">:css</span>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">javascript_driver</span> <span class="o">=</span> <span class="ss">:webkit</span>
+</span><span class='line'><span class="ss">ActionController</span><span class="p">:</span><span class="ss">:Base</span><span class="o">.</span><span class="n">allow_rescue</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'><span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="ss">:transaction</span>
+</span><span class='line'><span class="ss">Cucumber</span><span class="p">:</span><span class="ss">:Rails</span><span class="o">::</span><span class="no">Database</span><span class="o">.</span><span class="n">javascript_strategy</span> <span class="o">=</span> <span class="ss">:truncation</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Lets, add some Cucumber Tests (<code>features/test.feature</code> file):</h5>
 
-<pre><code>#!ruby
-Feature: Testing Configuration
-  In order to have a base for my new application
-  As a developer
-  I want to test the configuration settings for this application
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Feature</span><span class="p">:</span> <span class="no">Testing</span> <span class="no">Configuration</span>
+</span><span class='line'>  <span class="no">In</span> <span class="n">order</span> <span class="n">to</span> <span class="n">have</span> <span class="n">a</span> <span class="n">base</span> <span class="k">for</span> <span class="n">my</span> <span class="kp">new</span> <span class="n">application</span>
+</span><span class='line'>  <span class="no">As</span> <span class="n">a</span> <span class="n">developer</span>
+</span><span class='line'>  <span class="n">I</span> <span class="n">want</span> <span class="n">to</span> <span class="nb">test</span> <span class="n">the</span> <span class="n">configuration</span> <span class="n">settings</span> <span class="k">for</span> <span class="n">this</span> <span class="n">application</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="ss">Scenario</span><span class="p">:</span> <span class="no">Test</span> <span class="no">Home</span> <span class="no">Page</span>
+</span><span class='line'>    <span class="no">Given</span> <span class="n">I</span> <span class="n">am</span> <span class="n">on</span> <span class="n">the</span> <span class="n">home</span> <span class="n">page</span>
+</span><span class='line'>    <span class="no">Then</span>  <span class="n">I</span> <span class="n">should</span> <span class="n">see</span> <span class="s2">&quot;Home#index&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-  Scenario: Test Home Page
-    Given I am on the home page
-    Then  I should see "Home#index"
-</code></pre>
 
 <h5>And, the corresponding steps in <code>features/step_definitions/test_steps.rb</code> file:</h5>
 
-<pre><code>#!ruby
-Given /^I am on the home page$/ do
-  visit "/"
-end
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Given</span> <span class="sr">/^I am on the home page$/</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">visit</span> <span class="s2">&quot;/&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Then</span> <span class="sr">/^I should see &quot;([^&quot;]*)&quot;$/</span> <span class="k">do</span> <span class="o">|</span><span class="n">text</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_content</span> <span class="n">text</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-Then /^I should see "([^"]*)"$/ do |text|
-  page.should have_content text
-end
-</code></pre>
 
 <h5>Open a iTerm2 tab each for the following processes:</h5>
 
-<pre><code>#!bash
-# default tab
-guard
-tail -fn0 log/test.log
-rails console
-tail -fn0 log/development.log
-rails server
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># default tab</span>
+</span><span class='line'>guard
+</span><span class='line'>tail -fn0 log/test.log
+</span><span class='line'>rails console
+</span><span class='line'>tail -fn0 log/development.log
+</span><span class='line'>rails server
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Merge our feature into development</h5>
 
-<pre><code>#!bash
-git commit -am "finished with preparing base"
-git flow feature finish prepare_base
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git commit -am <span class="s2">&quot;finished with preparing base&quot;</span>
+</span><span class='line'>git flow feature finish prepare_base
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 </article>

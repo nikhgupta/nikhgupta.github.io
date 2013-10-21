@@ -131,15 +131,19 @@ movie Iron-Man.</p>
 
 <ul>
 <li>Install <a href="http://nodejs.org">Node.js</a></li>
-<li><p>Clone the hubot repository from github, locally:</p>
-
-<pre><code>#!bash
-git clone http://github.com/github/hubot jarvis
-cd jarvis
-npm install
-bin/hubot
-</code></pre></li>
+<li>Clone the hubot repository from github, locally:</li>
 </ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone http://github.com/github/hubot jarvis
+</span><span class='line'><span class="nb">cd </span>jarvis
+</span><span class='line'>npm install
+</span><span class='line'>bin/hubot
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>This should start the Hubot in your Shell. If, instead, this gives an error
@@ -168,109 +172,190 @@ procedure to let the two hubots use the same source:</p>
 <ul>
 <li>First, create new dedicated accounts for our hubot on both Hipchat and
 Gtalk.</li>
-<li><p>Add <code>hubot-hipchat</code> and <code>hubot-gtalk</code> as dependencies in <code>package.json</code>.
-It should look like:</p>
+<li>Add <code>hubot-hipchat</code> and <code>hubot-gtalk</code> as dependencies in <code>package.json</code>.
+It should look like:</li>
+</ul>
 
-<pre><code>  #!json
-  "dependencies": {
-    "hubot-hipchat": "&gt;= 2.4.5",
-    "hubot-gtalk": "&gt;= 0.0.1",
-    ...
-  }
-</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="s2">&quot;dependencies&quot;</span><span class="err">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;hubot-hipchat&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;= 2.4.5&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;hubot-gtalk&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;= 0.0.1&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="err">...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <ul>
-<li><p>Edit <code>Procfile</code> so that it uses adapter name and user from the environment
-variables that we will create for the heroku instance of each bot:</p>
+<li>Edit <code>Procfile</code> so that it uses adapter name and user from the environment
+variables that we will create for the heroku instance of each bot:</li>
+</ul>
 
-<pre><code>#!text
-web: bin/hubot -a $HUBOT_ADAPTER_NAME -n $HUBOT_ADAPTER_USER 
-</code></pre></li>
-<li><p>Create a git repository for our bot, so that we can track our bot&rsquo;s code:</p>
 
-<pre><code>#!bash
-git init
-git add .
-git commit -am "Initial Commit"
-</code></pre></li>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>web: bin/hubot -a <span class="nv">$HUBOT_ADAPTER_NAME</span> -n <span class="nv">$HUBOT_ADAPTER_USER</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Create a git repository for our bot, so that we can track our bot&rsquo;s code:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git init
+</span><span class='line'>git add .
+</span><span class='line'>git commit -am <span class="s2">&quot;Initial Commit&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
 <li><p>Download and install <a href="http://toolbelt.heroku.com">Heroku Toolbelt</a>, since
 we will be deploying our bots to Heroku.</p></li>
 <li><p>Let us, first deploy our bot on GTalk, since it is a bit easy. Start by
-creating a Heroku application for our GTalk bot:</p>
+creating a Heroku application for our GTalk bot:</p></li>
+</ul>
 
-<pre><code>#!bash
-heroku create
-heroku rename 'some-random-name-for-our-gtalk-bot'
-git remote rename heroku gtalk
-</code></pre></li>
-<li><p>We will be using <code>redis</code> as our bot&rsquo;s brain. So, install <code>redis</code> on our
-heroku instance (which is free, by the way):</p>
 
-<pre><code>#!bash
-heroku addons:add redistogo:nano
-</code></pre></li>
-<li><p>Push the bot to heroku:</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku create
+</span><span class='line'>heroku rename <span class="s1">&#39;some-random-name-for-our-gtalk-bot&#39;</span>
+</span><span class='line'>git remote rename heroku gtalk
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>#!bash
-git push gtalk master
-</code></pre></li>
-<li><p>Set our environment variables for the GTalk bot:</p>
 
-<pre><code>#!bash
-heroku config:add \
-  HUBOT_ADAPTER_NAME="gtalk" \
-  HUBOT_ADAPTER_USER="&lt;bot name&gt;" \
-  HUBOT_GTALK_USERNAME="&lt;bot gmail complete address&gt;" \
-  HUBOT_GTALK_PASSWORD="&lt;bot gmail password&gt;" \
-  HUBOT_GTALK_WHITELIST_DOMAINS="&lt;your company domain name&gt;"
-</code></pre></li>
-<li><p>Run our heroku process:</p>
+<ul>
+<li>We will be using <code>redis</code> as our bot&rsquo;s brain. So, install <code>redis</code> on our
+heroku instance (which is free, by the way):</li>
+</ul>
 
-<pre><code>#!bash
-heroku ps:scale web=1
-</code></pre></li>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku addons:add redistogo:nano
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Push the bot to heroku:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git push gtalk master
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Set our environment variables for the GTalk bot:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku config:add <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_ADAPTER_NAME</span><span class="o">=</span><span class="s2">&quot;gtalk&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_ADAPTER_USER</span><span class="o">=</span><span class="s2">&quot;&lt;bot name&gt;&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_GTALK_USERNAME</span><span class="o">=</span><span class="s2">&quot;&lt;bot gmail complete address&gt;&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_GTALK_PASSWORD</span><span class="o">=</span><span class="s2">&quot;&lt;bot gmail password&gt;&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_GTALK_WHITELIST_DOMAINS</span><span class="o">=</span><span class="s2">&quot;&lt;your company domain name&gt;&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Run our heroku process:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku ps:scale <span class="nv">web</span><span class="o">=</span>1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
 <li><p>Your Gtalk bot is now live.</p></li>
 <li><p>Let us, now, run this on HipChat. Start again, by creating a Heroku
-application for our Hipchat bot:</p>
+application for our Hipchat bot:</p></li>
+</ul>
 
-<pre><code>#!bash
-heroku create
-heroku rename 'some-random-name-for-our-hipchat-bot'
-git remote rename heroku hipchat
-</code></pre></li>
-<li><p>Install <code>redis</code>:</p>
 
-<pre><code>#!bash
-heroku addons:add redistogo:nano
-</code></pre></li>
-<li><p>Push the bot to heroku:</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku create
+</span><span class='line'>heroku rename <span class="s1">&#39;some-random-name-for-our-hipchat-bot&#39;</span>
+</span><span class='line'>git remote rename heroku hipchat
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>#!bash
-git push hipchat master
-</code></pre></li>
-<li><p>Set our environment variables for the HipChat bot. Settings marked with
+
+<ul>
+<li>Install <code>redis</code>:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku addons:add redistogo:nano
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Push the bot to heroku:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git push hipchat master
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Set our environment variables for the HipChat bot. Settings marked with
 <code>@@</code> can be obtained by visiting your bot&rsquo;s <a href="https://www.hipchat.com/account/xmpp">XMPP/Jabber account
 settings</a>, after logging in HipChat
-with your bot&rsquo;s account:</p>
-
-<pre><code>#!bash
-heroku config:add --app="&lt;name-for-our-hipchat-bot&gt;" \
-  HUBOT_ADAPTER_NAME="hipchat" \
-  HUBOT_ADAPTER_USER="&lt;@@room name&gt;" \
-  HEROKU_URL="http://&lt;name-for-our-hipchat-bot&gt;.herokuapp.com" \
-  HUBOT_HIPCHAT_JID="&lt;@@username&gt;@chat.hipchat.com" \
-  HUBOT_HIPCHAT_PASSWORD="&lt;hipchat.com password for your bot&gt;"
-</code></pre></li>
-<li><p>Run our heroku process:</p>
-
-<pre><code>#!bash
-heroku ps:scale web=1
-</code></pre></li>
-<li><p>Your HipChat bot should now be live. Try logging in as a normal hipchat
-user, and talking to the bot (hint: <code>@jarvis help</code>, where my bot&rsquo;s mention
-name was <code>@jarvis</code>)</p></li>
+with your bot&rsquo;s account:</li>
 </ul>
-</li>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku config:add --app<span class="o">=</span><span class="s2">&quot;&lt;name-for-our-hipchat-bot&gt;&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_ADAPTER_NAME</span><span class="o">=</span><span class="s2">&quot;hipchat&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_ADAPTER_USER</span><span class="o">=</span><span class="s2">&quot;&lt;@@room name&gt;&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HEROKU_URL</span><span class="o">=</span><span class="s2">&quot;http://&lt;name-for-our-hipchat-bot&gt;.herokuapp.com&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_HIPCHAT_JID</span><span class="o">=</span><span class="s2">&quot;&lt;@@username&gt;@chat.hipchat.com&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_HIPCHAT_PASSWORD</span><span class="o">=</span><span class="s2">&quot;&lt;hipchat.com password for your bot&gt;&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Run our heroku process:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku ps:scale <span class="nv">web</span><span class="o">=</span>1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Your HipChat bot should now be live. Try logging in as a normal hipchat
+user, and talking to the bot (hint: <code>@jarvis help</code>, where my bot&rsquo;s mention
+name was <code>@jarvis</code>)</li>
 </ul>
 
 </div>

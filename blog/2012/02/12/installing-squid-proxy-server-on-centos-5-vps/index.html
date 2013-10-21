@@ -125,54 +125,74 @@ server over a Centos5 server.</p>
 
 <p>First, we need to <strong>install Squid</strong>:</p>
 
-<pre><code>#!bash
-yum install squid -y
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>yum install squid -y
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Next up, we need to <strong>change the Squid Configuration</strong> to allow access from
 authenticated persons. To do this, we need to add the corresponding ACLs and
 http_access rules in <code>/etc/squid/squid.conf</code> file (at the very top of the file,
 should do):</p>
 
-<pre><code>#!bash
-# add auth_params
-auth_param basic program /usr/lib/squid/ncsa_auth /etc/squid/passwd
-auth_param basic children 2
-auth_param basic realm My Proxy Server
-auth_param basic credentialsttl 24 hours
-auth_param basic casesensitive off
-# add acl rules
-acl users proxy_auth REQUIRED
-# http access rules
-http_access deny !users
-http_access allow users
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># add auth_params</span>
+</span><span class='line'>auth_param basic program /usr/lib/squid/ncsa_auth /etc/squid/passwd
+</span><span class='line'>auth_param basic children 2
+</span><span class='line'>auth_param basic realm My Proxy Server
+</span><span class='line'>auth_param basic credentialsttl 24 hours
+</span><span class='line'>auth_param basic casesensitive off
+</span><span class='line'><span class="c"># add acl rules</span>
+</span><span class='line'>acl users proxy_auth REQUIRED
+</span><span class='line'><span class="c"># http access rules</span>
+</span><span class='line'>http_access deny !users
+</span><span class='line'>http_access allow users
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Next, <strong>create our authentication file</strong> which Squid can use to verify for
 user authentications:</p>
 
-<pre><code>#!bash
-touch /etc/squid/passwd
-chown root.squid /etc/squid/passwd
-chmod 640 /etc/squid/passwd
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>touch /etc/squid/passwd
+</span><span class='line'>chown root.squid /etc/squid/passwd
+</span><span class='line'>chmod 640 /etc/squid/passwd
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Lets, <strong>add a user</strong> which can access this squid server (if you get a warning
 that says it can not find the command: <code>htpasswd</code>, try to run the commented
 command, instead):</p>
 
-<pre><code>#!bash
-htpasswd /etc/squid/passwd username
-# /usr/local/apache/bin/htpasswd /etc/squid/passwd username
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>htpasswd /etc/squid/passwd username
+</span><span class='line'><span class="c"># /usr/local/apache/bin/htpasswd /etc/squid/passwd username</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Next, we <strong>restart the squid server</strong>:</p>
 
-<pre><code>#!bash
-# check if startup config is okay
-chkconfig --level 2345 squid on
-/etc/init.d/squid restart
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># check if startup config is okay</span>
+</span><span class='line'>chkconfig --level 2345 squid on
+</span><span class='line'>/etc/init.d/squid restart
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Now, we can simply connect to this squid server, by <strong>defining the relevant proxy in the browser</strong> :)</p>
 

@@ -526,30 +526,9 @@ issue when I needed to auto-increment a variable for my records. After a bit
 of Google searching, I came across a somewhat usable method, which I improved
 upon to get this:</p>
 
-<p>We first insert a node in our XSL under the node where we want the variable to
-be auto-incremented:</p>
-
-<pre><code>#!xml
-&lt;xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;
-&lt;xsl:template match="/"&gt;
-&lt;ul class="flickrGallery"&gt;
-&lt;xsl:variable name="my_var"&gt;
-&lt;xsl:value-of select="position()"/&gt;
-&lt;/xsl:variable&gt;
-&lt;xsl:for-each select="//photo"&gt;
-.
-.
-.
-</code></pre>
-
-<p>Now, we will actually be printing the value of this variable as below:</p>
-
-<pre><code>#!xml
-&lt;xsl:attribute name="rel"&gt;flickr&lt;xsl:copy-of select="$my_var" /&gt;&lt;/xsl:attribute&gt;
-</code></pre>
 
 		
-		
+		<a href="/blog/2011/07/31/xslt-auto-incrementing-a-variable/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>

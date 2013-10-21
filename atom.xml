@@ -4,7 +4,7 @@
   <title><![CDATA[Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-10-21T06:37:00+05:30</updated>
+  <updated>2013-10-21T07:17:12+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -40,15 +40,19 @@ movie Iron-Man.</p>
 
 <ul>
 <li>Install <a href="http://nodejs.org">Node.js</a></li>
-<li><p>Clone the hubot repository from github, locally:</p>
-
-<pre><code>#!bash
-git clone http://github.com/github/hubot jarvis
-cd jarvis
-npm install
-bin/hubot
-</code></pre></li>
+<li>Clone the hubot repository from github, locally:</li>
 </ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone http://github.com/github/hubot jarvis
+</span><span class='line'><span class="nb">cd </span>jarvis
+</span><span class='line'>npm install
+</span><span class='line'>bin/hubot
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>This should start the Hubot in your Shell. If, instead, this gives an error
@@ -77,109 +81,190 @@ procedure to let the two hubots use the same source:</p>
 <ul>
 <li>First, create new dedicated accounts for our hubot on both Hipchat and
 Gtalk.</li>
-<li><p>Add <code>hubot-hipchat</code> and <code>hubot-gtalk</code> as dependencies in <code>package.json</code>.
-It should look like:</p>
+<li>Add <code>hubot-hipchat</code> and <code>hubot-gtalk</code> as dependencies in <code>package.json</code>.
+It should look like:</li>
+</ul>
 
-<pre><code>  #!json
-  "dependencies": {
-    "hubot-hipchat": "&gt;= 2.4.5",
-    "hubot-gtalk": "&gt;= 0.0.1",
-    ...
-  }
-</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="s2">&quot;dependencies&quot;</span><span class="err">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;hubot-hipchat&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;= 2.4.5&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;hubot-gtalk&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;= 0.0.1&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="err">...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <ul>
-<li><p>Edit <code>Procfile</code> so that it uses adapter name and user from the environment
-variables that we will create for the heroku instance of each bot:</p>
+<li>Edit <code>Procfile</code> so that it uses adapter name and user from the environment
+variables that we will create for the heroku instance of each bot:</li>
+</ul>
 
-<pre><code>#!text
-web: bin/hubot -a $HUBOT_ADAPTER_NAME -n $HUBOT_ADAPTER_USER 
-</code></pre></li>
-<li><p>Create a git repository for our bot, so that we can track our bot&rsquo;s code:</p>
 
-<pre><code>#!bash
-git init
-git add .
-git commit -am "Initial Commit"
-</code></pre></li>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>web: bin/hubot -a <span class="nv">$HUBOT_ADAPTER_NAME</span> -n <span class="nv">$HUBOT_ADAPTER_USER</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Create a git repository for our bot, so that we can track our bot&rsquo;s code:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git init
+</span><span class='line'>git add .
+</span><span class='line'>git commit -am <span class="s2">&quot;Initial Commit&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
 <li><p>Download and install <a href="http://toolbelt.heroku.com">Heroku Toolbelt</a>, since
 we will be deploying our bots to Heroku.</p></li>
 <li><p>Let us, first deploy our bot on GTalk, since it is a bit easy. Start by
-creating a Heroku application for our GTalk bot:</p>
+creating a Heroku application for our GTalk bot:</p></li>
+</ul>
 
-<pre><code>#!bash
-heroku create
-heroku rename 'some-random-name-for-our-gtalk-bot'
-git remote rename heroku gtalk
-</code></pre></li>
-<li><p>We will be using <code>redis</code> as our bot&rsquo;s brain. So, install <code>redis</code> on our
-heroku instance (which is free, by the way):</p>
 
-<pre><code>#!bash
-heroku addons:add redistogo:nano
-</code></pre></li>
-<li><p>Push the bot to heroku:</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku create
+</span><span class='line'>heroku rename <span class="s1">&#39;some-random-name-for-our-gtalk-bot&#39;</span>
+</span><span class='line'>git remote rename heroku gtalk
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>#!bash
-git push gtalk master
-</code></pre></li>
-<li><p>Set our environment variables for the GTalk bot:</p>
 
-<pre><code>#!bash
-heroku config:add \
-  HUBOT_ADAPTER_NAME="gtalk" \
-  HUBOT_ADAPTER_USER="&lt;bot name&gt;" \
-  HUBOT_GTALK_USERNAME="&lt;bot gmail complete address&gt;" \
-  HUBOT_GTALK_PASSWORD="&lt;bot gmail password&gt;" \
-  HUBOT_GTALK_WHITELIST_DOMAINS="&lt;your company domain name&gt;"
-</code></pre></li>
-<li><p>Run our heroku process:</p>
+<ul>
+<li>We will be using <code>redis</code> as our bot&rsquo;s brain. So, install <code>redis</code> on our
+heroku instance (which is free, by the way):</li>
+</ul>
 
-<pre><code>#!bash
-heroku ps:scale web=1
-</code></pre></li>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku addons:add redistogo:nano
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Push the bot to heroku:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git push gtalk master
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Set our environment variables for the GTalk bot:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku config:add <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_ADAPTER_NAME</span><span class="o">=</span><span class="s2">&quot;gtalk&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_ADAPTER_USER</span><span class="o">=</span><span class="s2">&quot;&lt;bot name&gt;&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_GTALK_USERNAME</span><span class="o">=</span><span class="s2">&quot;&lt;bot gmail complete address&gt;&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_GTALK_PASSWORD</span><span class="o">=</span><span class="s2">&quot;&lt;bot gmail password&gt;&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_GTALK_WHITELIST_DOMAINS</span><span class="o">=</span><span class="s2">&quot;&lt;your company domain name&gt;&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Run our heroku process:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku ps:scale <span class="nv">web</span><span class="o">=</span>1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
 <li><p>Your Gtalk bot is now live.</p></li>
 <li><p>Let us, now, run this on HipChat. Start again, by creating a Heroku
-application for our Hipchat bot:</p>
+application for our Hipchat bot:</p></li>
+</ul>
 
-<pre><code>#!bash
-heroku create
-heroku rename 'some-random-name-for-our-hipchat-bot'
-git remote rename heroku hipchat
-</code></pre></li>
-<li><p>Install <code>redis</code>:</p>
 
-<pre><code>#!bash
-heroku addons:add redistogo:nano
-</code></pre></li>
-<li><p>Push the bot to heroku:</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku create
+</span><span class='line'>heroku rename <span class="s1">&#39;some-random-name-for-our-hipchat-bot&#39;</span>
+</span><span class='line'>git remote rename heroku hipchat
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>#!bash
-git push hipchat master
-</code></pre></li>
-<li><p>Set our environment variables for the HipChat bot. Settings marked with
+
+<ul>
+<li>Install <code>redis</code>:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku addons:add redistogo:nano
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Push the bot to heroku:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git push hipchat master
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Set our environment variables for the HipChat bot. Settings marked with
 <code>@@</code> can be obtained by visiting your bot&rsquo;s <a href="https://www.hipchat.com/account/xmpp">XMPP/Jabber account
 settings</a>, after logging in HipChat
-with your bot&rsquo;s account:</p>
-
-<pre><code>#!bash
-heroku config:add --app="&lt;name-for-our-hipchat-bot&gt;" \
-  HUBOT_ADAPTER_NAME="hipchat" \
-  HUBOT_ADAPTER_USER="&lt;@@room name&gt;" \
-  HEROKU_URL="http://&lt;name-for-our-hipchat-bot&gt;.herokuapp.com" \
-  HUBOT_HIPCHAT_JID="&lt;@@username&gt;@chat.hipchat.com" \
-  HUBOT_HIPCHAT_PASSWORD="&lt;hipchat.com password for your bot&gt;"
-</code></pre></li>
-<li><p>Run our heroku process:</p>
-
-<pre><code>#!bash
-heroku ps:scale web=1
-</code></pre></li>
-<li><p>Your HipChat bot should now be live. Try logging in as a normal hipchat
-user, and talking to the bot (hint: <code>@jarvis help</code>, where my bot&rsquo;s mention
-name was <code>@jarvis</code>)</p></li>
+with your bot&rsquo;s account:</li>
 </ul>
-</li>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku config:add --app<span class="o">=</span><span class="s2">&quot;&lt;name-for-our-hipchat-bot&gt;&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_ADAPTER_NAME</span><span class="o">=</span><span class="s2">&quot;hipchat&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_ADAPTER_USER</span><span class="o">=</span><span class="s2">&quot;&lt;@@room name&gt;&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HEROKU_URL</span><span class="o">=</span><span class="s2">&quot;http://&lt;name-for-our-hipchat-bot&gt;.herokuapp.com&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_HIPCHAT_JID</span><span class="o">=</span><span class="s2">&quot;&lt;@@username&gt;@chat.hipchat.com&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_HIPCHAT_PASSWORD</span><span class="o">=</span><span class="s2">&quot;&lt;hipchat.com password for your bot&gt;&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Run our heroku process:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku ps:scale <span class="nv">web</span><span class="o">=</span>1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Your HipChat bot should now be live. Try logging in as a normal hipchat
+user, and talking to the bot (hint: <code>@jarvis help</code>, where my bot&rsquo;s mention
+name was <code>@jarvis</code>)</li>
 </ul>
 
 ]]></content>
@@ -233,10 +318,12 @@ working directory.</p>
 <p>Let   s set up a default set of hooks that Git will use as a template when
 creating or cloning a repository (requires Git 1.7.1 or newer):</p>
 
-<pre><code>#!bash
-git config --global init.templatedir '~/.git_template'
-mkdir -p ~/.git_template/hooks
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git config --global init.templatedir <span class="s1">&#39;~/.git_template&#39;</span>
+</span><span class='line'>mkdir -p ~/.git_template/hooks
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>I, usually, put all my Git related stuff in <code>~/Code/__dotfiles/git/</code> and
 hence, the above template directory lands up as
@@ -247,10 +334,14 @@ hence, the above template directory lands up as
 a script the other hooks will call. Place in <code>~/.git_template/hooks/ctags</code> and
 mark as executable:</p>
 
-<pre><code>#!bash
-#!/bin/sh
-rm -f .git/tags ctags --tag-relative -Rf.git/tags --exclude=.git --languages=-javascript,sql
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'>rm -f .git/tags ctags --tag-relative -Rf.git/tags <span class="se">\</span>
+</span><span class='line'>  --exclude<span class="o">=</span>.git --languages<span class="o">=</span>-javascript,sql
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Although, make sure that the <code>ctags</code> version is the GNU one, and the above
 script runs without showing any errors. If installing via <code>Homebrew</code> make sure
@@ -272,20 +363,26 @@ files in the <code>~/.git_template/hooks</code> folder needs to be marked as exe
 You should use the following content for: <code>post-commit</code>, <code>post-merge</code>, and
 <code>post-checkout</code> hooks (which simply calls the <code>ctags</code> hook, we create above):</p>
 
-<pre><code>#!bash
-#!/bin/sh
-.git/hooks/ctags &gt;/dev/null 2&gt;&amp;1 &amp;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'>.git/hooks/ctags &gt;/dev/null 2&gt;&amp;1 &amp;
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Additionally, if you feel tags should also be generated on using <code>git rebase</code>,
 add the following code to <code>post-rewrite</code> hook:</p>
 
-<pre><code>#!bash
-#!/bin/sh
-case "$1" in
-  rebase) exec .git/hooks/post-merge ;;
-esac
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="k">case</span> <span class="s2">&quot;$1&quot;</span> in
+</span><span class='line'>  rebase<span class="o">)</span> <span class="nb">exec</span> .git/hooks/post-merge ;;
+</span><span class='line'><span class="k">esac</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Once, the above is done, all we need to do is to issue a <code>git init</code> command to
 create Ctags for an already existing repository. All new git repositories will
@@ -300,71 +397,129 @@ a one-off shell script that does this work for me, and store the generated
 tags file in a directory such as <code>~/.tags/</code> with a suitable name. O&#8217;course it
 does not make sense to version this directory.</p>
 
-<pre><code>#!bash
-#!/usr/bin/env sh
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/usr/bin/env sh</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">RubyVersion</span><span class="o">=</span><span class="s2">&quot;1.9.3-p194&quot;</span>
+</span><span class='line'><span class="nv">LaravelPath</span><span class="o">=</span><span class="s2">&quot;${HOME}/Code/projects/lab/laravel&quot;</span>
+</span><span class='line'>
+</span><span class='line'>mkdir -p <span class="s2">&quot;${HOME}/.ctags&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># RVM: Ruby version 1.9.3-p194</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;${RubyVersion}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">  </span>mkdir -p <span class="s2">&quot;${HOME}/.ctags/ruby/${RubyVersion}&quot;</span>
+</span><span class='line'>  <span class="nv">TAG_FILE</span><span class="o">=</span><span class="s2">&quot;${HOME}/.ctags/ruby/${RubyVersion}/tags&quot;</span>
+</span><span class='line'>  rm -f <span class="s2">&quot;${TAG_FILE}&quot;</span>
+</span><span class='line'>  <span class="k">for </span>rubydir in <span class="sb">`</span>find <span class="s2">&quot;${HOME}/.rvm/gems&quot;</span> -type d -depth 1 -iname <span class="s2">&quot;*${RubyVersion}*&quot;</span><span class="sb">`</span>; <span class="k">do</span>
+</span><span class='line'><span class="k">    if</span> <span class="o">[</span> -d <span class="s2">&quot;${rubydir}/gems&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">      </span><span class="nb">echo</span> <span class="s2">&quot;Looking inside: ${rubydir}/gems&quot;</span>
+</span><span class='line'>      ctags --recurse --tag-relative <span class="se">\</span>
+</span><span class='line'>        --languages<span class="o">=</span>-javascript,sql <span class="se">\</span>
+</span><span class='line'>        --exclude<span class="o">=</span>.git <span class="se">\</span>
+</span><span class='line'>        --sort<span class="o">=</span>yes --append <span class="se">\</span>
+</span><span class='line'>        -f <span class="s2">&quot;${TAG_FILE}&quot;</span> <span class="se">\</span>
+</span><span class='line'>        <span class="nv">$rubydir</span>/gems/*
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'><span class="k">  done</span>
+</span><span class='line'><span class="k">  </span><span class="nb">echo</span>
+</span><span class='line'><span class="nb">  echo</span> <span class="s2">&quot;------ generated ctags for: ${RubyVersion} ------&quot;</span>
+</span><span class='line'>  cat <span class="s2">&quot;${TAG_FILE}&quot;</span> | wc
+</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;---------------------------------------------&quot;</span>
+</span><span class='line'>  <span class="nb">echo</span>
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Laravel</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;${LaravelPath}&quot;</span> -a -d <span class="s2">&quot;${LaravelPath}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">  </span>mkdir -p <span class="s2">&quot;${HOME}/.ctags/php/laravel&quot;</span>
+</span><span class='line'>  <span class="nv">TAG_FILE</span><span class="o">=</span><span class="s2">&quot;${HOME}/.ctags/php/laravel/tags&quot;</span>
+</span><span class='line'>  rm -f <span class="s2">&quot;${TAG_FILE}&quot;</span>
+</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;Looking inside: ${LaravelPath}&quot;</span>
+</span><span class='line'>  ctags --recurse --tag-relative <span class="se">\</span>
+</span><span class='line'>    --languages<span class="o">=</span>-javascript,sql <span class="se">\</span>
+</span><span class='line'>    --exclude<span class="o">=</span>.git <span class="se">\</span>
+</span><span class='line'>    --sort<span class="o">=</span>yes --append <span class="se">\</span>
+</span><span class='line'>    --PHP-kinds<span class="o">=</span>+cf <span class="se">\</span>
+</span><span class='line'>    --regex-PHP<span class="o">=</span><span class="s1">&#39;/abstract class ([^ ]*)/\1/c/&#39;</span> <span class="se">\</span>
+</span><span class='line'>    --regex-PHP<span class="o">=</span><span class="s1">&#39;/interface ([^ ]*)/\1/c/&#39;</span> <span class="se">\</span>
+</span><span class='line'>    --regex-PHP<span class="o">=</span><span class="s1">&#39;/(public |static |abstract |protected |private )+function ([^ (]*)/\2/f/&#39;</span> <span class="se">\</span>
+</span><span class='line'>    -f <span class="s2">&quot;${TAG_FILE}&quot;</span> <span class="se">\</span>
+</span><span class='line'>    <span class="nv">$LaravelPath</span>
+</span><span class='line'>  <span class="nb">echo</span>
+</span><span class='line'><span class="nb">  echo</span> <span class="s2">&quot;-------- generated ctags for: Laravel -------&quot;</span>
+</span><span class='line'>  cat <span class="s2">&quot;${TAG_FILE}&quot;</span> | wc
+</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;---------------------------------------------&quot;</span>
+</span><span class='line'>  <span class="nb">echo</span>
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
 
-RubyVersion="1.9.3-p194"
-LaravelPath="${HOME}/Code/projects/lab/laravel"
-
-mkdir -p "${HOME}/.ctags"
-
-# RVM: Ruby version 1.9.3-p194
-if [ -n "${RubyVersion}" ]; then
-  mkdir -p "${HOME}/.ctags/ruby/${RubyVersion}"
-  TAG_FILE="${HOME}/.ctags/ruby/${RubyVersion}/tags"
-  rm -f "${TAG_FILE}"
-  for rubydir in `find "${HOME}/.rvm/gems" -type d -depth 1 -iname "*${RubyVersion}*"`; do
-    if [ -d "${rubydir}/gems" ]; then
-      echo "Looking inside: ${rubydir}/gems"
-      ctags --recurse --tag-relative \
-        --languages=-javascript,sql \
-        --exclude=.git \
-        --sort=yes --append \
-        -f "${TAG_FILE}" \
-        $rubydir/gems/*
-    fi
-  done
-  echo
-  echo "------ generated ctags for: ${RubyVersion} ------"
-  cat "${TAG_FILE}" | wc
-  echo "---------------------------------------------"
-  echo
-fi
-
-# Laravel
-if [ -n "${LaravelPath}" -a -d "${LaravelPath}" ]; then
-  mkdir -p "${HOME}/.ctags/php/laravel"
-  TAG_FILE="${HOME}/.ctags/php/laravel/tags"
-  rm -f "${TAG_FILE}"
-  echo "Looking inside: ${LaravelPath}"
-  ctags --recurse --tag-relative \
-    --languages=-javascript,sql \
-    --exclude=.git \
-    --sort=yes --append \
-    --PHP-kinds=+cf \
-    --regex-PHP='/abstract class ([^ ]*)/\1/c/' \
-    --regex-PHP='/interface ([^ ]*)/\1/c/' \
-    --regex-PHP='/(public |static |abstract |protected |private )+function ([^ (]*)/\2/f/' \
-    -f "${TAG_FILE}" \
-    $LaravelPath
-  echo
-  echo "-------- generated ctags for: Laravel -------"
-  cat "${TAG_FILE}" | wc
-  echo "---------------------------------------------"
-  echo
-fi
-</code></pre>
 
 <p>Finally, I set the following inside my <code>~/.vimrc</code> file:</p>
 
-<pre><code>#!vim
-set tags=./tags;/
-augroup TagFileType
-  autocmd!
-  autocmd FileType * setl tags&lt;
-  autocmd FileType * exe 'setl tags+=~/.ctags/' . &amp;filetype . '/*/tags'
-augroup END
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">set</span> <span class="k">tags</span><span class="p">=</span>.<span class="sr">/tags;/</span>
+</span><span class='line'>augroup TagFileType
+</span><span class='line'>  autocmd<span class="p">!</span>
+</span><span class='line'>  autocmd <span class="nb">FileType</span> * <span class="k">setl</span> <span class="k">tags</span><span class="p">&lt;</span>
+</span><span class='line'>  autocmd <span class="nb">FileType</span> * exe <span class="s1">&#39;setl tags+=~/.ctags/&#39;</span> . &amp;<span class="k">filetype</span> . <span class="s1">&#39;/*/tags&#39;</span>
+</span><span class='line'>augroup END
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>This basically tells vim to only load ctags for the current filetype, i.e. for
 a <code>ruby</code> buffer, vim will load all ctags files inside <code>~/.ctags/ruby</code>
@@ -407,11 +562,14 @@ can do something &ndash; undo it and redo it, i.e. you can traverse on path <cod
 is to say, I can even go to edits not in the same timeline, i.e. I am able to
 traverse <code>ABCDEFG</code> as they happened.</p>
 
-<pre><code>#!text
-          / `---------- C ---- D
-A--- B -- |
-          \,----------------------- E ----- F ------- G
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>      / `---------- C ---- D
+</span><span class='line'>A--- B -- |
+</span><span class='line'>      \,----------------------- E ----- F ------- G
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>We can use the <code>:earlier Nm</code> command to go back a few minutes (and even
 seconds, hours, days). We can use <code>:GundoToggle</code> to view a quick Ascii tree of
@@ -424,22 +582,36 @@ align assignments I can use something like <code>:Tab /=</code> and, if I prefer
 the spaces attached to the code on the left, I can use something like <code>:Tab
 /=\zs</code> The effects will be as below:</p>
 
-<pre><code>#!ruby
-# no tabularize
-a = 1322
-abc = 1323
-abcde = 1324
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># no tabularize</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">1322</span>
+</span><span class='line'><span class="n">abc</span> <span class="o">=</span> <span class="mi">1323</span>
+</span><span class='line'><span class="n">abcde</span> <span class="o">=</span> <span class="mi">1324</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># :Tab /=</span>
+</span><span class='line'><span class="n">a</span>     <span class="o">=</span> <span class="mi">1322</span>
+</span><span class='line'><span class="n">abc</span>   <span class="o">=</span> <span class="mi">1323</span>
+</span><span class='line'><span class="n">abcde</span> <span class="o">=</span> <span class="mi">1324</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># :Tab /=\zs</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span>     <span class="mi">1322</span>
+</span><span class='line'><span class="n">abc</span> <span class="o">=</span>   <span class="mi">1323</span>
+</span><span class='line'><span class="n">abcde</span> <span class="o">=</span> <span class="mi">1324</span>
+</span></code></pre></td></tr></table></div></figure>
 
-# :Tab /=
-a     = 1322
-abc   = 1323
-abcde = 1324
-
-# :Tab /=\zs
-a =     1322
-abc =   1323
-abcde = 1324
-</code></pre>
 ]]></content>
   </entry>
   
@@ -481,139 +653,210 @@ even, obsolete by the time you lay yours eyes on this post :)</p>
 
 <h5>Install Rails</h5>
 
-<pre><code>#!bash
-rails new my_app -T -d mysql -j jquery
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails new my_app -T -d mysql -j jquery
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Initialize a git repository</h5>
 
-<pre><code>#!bash
-cd my_app
-git flow init -d # initialize git work-flow
-git add .
-git commit -am "Installed Rails"
-git flow feature start prepare_base
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd </span>my_app
+</span><span class='line'>git flow init -d <span class="c"># initialize git work-flow</span>
+</span><span class='line'>git add .
+</span><span class='line'>git commit -am <span class="s2">&quot;Installed Rails&quot;</span>
+</span><span class='line'>git flow feature start prepare_base
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Create a RVM configuration file</h5>
 
-<pre><code>#!bash
-rvm use 1.9.3@rails --rvmrc
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rvm use 1.9.3@rails --rvmrc
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Add some starting gems to Gemfile</h5>
 
-<pre><code>#!ruby
-gem 'haml'
-# gem 'kaminari'
-# gem 'devise'
-# gem 'capistrano'
-# gem 'unicorn'
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;haml&#39;</span>
+</span><span class='line'><span class="c1"># gem &#39;kaminari&#39;</span>
+</span><span class='line'><span class="c1"># gem &#39;devise&#39;</span>
+</span><span class='line'><span class="c1"># gem &#39;capistrano&#39;</span>
+</span><span class='line'><span class="c1"># gem &#39;unicorn&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">group</span> <span class="ss">:test</span><span class="p">,</span> <span class="ss">:development</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;turn&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;haml-rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rspec-rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;cucumber-rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;factory_girl_rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;capybara&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;capybara-webkit&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;database_cleaner&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-rspec&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-cucumber&#39;</span>
+</span><span class='line'>  <span class="c1"># gem &#39;guard-unicorn&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;ruby_gntp&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;launchy&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-group :test, :development do
-  gem 'turn'
-  gem 'haml-rails'
-  gem 'rspec-rails'
-  gem 'cucumber-rails'
-  gem 'factory_girl_rails'
-  gem 'capybara'
-  gem 'capybara-webkit'
-  gem 'database_cleaner'
-  gem 'guard-rspec'
-  gem 'guard-cucumber'
-  # gem 'guard-unicorn'
-  gem 'ruby_gntp'
-  gem 'minitest'
-  gem 'launchy'
-end
-</code></pre>
 
 <h5>Run Bundle Install</h5>
 
-<pre><code>#!bash
-bundle install
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bundle install
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Add database settings in config/database.yml</h5>
 
-<pre><code>#!bash
-rake db:create:all
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake db:create:all
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Change Home Page</h5>
 
-<pre><code>#!bash
-rails generate controller home index
-rm -rf public/index.html
-find . -type f -iname "*.erb" -delete # remove all erb files since we are using haml
-# add 'root :to =&gt; "Home#index"' in config/routes.rb
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails generate controller home index
+</span><span class='line'>rm -rf public/index.html
+</span><span class='line'>find . -type f -iname <span class="s2">&quot;*.erb&quot;</span> -delete <span class="c"># remove all erb files since we are using haml</span>
+</span><span class='line'><span class="c"># add &#39;root :to =&gt; &quot;Home#index&quot;&#39; in config/routes.rb</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Lets, make some generations, huh.</h5>
 
-<pre><code>#!bash
-rails generate rspec:install
-rails generate cucumber:install --capybara
-guard init rspec &amp;&amp; guard init cucumber
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails generate rspec:install
+</span><span class='line'>rails generate cucumber:install --capybara
+</span><span class='line'>guard init rspec <span class="o">&amp;&amp;</span> guard init cucumber
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Make some changes to the <code>features/support/env.rb</code> file:</h5>
 
-<pre><code>#!ruby
-require 'cucumber/rails'
-require 'capybara/rails'
-require 'capybara/cucumber'
-require 'capybara/session'
-require "factory_girl/step_definitions"
-Capybara.default_selector  = :css
-Capybara.javascript_driver = :webkit
-ActionController::Base.allow_rescue = false
-DatabaseCleaner.strategy = :transaction
-Cucumber::Rails::Database.javascript_strategy = :truncation
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;cucumber/rails&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/rails&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/cucumber&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/session&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s2">&quot;factory_girl/step_definitions&quot;</span>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">default_selector</span>  <span class="o">=</span> <span class="ss">:css</span>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">javascript_driver</span> <span class="o">=</span> <span class="ss">:webkit</span>
+</span><span class='line'><span class="ss">ActionController</span><span class="p">:</span><span class="ss">:Base</span><span class="o">.</span><span class="n">allow_rescue</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'><span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="ss">:transaction</span>
+</span><span class='line'><span class="ss">Cucumber</span><span class="p">:</span><span class="ss">:Rails</span><span class="o">::</span><span class="no">Database</span><span class="o">.</span><span class="n">javascript_strategy</span> <span class="o">=</span> <span class="ss">:truncation</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Lets, add some Cucumber Tests (<code>features/test.feature</code> file):</h5>
 
-<pre><code>#!ruby
-Feature: Testing Configuration
-  In order to have a base for my new application
-  As a developer
-  I want to test the configuration settings for this application
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Feature</span><span class="p">:</span> <span class="no">Testing</span> <span class="no">Configuration</span>
+</span><span class='line'>  <span class="no">In</span> <span class="n">order</span> <span class="n">to</span> <span class="n">have</span> <span class="n">a</span> <span class="n">base</span> <span class="k">for</span> <span class="n">my</span> <span class="kp">new</span> <span class="n">application</span>
+</span><span class='line'>  <span class="no">As</span> <span class="n">a</span> <span class="n">developer</span>
+</span><span class='line'>  <span class="n">I</span> <span class="n">want</span> <span class="n">to</span> <span class="nb">test</span> <span class="n">the</span> <span class="n">configuration</span> <span class="n">settings</span> <span class="k">for</span> <span class="n">this</span> <span class="n">application</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="ss">Scenario</span><span class="p">:</span> <span class="no">Test</span> <span class="no">Home</span> <span class="no">Page</span>
+</span><span class='line'>    <span class="no">Given</span> <span class="n">I</span> <span class="n">am</span> <span class="n">on</span> <span class="n">the</span> <span class="n">home</span> <span class="n">page</span>
+</span><span class='line'>    <span class="no">Then</span>  <span class="n">I</span> <span class="n">should</span> <span class="n">see</span> <span class="s2">&quot;Home#index&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-  Scenario: Test Home Page
-    Given I am on the home page
-    Then  I should see "Home#index"
-</code></pre>
 
 <h5>And, the corresponding steps in <code>features/step_definitions/test_steps.rb</code> file:</h5>
 
-<pre><code>#!ruby
-Given /^I am on the home page$/ do
-  visit "/"
-end
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Given</span> <span class="sr">/^I am on the home page$/</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">visit</span> <span class="s2">&quot;/&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Then</span> <span class="sr">/^I should see &quot;([^&quot;]*)&quot;$/</span> <span class="k">do</span> <span class="o">|</span><span class="n">text</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_content</span> <span class="n">text</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-Then /^I should see "([^"]*)"$/ do |text|
-  page.should have_content text
-end
-</code></pre>
 
 <h5>Open a iTerm2 tab each for the following processes:</h5>
 
-<pre><code>#!bash
-# default tab
-guard
-tail -fn0 log/test.log
-rails console
-tail -fn0 log/development.log
-rails server
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># default tab</span>
+</span><span class='line'>guard
+</span><span class='line'>tail -fn0 log/test.log
+</span><span class='line'>rails console
+</span><span class='line'>tail -fn0 log/development.log
+</span><span class='line'>rails server
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h5>Merge our feature into development</h5>
 
-<pre><code>#!bash
-git commit -am "finished with preparing base"
-git flow feature finish prepare_base
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git commit -am <span class="s2">&quot;finished with preparing base&quot;</span>
+</span><span class='line'>git flow feature finish prepare_base
+</span></code></pre></td></tr></table></div></figure>
+
 ]]></content>
   </entry>
   
@@ -638,11 +881,21 @@ on).</p>
 <p>Now, I do understand that the language (or I should say Syntax) is easy to
 learn and gorgeously, so.</p>
 
-<pre><code># Think PHP:
-if (!empty($my_variable)) do_this();
-# v/s Ruby:
-do_this if my_variable
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="c1"># Think PHP:</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$my_variable</span><span class="p">))</span> <span class="nx">do_this</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># v/s Ruby:</span>
+</span><span class='line'><span class="n">do_this</span> <span class="k">if</span> <span class="n">my_variable</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>But, then again, learning RubyOnRails has been a tough job. Primarily, due to
 the steep learning curve on <em>how-to-get-started-with-ruby-on-rails</em> frontier.</p>
@@ -752,14 +1005,20 @@ certain domains. You must copy the following lines where you find the
 <code>hierarchy_stoplist</code> directive in the Squid Configuration file or at the very
 bottom of it)</p>
 
-<pre><code>#!bash
-# deny cache
-hierarchy_stoplist cgi-bin ?
-acl QUERY urlpath_regex cgi-bin \? \.css
-no_cache deny QUERY
-acl NOT_TO_CACHE dstdomain "/etc/squid/list/not-to-cache.conf"
-no_cache deny NOT_TO_CACHE
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># deny cache</span>
+</span><span class='line'>hierarchy_stoplist cgi-bin ?
+</span><span class='line'>acl QUERY urlpath_regex cgi-bin <span class="se">\?</span> <span class="se">\.</span>css
+</span><span class='line'>no_cache deny QUERY
+</span><span class='line'>acl NOT_TO_CACHE dstdomain <span class="s2">&quot;/etc/squid/list/not-to-cache.conf&quot;</span>
+</span><span class='line'>no_cache deny NOT_TO_CACHE
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>This will disable cache on any page that uses cgi scripts or has a query
 parameter or is a css file. Furthermore, we can add domains to
@@ -769,59 +1028,98 @@ not be cached by Squid afterwards.</p>
 <p>Next, add up all the IPs which will be exposed to the outer world (the
 following line must go in <code>/etc/squid/squid.conf</code> file at the very bottom):</p>
 
-<pre><code>#!bash
-acl ip1 myip XXX.XXX.XXX.XXX
-tcp_outgoing_address XXX.XXX.XXX.XXX ip1
-acl ip2 myip XXX.XXX.XXX.YYY
-tcp_outgoing_address XXX.XXX.XXX.YYY ip2
-acl ip3 myip XXX.XXX.XXX.ZZZ
-tcp_outgoing_address XXX.XXX.XXX.ZZZ ip3
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>acl ip1 myip XXX.XXX.XXX.XXX
+</span><span class='line'>tcp_outgoing_address XXX.XXX.XXX.XXX ip1
+</span><span class='line'>acl ip2 myip XXX.XXX.XXX.YYY
+</span><span class='line'>tcp_outgoing_address XXX.XXX.XXX.YYY ip2
+</span><span class='line'>acl ip3 myip XXX.XXX.XXX.ZZZ
+</span><span class='line'>tcp_outgoing_address XXX.XXX.XXX.ZZZ ip3
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>The above will allow us to use any of the above IP address in our browser as a proxy and the corresponding <code>tcp_outgoing_address</code> will be displayed to the world.</p>
 
 <p>Next, add the following rules to very bottom of the Squid Configuration file:</p>
 
-<pre><code>#!bash
-# ANONYMOUS PROXY
-forwarded_for off
-request_header_access Allow allow all
-request_header_access Authorization allow all
-request_header_access WWW-Authenticate allow all
-request_header_access Proxy-Authorization allow all
-request_header_access Proxy-Authenticate allow all
-request_header_access Cache-Control allow all
-request_header_access Content-Encoding allow all
-request_header_access Content-Length allow all
-request_header_access Content-Type allow all
-request_header_access Date allow all
-request_header_access Expires allow all
-request_header_access Host allow all
-request_header_access If-Modified-Since allow all
-request_header_access Last-Modified allow all
-request_header_access Location allow all
-request_header_access Pragma allow all
-request_header_access Accept allow all
-request_header_access Accept-Charset allow all
-request_header_access Accept-Encoding allow all
-request_header_access Accept-Language allow all
-request_header_access Content-Language allow all
-request_header_access Mime-Version allow all
-request_header_access Retry-After allow all
-request_header_access Title allow all
-request_header_access Connection allow all
-request_header_access Proxy-Connection allow all
-request_header_access User-Agent allow all
-request_header_access Cookie allow all
-request_header_access All deny all
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># ANONYMOUS PROXY</span>
+</span><span class='line'>forwarded_for off
+</span><span class='line'>request_header_access Allow allow all
+</span><span class='line'>request_header_access Authorization allow all
+</span><span class='line'>request_header_access WWW-Authenticate allow all
+</span><span class='line'>request_header_access Proxy-Authorization allow all
+</span><span class='line'>request_header_access Proxy-Authenticate allow all
+</span><span class='line'>request_header_access Cache-Control allow all
+</span><span class='line'>request_header_access Content-Encoding allow all
+</span><span class='line'>request_header_access Content-Length allow all
+</span><span class='line'>request_header_access Content-Type allow all
+</span><span class='line'>request_header_access Date allow all
+</span><span class='line'>request_header_access Expires allow all
+</span><span class='line'>request_header_access Host allow all
+</span><span class='line'>request_header_access If-Modified-Since allow all
+</span><span class='line'>request_header_access Last-Modified allow all
+</span><span class='line'>request_header_access Location allow all
+</span><span class='line'>request_header_access Pragma allow all
+</span><span class='line'>request_header_access Accept allow all
+</span><span class='line'>request_header_access Accept-Charset allow all
+</span><span class='line'>request_header_access Accept-Encoding allow all
+</span><span class='line'>request_header_access Accept-Language allow all
+</span><span class='line'>request_header_access Content-Language allow all
+</span><span class='line'>request_header_access Mime-Version allow all
+</span><span class='line'>request_header_access Retry-After allow all
+</span><span class='line'>request_header_access Title allow all
+</span><span class='line'>request_header_access Connection allow all
+</span><span class='line'>request_header_access Proxy-Connection allow all
+</span><span class='line'>request_header_access User-Agent allow all
+</span><span class='line'>request_header_access Cookie allow all
+</span><span class='line'>request_header_access All deny all
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Once, this is all done &ndash; check the configuration and restart Squid:</p>
 
-<pre><code>#!bash
-chkconfig --level 2345 squid on
-/etc/init.d/squid restart
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>chkconfig --level 2345 squid on
+</span><span class='line'>/etc/init.d/squid restart
+</span></code></pre></td></tr></table></div></figure>
+
 ]]></content>
   </entry>
   
@@ -846,54 +1144,74 @@ server over a Centos5 server.</p>
 
 <p>First, we need to <strong>install Squid</strong>:</p>
 
-<pre><code>#!bash
-yum install squid -y
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>yum install squid -y
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Next up, we need to <strong>change the Squid Configuration</strong> to allow access from
 authenticated persons. To do this, we need to add the corresponding ACLs and
 http_access rules in <code>/etc/squid/squid.conf</code> file (at the very top of the file,
 should do):</p>
 
-<pre><code>#!bash
-# add auth_params
-auth_param basic program /usr/lib/squid/ncsa_auth /etc/squid/passwd
-auth_param basic children 2
-auth_param basic realm My Proxy Server
-auth_param basic credentialsttl 24 hours
-auth_param basic casesensitive off
-# add acl rules
-acl users proxy_auth REQUIRED
-# http access rules
-http_access deny !users
-http_access allow users
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># add auth_params</span>
+</span><span class='line'>auth_param basic program /usr/lib/squid/ncsa_auth /etc/squid/passwd
+</span><span class='line'>auth_param basic children 2
+</span><span class='line'>auth_param basic realm My Proxy Server
+</span><span class='line'>auth_param basic credentialsttl 24 hours
+</span><span class='line'>auth_param basic casesensitive off
+</span><span class='line'><span class="c"># add acl rules</span>
+</span><span class='line'>acl users proxy_auth REQUIRED
+</span><span class='line'><span class="c"># http access rules</span>
+</span><span class='line'>http_access deny !users
+</span><span class='line'>http_access allow users
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Next, <strong>create our authentication file</strong> which Squid can use to verify for
 user authentications:</p>
 
-<pre><code>#!bash
-touch /etc/squid/passwd
-chown root.squid /etc/squid/passwd
-chmod 640 /etc/squid/passwd
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>touch /etc/squid/passwd
+</span><span class='line'>chown root.squid /etc/squid/passwd
+</span><span class='line'>chmod 640 /etc/squid/passwd
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Lets, <strong>add a user</strong> which can access this squid server (if you get a warning
 that says it can not find the command: <code>htpasswd</code>, try to run the commented
 command, instead):</p>
 
-<pre><code>#!bash
-htpasswd /etc/squid/passwd username
-# /usr/local/apache/bin/htpasswd /etc/squid/passwd username
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>htpasswd /etc/squid/passwd username
+</span><span class='line'><span class="c"># /usr/local/apache/bin/htpasswd /etc/squid/passwd username</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Next, we <strong>restart the squid server</strong>:</p>
 
-<pre><code>#!bash
-# check if startup config is okay
-chkconfig --level 2345 squid on
-/etc/init.d/squid restart
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># check if startup config is okay</span>
+</span><span class='line'>chkconfig --level 2345 squid on
+</span><span class='line'>/etc/init.d/squid restart
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Now, we can simply connect to this squid server, by <strong>defining the relevant proxy in the browser</strong> :)</p>
 
@@ -918,58 +1236,111 @@ connect the client to the master.</p>
 
 
 <ul>
-<li><p>On <strong>Master</strong> and <strong>Client</strong>:</p>
+<li>On <strong>Master</strong> and <strong>Client</strong>:</li>
+</ul>
 
-<pre><code>  # update our ubuntu
-  sudo apt-get update
 
-  # install ruby and ruby-dev
-  sudo apt-get install irb libopenssl-ruby libreadline-ruby ruby ruby-dev
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># update our ubuntu</span>
+</span><span class='line'>sudo apt-get update
+</span><span class='line'>
+</span><span class='line'><span class="c"># install ruby and ruby-dev</span>
+</span><span class='line'>sudo apt-get install irb libopenssl-ruby libreadline-ruby ruby ruby-dev
+</span><span class='line'>
+</span><span class='line'><span class="c"># install and update rubygems</span>
+</span><span class='line'><span class="nb">cd</span> /usr/local/src
+</span><span class='line'>sudo wget http://production.cf.rubygems.org/rubygems/rubygems-1.5.2.tgz
+</span><span class='line'>sudo tar -xzf rubygems-1.5.2.tgz
+</span><span class='line'><span class="nb">cd </span>rubygems-1.5.2
+</span><span class='line'>sudo ruby setup.rb
+</span><span class='line'>sudo update-alternatives --install /usr/bin/gem gem /usr/bin/gem1.8 1
+</span><span class='line'>sudo gem update --system
+</span><span class='line'>
+</span><span class='line'><span class="c"># install puppet</span>
+</span><span class='line'>gem install puppet --no-ri --no-rdoc
+</span></code></pre></td></tr></table></div></figure>
 
-  # install and update rubygems
-  cd /usr/local/src
-  sudo wget http://production.cf.rubygems.org/rubygems/rubygems-1.5.2.tgz
-  sudo tar -xzf rubygems-1.5.2.tgz
-  cd rubygems-1.5.2
-  sudo ruby setup.rb
-  sudo update-alternatives --install /usr/bin/gem gem /usr/bin/gem1.8 1
-  sudo gem update --system
 
-  # install puppet
-  gem install puppet --no-ri --no-rdoc
-</code></pre></li>
+<ul>
 <li><p>Make sure that the client and the master can ping each other on network, or
 better yet setup SSH access from/to master.</p></li>
-<li><p>On <strong>Master</strong>:</p>
-
-<pre><code>  # download puppet configuration
-  cd /etc
-  sudo wget http://bitfieldconsulting.com/files/powering-up-with-puppet.tar.gz
-  sudo tar -xzf powering-up-with-puppet.tar.gz
-
-  # start puppet daemon, along with users
-  sudo puppet master --mkusers --verbose --no-daemonize
-  # file ownership fix, if required
-  chown -R puppet:puppet /var/lib/puppet
-
-  # start puppet master
-  sudo puppet master
-
-  # check puppet
-  sudo puppet agent --test --server=`hostname`
-</code></pre></li>
-<li><p>On <strong>Client</strong>:</p>
-
-<pre><code>  # connect with mast to get certificate
-  puppet agent --server=&amp;lt;puppetmaster&amp;gt; --waitforcert 60 --test
-</code></pre></li>
-<li><p>On <strong>Master</strong>:</p>
-
-<pre><code>  # check the cert requests and grant cert to client
-  sudo puppetca list
-  sudo puppetca sign &amp;lt;puppetclient&amp;gt;
-</code></pre></li>
+<li><p>On <strong>Master</strong>:</p></li>
 </ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># download puppet configuration</span>
+</span><span class='line'><span class="nb">cd</span> /etc
+</span><span class='line'>sudo wget http://bitfieldconsulting.com/files/powering-up-with-puppet.tar.gz
+</span><span class='line'>sudo tar -xzf powering-up-with-puppet.tar.gz
+</span><span class='line'>
+</span><span class='line'><span class="c"># start puppet daemon, along with users</span>
+</span><span class='line'>sudo puppet master --mkusers --verbose --no-daemonize
+</span><span class='line'><span class="c"># file ownership fix, if required</span>
+</span><span class='line'>chown -R puppet:puppet /var/lib/puppet
+</span><span class='line'>
+</span><span class='line'><span class="c"># start puppet master</span>
+</span><span class='line'>sudo puppet master
+</span><span class='line'>
+</span><span class='line'><span class="c"># check puppet</span>
+</span><span class='line'>sudo puppet agent --test --server<span class="o">=</span><span class="sb">`</span>hostname<span class="sb">`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>On <strong>Client</strong>:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># connect with mast to get certificate</span>
+</span><span class='line'>puppet agent --server<span class="o">=</span>&amp;lt;puppetmaster&amp;gt; --waitforcert 60 --test
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>On <strong>Master</strong>:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># check the cert requests and grant cert to client</span>
+</span><span class='line'>sudo puppetca list
+</span><span class='line'>sudo puppetca sign &amp;lt;puppetclient&amp;gt;
+</span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
   </entry>
@@ -984,27 +1355,37 @@ issue when I needed to auto-increment a variable for my records. After a bit
 of Google searching, I came across a somewhat usable method, which I improved
 upon to get this:</p>
 
+<!-- more -->
+
+
 <p>We first insert a node in our XSL under the node where we want the variable to
 be auto-incremented:</p>
 
-<pre><code>#!xml
-&lt;xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;
-&lt;xsl:template match="/"&gt;
-&lt;ul class="flickrGallery"&gt;
-&lt;xsl:variable name="my_var"&gt;
-&lt;xsl:value-of select="position()"/&gt;
-&lt;/xsl:variable&gt;
-&lt;xsl:for-each select="//photo"&gt;
-.
-.
-.
-</code></pre>
+<figure class='code'><figcaption><span>Position The Variable start:1 mark:4-5</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;xsl:stylesheet</span> <span class="na">version=</span><span class="s">&quot;1.0&quot;</span> <span class="na">xmlns:xsl=</span><span class="s">&quot;http://www.w3.org/1999/XSL/Transform&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;xsl:template</span> <span class="na">match=</span><span class="s">&quot;/&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;flickrGallery&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;xsl:variable</span> <span class="na">name=</span><span class="s">&quot;my_var&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">&quot;position()&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/xsl:variable&gt;</span>
+</span><span class='line'><span class="nt">&lt;xsl:for-each</span> <span class="na">select=</span><span class="s">&quot;//photo&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    ...
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Now, we will actually be printing the value of this variable as below:</p>
 
-<pre><code>#!xml
-&lt;xsl:attribute name="rel"&gt;flickr&lt;xsl:copy-of select="$my_var" /&gt;&lt;/xsl:attribute&gt;
-</code></pre>
+<figure class='code'><figcaption><span>print the value of the variable</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;xsl:attribute</span> <span class="na">name=</span><span class="s">&quot;rel&quot;</span><span class="nt">&gt;</span>flickr<span class="nt">&lt;xsl:copy-of</span> <span class="na">select=</span><span class="s">&quot;$my_var&quot;</span> <span class="nt">/&gt;&lt;/xsl:attribute&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 ]]></content>
   </entry>
   
