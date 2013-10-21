@@ -52,14 +52,14 @@
 		<div class="left-col">
 			<div class="intrude-less">
 			<header id="header" class="inner"><div class="profilepic">
-	
-	<script src="/javascripts/md5.js"></script>
-	<script type="text/javascript">
-		$(function(){
-			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("me@nikhgupta.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
-		});
-	</script>
-	
+  
+  <script src="/javascripts/md5.js"></script>
+  <script type="text/javascript">
+    $(function(){
+        $('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("me@nikhgupta.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+        });
+</script>
+
 </div>
 <hgroup>
   <h1><a href="/">Nikhil Gupta</a></h1>
@@ -68,6 +68,8 @@
   
 </hgroup>
 
+<!-- <div id="awesome"></div> -->
+
 <nav id="main-nav"><ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
@@ -75,30 +77,32 @@
 
 </nav>
 <nav id="sub-nav">
-	<div class="social">
-		
-			<a class="email" href="mailto:me@nikhgupta.com" title="Email">Email</a>
-		
-		
-		
-		
-			<a class="twitter" href="http://twitter.com/nikhgupta" title="Twitter">Twitter</a>
-		
-		
-			<a class="github" href="https://github.com/nikhgupta" title="GitHub">GitHub</a>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
-		
-	</div>
+  <div class="social">
+    
+    <a class="email" href="mailto:me@nikhgupta.com" title="Email">Email</a>
+    
+    
+    
+    
+    <a class="twitter" href="http://twitter.com/nikhgupta" title="Twitter">Twitter</a>
+    
+    
+    <a class="github" href="https://github.com/nikhgupta" title="GitHub">GitHub</a>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    
+  </div>
 </nav>
+
+<div id="authorinfo"><h1>An entrepreneur, developer, photographer and a perfectionist.</h1></div>
 </header>				
 			</div>
 		</div>	
@@ -120,6 +124,9 @@ seen on: <a href="http://nikhgupta.github.com">Github Pages</a>, which will, fro
 only host documentations about my <a href="https://github.com/nikhgupta/repositories">Github public
 repositories</a>.</p>
 
+<!-- more -->
+
+
 <p>When I switched to WordPress, I found myself converting the previous template
 again for WordPress, which was not what I really wanted to do, since it was
 boooooring! And, hence, I decided to create a new WordPress theme which will
@@ -130,11 +137,6 @@ have some of the advanced functionality, I wanted, along with a unique design.</
 theme to be HTML5 and CSS3 ready. So, I, carefully, selected the <a href="http://nathanstaines.com/archive/starkers-html5">Starkers
 HTML5 theme</a>  framework by
 <a href="Nathan%20Staines">Nathan Staines</a>  as the base framework for this theme.</p>
-
-<!-- more -->
-
-
-
 
 <!--
 ### Screenshots
@@ -231,6 +233,12 @@ me to re-use it for more pages.</p>
 </div>
 
 
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
 </div>
 			</div>
 			<footer id="footer" class="inner"><p>
@@ -238,18 +246,21 @@ me to re-use it for more pages.</p>
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
-Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+</footer>
 			
 
 <script type="text/javascript">
       var disqus_shortname = 'nikhgupta';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://nikhgupta.com/blog/2011/07/31/quattro-responsive-wordpress-theme-colophon/';
+        var disqus_url = 'http://nikhgupta.com/blog/2011/07/31/quattro-responsive-wordpress-theme-colophon/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>

@@ -52,14 +52,14 @@
 		<div class="left-col">
 			<div class="intrude-less">
 			<header id="header" class="inner"><div class="profilepic">
-	
-	<script src="/javascripts/md5.js"></script>
-	<script type="text/javascript">
-		$(function(){
-			$('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("me@nikhgupta.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
-		});
-	</script>
-	
+  
+  <script src="/javascripts/md5.js"></script>
+  <script type="text/javascript">
+    $(function(){
+        $('.profilepic').append("<img src='http://www.gravatar.com/avatar/" + MD5("me@nikhgupta.com") + "?s=160' alt='Profile Picture' style='width: 160px;' />");
+        });
+</script>
+
 </div>
 <hgroup>
   <h1><a href="/">Nikhil Gupta</a></h1>
@@ -68,6 +68,8 @@
   
 </hgroup>
 
+<!-- <div id="awesome"></div> -->
+
 <nav id="main-nav"><ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
@@ -75,30 +77,32 @@
 
 </nav>
 <nav id="sub-nav">
-	<div class="social">
-		
-			<a class="email" href="mailto:me@nikhgupta.com" title="Email">Email</a>
-		
-		
-		
-		
-			<a class="twitter" href="http://twitter.com/nikhgupta" title="Twitter">Twitter</a>
-		
-		
-			<a class="github" href="https://github.com/nikhgupta" title="GitHub">GitHub</a>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-			<a class="rss" href="/atom.xml" title="RSS">RSS</a>
-		
-	</div>
+  <div class="social">
+    
+    <a class="email" href="mailto:me@nikhgupta.com" title="Email">Email</a>
+    
+    
+    
+    
+    <a class="twitter" href="http://twitter.com/nikhgupta" title="Twitter">Twitter</a>
+    
+    
+    <a class="github" href="https://github.com/nikhgupta" title="GitHub">GitHub</a>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    
+  </div>
 </nav>
+
+<div id="authorinfo"><h1>An entrepreneur, developer, photographer and a perfectionist.</h1></div>
 </header>				
 			</div>
 		</div>	
@@ -128,54 +132,74 @@ o&#8217;course, we need Ruby to run our web interface.</p>
 
 <p>Java and MongoDB are both available via APT/Synaptic.</p>
 
-<pre><code>#!bash
-sudo apt-get update
-sudo apt-get install openjdk-6-jre mongodb
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get install openjdk-6-jre mongodb
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>Installing Graylog2 Server</h3>
 
 <p>The commands below will download the graylog2 server, unzip it and copy the
 configuration file, as needed. Finally, it will run MongoDB shell.</p>
 
-<pre><code>#!bash
-cd $HOME
-mkdir -p $HOME/.graylog2
-cd $HOME/.graylog2
-wget https://github.com/downloads/Graylog2/graylog2-server/graylog2-server-0.9.5p1.tar.gz
-tar xzf graylog2-server-0.9.5p1.tar.gz
-sudo cp $HOME/.graylog2/graylog2-server/graylog2.conf.example /etc/graylog2.conf
-mongo
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span> <span class="nv">$HOME</span>
+</span><span class='line'>mkdir -p <span class="nv">$HOME</span>/.graylog2
+</span><span class='line'><span class="nb">cd</span> <span class="nv">$HOME</span>/.graylog2
+</span><span class='line'>wget https://github.com/downloads/Graylog2/graylog2-server/graylog2-server-0.9.5p1.tar.gz
+</span><span class='line'>tar xzf graylog2-server-0.9.5p1.tar.gz
+</span><span class='line'>sudo cp <span class="nv">$HOME</span>/.graylog2/graylog2-server/graylog2.conf.example /etc/graylog2.conf
+</span><span class='line'>mongo
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Once we have the shell, type the following commands to configure a database to
 be used by Graylog2 Server.</p>
 
-<pre><code>#!bash
-use graylog2
-db.addUser("graylog2", "password")
-exit
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>use graylog2
+</span><span class='line'>db.addUser<span class="o">(</span><span class="s2">&quot;graylog2&quot;</span>, <span class="s2">&quot;password&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="nb">exit</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Now, open your favorite editor and edit the <code>etc/graylog2.conf</code> file with root
 access. Change the configuration in there to match the MongoDB, you just
 created. Typically, it would be:</p>
 
-<pre><code>#!ini
-mongodb_useauth = true
-mongodb_user = graylog2
-mongodb_password = password
-mongodb_host = 127.0.0.1
-# mongodb_replica_set = localhost:27017,localhost:27018,localhost:27019
-mongodb_database = graylog2
-mongodb_port = 27017
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ini'><span class='line'><span class="na">mongodb_useauth</span> <span class="o">=</span> <span class="s">true</span>
+</span><span class='line'><span class="na">mongodb_user</span> <span class="o">=</span> <span class="s">graylog2</span>
+</span><span class='line'><span class="na">mongodb_password</span> <span class="o">=</span> <span class="s">password</span>
+</span><span class='line'><span class="na">mongodb_host</span> <span class="o">=</span> <span class="s">127.0.0.1</span>
+</span><span class='line'><span class="c1"># mongodb_replica_set = localhost:27017,localhost:27018,localhost:27019</span>
+</span><span class='line'><span class="na">mongodb_database</span> <span class="o">=</span> <span class="s">graylog2</span>
+</span><span class='line'><span class="na">mongodb_port</span> <span class="o">=</span> <span class="s">27017</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Once, everything above is configured, we can start our graylog2 server, using:</p>
 
-<pre><code>#!bash
-sudo java -jar /home//.graylog2/graylog2-server/graylog2-server.jar
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo java -jar /home//.graylog2/graylog2-server/graylog2-server.jar
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Hopefully, if you received no error, we can proceed with installing Graylog2 Web Interface.</p>
 
@@ -190,33 +214,46 @@ Ruby to the reader.</p>
 <p>Lets, download the Graylog2 web interface, and run <code>bundle install</code> so as to
 install all the gems needed.</p>
 
-<pre><code>#!bash
-cd $HOME/.graylog2
-wget https://github.com/downloads/Graylog2/graylog2-web-interface/graylog2-web-interface-0.9.5p2.tar.gz
-tar xzf graylog2-web-interface-0.9.5p2.tar.gz
-cd graylog2-web-interface-0.9.5p2
-(rvm use 1.8.7@graylog2)
-(rvmsudo) gem install bundler
-(rvmsudo) bundle install
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span> <span class="nv">$HOME</span>/.graylog2
+</span><span class='line'>wget https://github.com/downloads/Graylog2/graylog2-web-interface/graylog2-web-interface-0.9.5p2.tar.gz
+</span><span class='line'>tar xzf graylog2-web-interface-0.9.5p2.tar.gz
+</span><span class='line'><span class="nb">cd </span>graylog2-web-interface-0.9.5p2
+</span><span class='line'><span class="o">(</span>rvm use 1.8.7@graylog2<span class="o">)</span>
+</span><span class='line'><span class="o">(</span>rvmsudo<span class="o">)</span> gem install bundler
+</span><span class='line'><span class="o">(</span>rvmsudo<span class="o">)</span> bundle install
+</span></code></pre></td></tr></table></div></figure>
 
-<p>Finally, add the MongoDB configuration to the Web interface (edit
-<code>config/mongoid.yml</code>)</p>
 
-<pre><code>#!yaml
-production:
-host: localhost
-port: 27017
-Username: graylog2
-Password: password
-database: graylog2
-</code></pre>
+<p>Finally, add the MongoDB configuration to the Web interface (edit <code>config/mongoid.yml</code>)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">production</span><span class="p-Indicator">:</span>
+</span><span class='line'><span class="l-Scalar-Plain">host</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">localhost</span>
+</span><span class='line'><span class="l-Scalar-Plain">port</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">27017</span>
+</span><span class='line'><span class="l-Scalar-Plain">Username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">graylog2</span>
+</span><span class='line'><span class="l-Scalar-Plain">Password</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">password</span>
+</span><span class='line'><span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">graylog2</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Now, you can run the web interface with Rails command:</p>
 
-<pre><code>#!bash
-rails server -e production
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails server -e production
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>You should now be able to run: <code>http://localhost:3000</code> and see your Graylog2 Web Interface.</p>
 
@@ -244,8 +281,8 @@ commands after logging in, etc.</p>
 <p>Create a file: <code>/etc/init.d/graylog2-server</code> and copy the contents below, in
 it.</p>
 
-<pre><code>#!bash
-#!/bin/sh
+<div><script src='https://gist.github.com/7079116.js'></script>
+<noscript><pre><code>#!/bin/sh
 #
 # graylog2-server: graylog2 message collector
 #
@@ -261,23 +298,23 @@ JAVA_CMD=$JAVA_HOME/bin/java
 GRAYLOG2_SERVER_HOME=/opt/graylog2-server
 
 start() {
-  echo "Starting graylog2-server ..."
+  echo &quot;Starting graylog2-server ...&quot;
   $NOHUP $JAVA_CMD -jar $GRAYLOG2_SERVER_HOME/graylog2-server.jar &gt; /var/log/graylog2.log 2&gt;&amp;1 &amp;
 }
 
 stop() {
   PID=`cat /tmp/graylog2.pid`
-  echo "Stopping graylog2-server ($PID) ..."
+  echo &quot;Stopping graylog2-server ($PID) ...&quot;
   kill $PID
 }
 
 restart() {
-  echo "Restarting graylog2-server ..."
+  echo &quot;Restarting graylog2-server ...&quot;
   stop
   start
 }
 
-case "$CMD" in
+case &quot;$CMD&quot; in
   start)
     start
     ;;
@@ -288,17 +325,19 @@ case "$CMD" in
     restart
     ;;
   *)
-  echo "Usage $0 {start|stop|restart}"
-  RETVAL=1
-esac
-</code></pre>
+    echo &quot;Usage $0 {start|stop|restart}&quot;
+    RETVAL=1
+esac</code></pre></noscript></div>
+
 
 <p>Now, register the Graylog2-server Init script with startup, and run an instance:</p>
 
-<pre><code>#!bash
-sudo update-rc.d graylog2-server defaults
-sudo service graylog2-server start
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo update-rc.d graylog2-server defaults
+</span><span class='line'>sudo service graylog2-server start
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p><strong>This should get you up and running with a Graylog2 instance. Happy,
 loggin!</strong></p>
@@ -321,6 +360,12 @@ loggin!</strong></p>
 </div>
 
 
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
 </div>
 			</div>
 			<footer id="footer" class="inner"><p>
@@ -328,18 +373,21 @@ loggin!</strong></p>
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
-Design credit: <a href="http://shashankmehta.in/archive/2012/greyshade.html">Shashank Mehta</a></footer>
+</footer>
 			
 
 <script type="text/javascript">
       var disqus_shortname = 'nikhgupta';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://nikhgupta.com/blog/2011/07/09/installing-graylog2-on-ubunty-natty-11-04/';
+        var disqus_url = 'http://nikhgupta.com/blog/2011/07/09/installing-graylog2-on-ubunty-natty-11-04/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>

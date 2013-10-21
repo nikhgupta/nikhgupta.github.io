@@ -4,7 +4,7 @@
   <title><![CDATA[Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-10-21T07:17:12+05:30</updated>
+  <updated>2013-10-21T11:46:31+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -1405,6 +1405,9 @@ seen on: <a href="http://nikhgupta.github.com">Github Pages</a>, which will, fro
 only host documentations about my <a href="https://github.com/nikhgupta/repositories">Github public
 repositories</a>.</p>
 
+<!-- more -->
+
+
 <p>When I switched to WordPress, I found myself converting the previous template
 again for WordPress, which was not what I really wanted to do, since it was
 boooooring! And, hence, I decided to create a new WordPress theme which will
@@ -1415,11 +1418,6 @@ have some of the advanced functionality, I wanted, along with a unique design.</
 theme to be HTML5 and CSS3 ready. So, I, carefully, selected the <a href="http://nathanstaines.com/archive/starkers-html5">Starkers
 HTML5 theme</a>  framework by
 <a href="Nathan%20Staines">Nathan Staines</a>  as the base framework for this theme.</p>
-
-<!-- more -->
-
-
-
 
 <!--
 ### Screenshots
@@ -1501,6 +1499,194 @@ me to re-use it for more pages.</p>
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[Initializing gitolite repositories]]></title>
+    <link href="http://nikhgupta.com/blog/2011/07/31/initialize-gitolite-bash-script/"/>
+    <updated>2011-07-31T00:00:00+05:30</updated>
+    <id>http://nikhgupta.com/blog/2011/07/31/initialize-gitolite-bash-script</id>
+    <content type="html"><![CDATA[<p>This script creates a git repository in the current directory, syncs it with
+the Gitolite server (and also, the Github &ndash; optional) and all the regular
+mumbo-jumbo when setting up the Git repository for the first time for
+a particular folder.</p>
+
+<!--more-->
+
+
+
+
+<div><script src='https://gist.github.com/7077610.js'></script>
+<noscript><pre><code>#!/bin/bash
+
+GITOLITE_ADMIN_DIR=/home/$USERNAME/workspace/gitolite-admin
+GITOLITE_CONF=$GITOLITE_ADMIN_DIR/conf/gitolite.conf
+GITSERVER=gitserver
+SSHSTRING=&quot;ssh root@vps&quot;
+PATHTOREPOS=&quot;/home/develop/repositories&quot;
+GITHUB_USER=$USERNAME
+GITHUB_TOKEN=&quot;&amp;lt;GITHUBTOKEN&amp;gt;&quot;
+#REMOTENAMES=&quot;origin gitolite&quot; # $GITSERVER is always added as a REMOTENAME
+
+function oneline_usage() {
+    echo $&quot;Usage: init-gitolite.sh [-ghdvV0] [-r repo_macro] [dirname] [reponame]&quot;
+    exit 999
+}
+function version() {
+    echo -e $&quot;Gitolite init script\nVersion 1.1\nby Nikhil Gupta\n[me@nikhgupta.com]&quot;
+    exit 999
+}
+
+function error { show_success 0 &quot;failed&quot; &quot;$1&quot;; }
+function warn { show_success 1 &quot;warning&quot; &quot;$1&quot;; }
+function success { show_success 2 &quot;success&quot; &quot;$1&quot;; }
+function die { show_success 3 &quot;aborted&quot; &quot;$1&quot;; exit 999; }
+
+function show_success() {
+    # Parameters: condition_check (0|1|2|3), warn|fail|success|abort, [desc]
+    # Parameters: condition_check (0|1|2|3), message, [desc]
+    message=( $(echo &quot;$2&quot; | tr &#39;|&#39; &#39; &#39;) ); message=&quot;${message[$1]}&quot;; message=${message:-&quot;$2&quot;}
+    color=( &quot;${RED}&quot; &quot;${YLW}&quot; &quot;${GRN}&quot; &quot;${RED}&quot; )
+    desc=( &quot;_Error_&quot; &quot;Warning&quot; &quot;Success&quot; &quot;ABORTED&quot;)
+    if (( $COLORCODES )); then desc=&quot;${color[$1]}${desc[$1]}!${NML} $3&quot; ; else desc=&quot;${desc[$1]}! $3&quot;; fi
+    [ -n &quot;$3&quot; ] &amp;amp;&amp;amp; echo -ne &quot;${desc}&quot;;
+    if (( $COLORCODES )); then tput hpa $COL; echo -e &quot;${color[$1]}[ ${message} ]${NML}&quot;;
+    else printf &quot;\n%${COL}s\n&quot; &quot;...[ ${message} ]&quot;; fi
+}
+function check_requirements() {
+    type -P sed &amp;amp;&amp;gt;/dev/null || die &quot;I require &#39;sed&#39; but it&#39;s not installed.&quot;
+    type -P grep &amp;amp;&amp;gt;/dev/null || die &quot;I require &#39;grep&#39; but it&#39;s not installed.&quot;
+    type -P tput &amp;amp;&amp;gt;/dev/null || die &quot;I require &#39;tput&#39; but it&#39;s not installed.&quot;
+    type -P git &amp;amp;&amp;gt;/dev/null || die &quot;I require &#39;git&#39; but it&#39;s not installed.&quot;
+    # check if the gitolite-admin directory is actually present
+    [ -w &quot;$GITOLITE_CONF&quot; ] || die &quot;can not read/write gitolite configuration file..&quot;
+    # check if a git repository already exists for this repo
+    [ -d &quot;$REPO_DIR/.git&quot; ] &amp;amp;&amp;amp; die &quot;a git repository already exists for this location!&quot;
+}
+function GIT() {
+    GIT_DIR=&quot;$1&quot;; shift;
+    SUCCESS=&quot;$1&quot;; shift;
+    FAILURE=&quot;$1&quot;; shift;
+    GIT=&quot;git --git-dir=${GIT_DIR}/.git --work-tree=${GIT_DIR}&quot;
+    if (( $VERBOSE )) || [ &quot;$SUCCESS&quot; == &quot;NIL&quot; ]; then
+        if $GIT &quot;$@&quot;; then
+            [ &quot;$SUCCESS&quot; != &quot;NIL&quot; ] &amp;amp;&amp;amp; success &quot;$SUCCESS&quot;;
+        else
+            [ &quot;$FAILURE&quot; != &quot;NIL&quot; ] &amp;amp;&amp;amp; die &quot;$FAILURE&quot;;
+        fi
+    else
+        if $GIT &quot;$@&quot; 1&amp;gt;/dev/null; then
+            [ &quot;$SUCCESS&quot; != &quot;NIL&quot; ] &amp;amp;&amp;amp; success &quot;$SUCCESS&quot;;
+        else
+            [ &quot;$FAILURE&quot; != &quot;NIL&quot; ] &amp;amp;&amp;amp; die &quot;$FAILURE&quot;;
+        fi
+    fi
+}
+function delete_repo() {
+    REPO_NAME=&quot;`GIT &quot;$REPO_DIR&quot; &quot;NIL&quot; &quot;NIL&quot; remote -v show | grep &quot;gitserver:&quot; | head -1 | cut -f2 | cut -f1 -d&#39; &#39; | cut -f2 -d&#39;:&#39; | cut -f1 -d&#39;.&#39;`&quot;
+    [ -n &quot;$REPO_NAME&quot; ] || die &quot;Could not extract remote repository name...&quot;
+    sed -e &quot;s|${REPO_NAME} ||g&quot; -i $GITOLITE_CONF &amp;amp;&amp;amp; success &quot;made changes to gitolite configuration file..&quot;
+    rm -rf $REPO_DIR/.git/ &amp;amp;&amp;amp; success &quot;removed local git repository..&quot;
+    $SSHSTRING &quot;rm -rf $PATHTOREPOS/$REPO_NAME.git&quot; &amp;amp;&amp;amp; success &quot;removed gitolite server repository for this repository..&quot;
+    (( $GITHUB_REPO )) &amp;amp;&amp;amp; token=$(curl -X POST -su &quot;$GITHUB_USER/token:$GITHUB_TOKEN&quot; http://github.com/api/v2/json/repos/delete/$GITHUB_USER/&quot;$REPO_NAME&quot; | cut -f4 -d&#39;&quot;&#39;)
+    curl -d &quot;delete_token=${token}&quot; -su &quot;$GITHUB_USER/token:$GITHUB_TOKEN&quot; http://github.com/api/v2/json/repos/delete/$GITHUB_USER/&quot;$REPO_NAME&quot; &amp;amp;&amp;gt;/dev/null &amp;amp;&amp;amp; success &quot;Removed Github repository at: http://github.com/$GITHUB_USER/$REPO_NAME&quot;
+}
+
+while getopts &quot;:dgvV0r:&quot; options
+do
+    case $options in
+        d) DELETE_REPO=1;;
+        g) GITHUB_REPO=1;;
+        v) VERBOSE=1;;
+        0) COLORCODES=0;;
+        r) REPO_MACRO=&quot;$OPTARGS&quot;;;
+        V) version;;
+        h) oneline_usage;;
+        *) oneline_usage;;
+    esac
+done
+shift $(($OPTIND - 1))
+
+DELETE_REPO=${DELETE_REPO:-0}
+GITHUB_REPO=${GITHUB_REPO:-0}
+VERBOSE=${VERBOSE:-0}
+SHORTUSAGE=${SHORTUSAGE:-0}
+COLORCODES=${COLORCODES:-1}
+(( $COLORCODES )) &amp;amp;&amp;amp; BLD=$(tput bold)
+(( $COLORCODES )) &amp;amp;&amp;amp; NML=$(tput sgr0)
+(( $COLORCODES )) &amp;amp;&amp;amp; RED=$BLD$(tput setaf 1)
+(( $COLORCODES )) &amp;amp;&amp;amp; GRN=$BLD$(tput setaf 2)
+(( $COLORCODES )) &amp;amp;&amp;amp; YLW=$BLD$(tput setaf 3)
+(( $COLORCODES )) &amp;amp;&amp;amp; BLU=$BLD$(tput setaf 6)
+COL=$(tput cols); let COL=COL-16
+
+# check back which repo macro is the one, the user wants to add the repository in
+case $REPO_MACRO in
+    pr) REPO_MACRO=&quot;public-readable&quot;;;
+    pw) REPO_MACRO=&quot;public-writable&quot;;;
+    nr) REPO_MACRO=&quot;nikhgupta-repos&quot;;;
+    cw) REPO_MACRO=&quot;client-works&quot;;;
+    64) REPO_MACRO=&quot;inpiron-1564-repos&quot;;;
+esac
+REPO_MACRO=${REPO_MACRO:-&quot;inspiron-1564-repos&quot;}
+
+# if no directory is given create git repository in current directory
+REPO_DIR=${1:-&quot;$(pwd)&quot;}
+# if no name is given, create name based on directory name
+REPO_NAME=&quot;${REPO_DIR##*/}&quot;
+REPO_NAME=&quot;${2:-$REPO_NAME}&quot;
+
+# delete git repository if requested
+(( $DELETE_REPO )) &amp;amp;&amp;amp; { delete_repo; exit 900; }
+
+# check our requirements
+check_requirements
+
+# Pull changes from Gitolite server
+GIT &quot;$GITOLITE_ADMIN_DIR&quot; &quot;fetched changes from gitolite server..&quot; &quot;cannot fetch changes from Gitolite server..&quot; fetch -v origin master
+
+# backup our existing Gitolite Configuration file
+cp $GITOLITE_CONF $GITOLITE_CONF.bak &amp;amp;&amp;amp; success &quot;backed up existing gitolite configuration file..&quot;
+
+# make changes to our Gitolite Configuration file, if needed.
+sed -e &#39;s/\(@&#39;&quot;$REPO_MACRO&quot;&#39;.*\) #/\1 &#39;&quot;$REPO_NAME&quot;&#39; #/g&#39; -i $GITOLITE_CONF &amp;amp;&amp;amp; success &quot;made changes to gitolite configuration file..&quot;
+
+GIT &quot;$GITOLITE_ADMIN_DIR&quot; &quot;Added untracked files in &#39;gitolite-admin&#39; repo&quot; &quot;Failed to add untracked files in &#39;gitolite-admin&#39; repository&quot; add .
+GIT &quot;$GITOLITE_ADMIN_DIR&quot; &quot;Added a new commit for this Gitolite change&quot; &quot;Failed to make a commit for this Gitolite change&quot; commit -am &quot;Added repo: $REPO_NAME&quot;
+GIT &quot;$GITOLITE_ADMIN_DIR&quot; &quot;Pushed &#39;gitolite-admin&#39; repository to Gitolite server&quot; &quot;Failed to push &#39;gitolite-admin&#39; repository to Gitolite server&quot; push origin master
+if ssh $GITSERVER 2&amp;gt;/dev/null | tail -n +3 | cut -f2 | grep -q &quot;$REPO_NAME&quot;; then success &quot;Created a new bare repository on Gitolite server&quot;;
+else die &quot;Failed to find a reference of the new repository on Gitolite server&quot;; fi
+
+GIT &quot;$REPO_DIR&quot; &quot;Initialized new repository in &#39;${REPO_DIR}&#39;&quot; &quot;Failed to initilialize new repository in &#39;${REPO_DIR}&#39;&quot; init
+GIT &quot;$REPO_DIR&quot; &quot;Added untracked files in repository for tracking&quot; &quot;Failed to add untracked files in repository&quot; add .
+GIT &quot;$REPO_DIR&quot; &quot;Made the first commit with Gitolite server&quot; &quot;Failed to make the first commit&quot; commit -am &quot;First Sync with Gitolite Server&quot;
+
+#for REMOTE in $REMOTENAMES ; do
+# GIT &quot;$REPO_DIR&quot; &quot;Added remote branch with name: $REMOTE&quot; &quot;Failed to add a remote branch&quot; remote add $REMOTE $GITSERVER:$REPO_NAME.git
+#done
+GIT &quot;$REPO_DIR&quot; &quot;Added remote branch with name: gitserver&quot; &quot;Failed to add a remote branch&quot; remote add $GITSERVER $GITSERVER:$REPO_NAME.git
+
+GIT &quot;$REPO_DIR&quot; &quot;Pushed the new repository to Gitolite server&quot; &quot;Failed to push the new repository to Gitolite server&quot; push $GITSERVER --all
+
+if (( $GITHUB_REPO )); then
+    curl -d &quot;name=$REPO_NAME&quot; -su &quot;${GITHUB_USER}/token:${GITHUB_TOKEN}&quot; http://github.com/api/v2/json/repos/create &amp;amp;&amp;gt;/dev/null &amp;amp;&amp;amp; success &quot;created a github repository at: http://github.com/$GITHUB_USER/$REPO_NAME&quot;
+    GIT &quot;$REPO_DIR&quot; &quot;Added Remote branch with name: Github&quot; &quot;Failed to add a remote branch for Github&quot; remote add github git@github.com:$GITHUB_USER/$REPO_NAME.git
+    GIT &quot;$REPO_DIR&quot; &quot;Pushed the new repository to Github server&quot; &quot;Failed to push the new repository to Github server&quot; push github --all
+fi
+
+touch $REPO_DIR/.git/$TRACK_FILE &amp;amp;&amp;amp; success &quot;Created .git/$TRACK_FILE file for preventing re-run of this script&quot;
+success &quot;INITIALIZED LOCAL REPO AND SYNCED WITH GITOLITE REPO!!&quot;
+echo &quot;--------------------------------------------&quot;
+echo &quot;git clone $GITSERVER:$REPO_NAME&quot;
+if [ &quot;$3&quot; == &quot;github&quot; ]; then
+    echo &quot;git clone $GITHUB_REPO&quot;
+fi
+echo &quot;--------------------------------------------&quot;
+echo -e &quot;\t${BLU}Completed${NML}.&quot;</code></pre></noscript></div>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Install Graylog2 on Ubuntu 11.04]]></title>
     <link href="http://nikhgupta.com/blog/2011/07/09/installing-graylog2-on-ubunty-natty-11-04/"/>
     <updated>2011-07-09T00:00:00+05:30</updated>
@@ -1524,54 +1710,74 @@ o&#8217;course, we need Ruby to run our web interface.</p>
 
 <p>Java and MongoDB are both available via APT/Synaptic.</p>
 
-<pre><code>#!bash
-sudo apt-get update
-sudo apt-get install openjdk-6-jre mongodb
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get update
+</span><span class='line'>sudo apt-get install openjdk-6-jre mongodb
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>Installing Graylog2 Server</h3>
 
 <p>The commands below will download the graylog2 server, unzip it and copy the
 configuration file, as needed. Finally, it will run MongoDB shell.</p>
 
-<pre><code>#!bash
-cd $HOME
-mkdir -p $HOME/.graylog2
-cd $HOME/.graylog2
-wget https://github.com/downloads/Graylog2/graylog2-server/graylog2-server-0.9.5p1.tar.gz
-tar xzf graylog2-server-0.9.5p1.tar.gz
-sudo cp $HOME/.graylog2/graylog2-server/graylog2.conf.example /etc/graylog2.conf
-mongo
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span> <span class="nv">$HOME</span>
+</span><span class='line'>mkdir -p <span class="nv">$HOME</span>/.graylog2
+</span><span class='line'><span class="nb">cd</span> <span class="nv">$HOME</span>/.graylog2
+</span><span class='line'>wget https://github.com/downloads/Graylog2/graylog2-server/graylog2-server-0.9.5p1.tar.gz
+</span><span class='line'>tar xzf graylog2-server-0.9.5p1.tar.gz
+</span><span class='line'>sudo cp <span class="nv">$HOME</span>/.graylog2/graylog2-server/graylog2.conf.example /etc/graylog2.conf
+</span><span class='line'>mongo
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Once we have the shell, type the following commands to configure a database to
 be used by Graylog2 Server.</p>
 
-<pre><code>#!bash
-use graylog2
-db.addUser("graylog2", "password")
-exit
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>use graylog2
+</span><span class='line'>db.addUser<span class="o">(</span><span class="s2">&quot;graylog2&quot;</span>, <span class="s2">&quot;password&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="nb">exit</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Now, open your favorite editor and edit the <code>etc/graylog2.conf</code> file with root
 access. Change the configuration in there to match the MongoDB, you just
 created. Typically, it would be:</p>
 
-<pre><code>#!ini
-mongodb_useauth = true
-mongodb_user = graylog2
-mongodb_password = password
-mongodb_host = 127.0.0.1
-# mongodb_replica_set = localhost:27017,localhost:27018,localhost:27019
-mongodb_database = graylog2
-mongodb_port = 27017
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ini'><span class='line'><span class="na">mongodb_useauth</span> <span class="o">=</span> <span class="s">true</span>
+</span><span class='line'><span class="na">mongodb_user</span> <span class="o">=</span> <span class="s">graylog2</span>
+</span><span class='line'><span class="na">mongodb_password</span> <span class="o">=</span> <span class="s">password</span>
+</span><span class='line'><span class="na">mongodb_host</span> <span class="o">=</span> <span class="s">127.0.0.1</span>
+</span><span class='line'><span class="c1"># mongodb_replica_set = localhost:27017,localhost:27018,localhost:27019</span>
+</span><span class='line'><span class="na">mongodb_database</span> <span class="o">=</span> <span class="s">graylog2</span>
+</span><span class='line'><span class="na">mongodb_port</span> <span class="o">=</span> <span class="s">27017</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Once, everything above is configured, we can start our graylog2 server, using:</p>
 
-<pre><code>#!bash
-sudo java -jar /home//.graylog2/graylog2-server/graylog2-server.jar
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo java -jar /home//.graylog2/graylog2-server/graylog2-server.jar
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Hopefully, if you received no error, we can proceed with installing Graylog2 Web Interface.</p>
 
@@ -1586,33 +1792,46 @@ Ruby to the reader.</p>
 <p>Lets, download the Graylog2 web interface, and run <code>bundle install</code> so as to
 install all the gems needed.</p>
 
-<pre><code>#!bash
-cd $HOME/.graylog2
-wget https://github.com/downloads/Graylog2/graylog2-web-interface/graylog2-web-interface-0.9.5p2.tar.gz
-tar xzf graylog2-web-interface-0.9.5p2.tar.gz
-cd graylog2-web-interface-0.9.5p2
-(rvm use 1.8.7@graylog2)
-(rvmsudo) gem install bundler
-(rvmsudo) bundle install
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span> <span class="nv">$HOME</span>/.graylog2
+</span><span class='line'>wget https://github.com/downloads/Graylog2/graylog2-web-interface/graylog2-web-interface-0.9.5p2.tar.gz
+</span><span class='line'>tar xzf graylog2-web-interface-0.9.5p2.tar.gz
+</span><span class='line'><span class="nb">cd </span>graylog2-web-interface-0.9.5p2
+</span><span class='line'><span class="o">(</span>rvm use 1.8.7@graylog2<span class="o">)</span>
+</span><span class='line'><span class="o">(</span>rvmsudo<span class="o">)</span> gem install bundler
+</span><span class='line'><span class="o">(</span>rvmsudo<span class="o">)</span> bundle install
+</span></code></pre></td></tr></table></div></figure>
 
-<p>Finally, add the MongoDB configuration to the Web interface (edit
-<code>config/mongoid.yml</code>)</p>
 
-<pre><code>#!yaml
-production:
-host: localhost
-port: 27017
-Username: graylog2
-Password: password
-database: graylog2
-</code></pre>
+<p>Finally, add the MongoDB configuration to the Web interface (edit <code>config/mongoid.yml</code>)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">production</span><span class="p-Indicator">:</span>
+</span><span class='line'><span class="l-Scalar-Plain">host</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">localhost</span>
+</span><span class='line'><span class="l-Scalar-Plain">port</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">27017</span>
+</span><span class='line'><span class="l-Scalar-Plain">Username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">graylog2</span>
+</span><span class='line'><span class="l-Scalar-Plain">Password</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">password</span>
+</span><span class='line'><span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">graylog2</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Now, you can run the web interface with Rails command:</p>
 
-<pre><code>#!bash
-rails server -e production
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails server -e production
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>You should now be able to run: <code>http://localhost:3000</code> and see your Graylog2 Web Interface.</p>
 
@@ -1640,8 +1859,8 @@ commands after logging in, etc.</p>
 <p>Create a file: <code>/etc/init.d/graylog2-server</code> and copy the contents below, in
 it.</p>
 
-<pre><code>#!bash
-#!/bin/sh
+<div><script src='https://gist.github.com/7079116.js'></script>
+<noscript><pre><code>#!/bin/sh
 #
 # graylog2-server: graylog2 message collector
 #
@@ -1657,23 +1876,23 @@ JAVA_CMD=$JAVA_HOME/bin/java
 GRAYLOG2_SERVER_HOME=/opt/graylog2-server
 
 start() {
-  echo "Starting graylog2-server ..."
+  echo &quot;Starting graylog2-server ...&quot;
   $NOHUP $JAVA_CMD -jar $GRAYLOG2_SERVER_HOME/graylog2-server.jar &gt; /var/log/graylog2.log 2&gt;&amp;1 &amp;
 }
 
 stop() {
   PID=`cat /tmp/graylog2.pid`
-  echo "Stopping graylog2-server ($PID) ..."
+  echo &quot;Stopping graylog2-server ($PID) ...&quot;
   kill $PID
 }
 
 restart() {
-  echo "Restarting graylog2-server ..."
+  echo &quot;Restarting graylog2-server ...&quot;
   stop
   start
 }
 
-case "$CMD" in
+case &quot;$CMD&quot; in
   start)
     start
     ;;
@@ -1684,17 +1903,19 @@ case "$CMD" in
     restart
     ;;
   *)
-  echo "Usage $0 {start|stop|restart}"
-  RETVAL=1
-esac
-</code></pre>
+    echo &quot;Usage $0 {start|stop|restart}&quot;
+    RETVAL=1
+esac</code></pre></noscript></div>
+
 
 <p>Now, register the Graylog2-server Init script with startup, and run an instance:</p>
 
-<pre><code>#!bash
-sudo update-rc.d graylog2-server defaults
-sudo service graylog2-server start
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo update-rc.d graylog2-server defaults
+</span><span class='line'>sudo service graylog2-server start
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p><strong>This should get you up and running with a Graylog2 instance. Happy,
 loggin!</strong></p>
