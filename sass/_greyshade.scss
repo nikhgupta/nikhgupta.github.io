@@ -167,8 +167,6 @@ body {
     #authorinfo {
       width: 50%;
       position: absolute;
-      top: 27%;
-      right: 85px;
       display: none;
       opacity: 0;
       transition: opacity 1s ease-out;
@@ -180,6 +178,10 @@ body {
       h1 {
         font-size: 3.6em;
         color: white;
+      }
+      h3 {
+        color: white;
+        opacity: 0.6;
       }
     }
 
@@ -336,20 +338,34 @@ body {
     }
   }
 }
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 700px) {
   .container {
     .left-col:hover {
       border-right: 7px dashed white;
       width: 77%;
       margin-right: 10px;
       #header {
-        width: 40%;
-        margin-left: 40px;
+        margin-left: 0;
+        margin-right: 0;
       }
       #authorinfo {
         display: block;
         opacity: 1;
         height: auto;
+        right: -5%;
+        top: 5%;
+      }
+    }
+  }
+}
+@media screen and (min-width: 1040px){
+  .container {
+    .left-col {
+      #header {
+        #authorinfo {
+          right: 5%;
+          top: 20%;
+        }
       }
     }
   }
