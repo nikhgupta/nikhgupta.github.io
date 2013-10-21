@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: code | Nikhil Gupta]]></title>
+  <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
+  <link href="http://nikhgupta.com/"/>
+  <updated>2013-10-21T06:37:00+05:30</updated>
+  <id>http://nikhgupta.com/</id>
+  <author>
+    <name><![CDATA[Nikhil Gupta]]></name>
+    <email><![CDATA[me@nikhgupta.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Vim as PHP IDE: Ctags, and Code Browsing]]></title>
+    <link href="http://nikhgupta.com/blog/2012/04/01/using-vim-php-ide-exuberant-ctags-code-browsing/"/>
+    <updated>2012-04-01T00:00:00+05:30</updated>
+    <id>http://nikhgupta.com/blog/2012/04/01/using-vim-php-ide-exuberant-ctags-code-browsing</id>
+    <content type="html"><![CDATA[<p>So, past few weeks, I have been really fascinated with the all powerful Vim.
+And, I often wonder why: I took so much time switching to it? Probably, the
+steep learning curve! It has to be.</p>
+
+<p>Anyways, so I have really really progressed with Vim this time, as compared to
+my earlier trials. I am quite efficient with Vim now &ndash; even writing this blog
+post on it. I know how to move quickly, make efficient uses of search and
+replace, using Vim scripts etc. I have really really found plugins like
+Gundo, Fugitive, Tagbar, Syntastic, Snipmate, NerdTree, and Powerline to be
+useful and not to mention plugins like Vim-Rails which make my day-to-day
+tasks easier with a particular language. Oh, and did I mention the incredible
+<code>!</code> and <code>@</code> operators? They just rock!</p>
+
+<p>But, well. This post is about using Ctags with Vim to make Vim feel more like
+an IDE and readily use Source Code Browsing within frameworks, large code
+projects, etc. Here, in this post, I have specified my configuration/process
+for using Ctags with MacVim for a CakePHP based project.</p>
+
+<!-- more -->
+
+
+<h3>The Process</h3>
+
+<p>Well, I would try to create my Ctags on the fly, using Git hooks. This lets me
+simply checkout, merge or commit to a branch and my tags would be generated
+for the code in question. Moreover, these Ctags generated files are stored
+inside <code>.git</code> directory, which keeps our repositories clean (no need to add
+a file to <code>.gitignore</code>). Also, I would prefer a centralized place where I can
+manage any script I use to create these Ctags, and hence, if after about an
+year I think I need a change in the way script is working, or if say I want to
+add support for or remove support for a language, I should be able to do it
+from a single place and affect all my git repositories using these Ctags
+hooks.</p>
+
+<p>For this to work, i.e. for Vim to pick up our Ctags (that will be created in
+<code>.git/tags</code> file) we need to have <code>Fugitive</code> installed (which I will really
+really recommend anyways). This will make Vim look for Ctags in a <code>.git/tags</code>
+and <code>.git/&lt;lang&gt;.tags</code> file in our repository, irrespective of the current
+working directory.</p>
+
+<p>Let   s set up a default set of hooks that Git will use as a template when
+creating or cloning a repository (requires Git 1.7.1 or newer):</p>
+
+<pre><code>#!bash
+git config --global init.templatedir '~/.git_template'
+mkdir -p ~/.git_template/hooks
+</code></pre>
+
+<p>I, usually, put all my Git related stuff in <code>~/Code/__dotfiles/git/</code> and
+hence, the above template directory lands up as
+<code>~/Code/__dotfiles/git/template/</code> with all the hooks, in my
+<a href="http://github.com/nikhgupta/dotfiles">.dotfiles</a> repository.</p>
+
+<p>Now onto the first hook, which isn&rsquo;t actually a hook at all, but rather
+a script the other hooks will call. Place in <code>~/.git_template/hooks/ctags</code> and
+mark as executable:</p>
+
+<pre><code>#!bash
+#!/bin/sh
+rm -f .git/tags ctags --tag-relative -Rf.git/tags --exclude=.git --languages=-javascript,sql
+</code></pre>
+
+<p>Although, make sure that the <code>ctags</code> version is the GNU one, and the above
+script runs without showing any errors. If installing via <code>Homebrew</code> make sure
+that the <code>which ctags</code> command shows the correct <code>ctags</code> executable path.</p>
+
+<p>Making this a separate script makes it easy to invoke <code>.git/hooks/ctags</code> for
+a one-off re-index (or <code>git config --global alias.ctags '!.git/hooks/ctags'</code>,
+then <code>git ctags</code>), as well as easy to edit for that special case repository
+that needs a different set of options to ctags. For example, I might want to
+re-enable indexing for JavaScript or SQL files, which I&rsquo;ve disabled here
+because I&rsquo;ve found both to be of limited value and noisy in the warning
+department.  And, in these edge cases, all I need is to modify the
+corresponding <code>.git/hooks/ctags</code> script in that git repository. Neat and
+clean.</p>
+
+<p>We still need to create the actual hooks that the Git will copy to all
+repositories that are (re)initialized using the <code>git init</code> command.  All the
+files in the <code>~/.git_template/hooks</code> folder needs to be marked as executables.
+You should use the following content for: <code>post-commit</code>, <code>post-merge</code>, and
+<code>post-checkout</code> hooks (which simply calls the <code>ctags</code> hook, we create above):</p>
+
+<pre><code>#!bash
+#!/bin/sh
+.git/hooks/ctags &gt;/dev/null 2&gt;&amp;1 &amp;
+</code></pre>
+
+<p>Additionally, if you feel tags should also be generated on using <code>git rebase</code>,
+add the following code to <code>post-rewrite</code> hook:</p>
+
+<pre><code>#!bash
+#!/bin/sh
+case "$1" in
+  rebase) exec .git/hooks/post-merge ;;
+esac
+</code></pre>
+
+<p>Once, the above is done, all we need to do is to issue a <code>git init</code> command to
+create Ctags for an already existing repository. All new git repositories will
+automatically include these hooks and hence, will create the Ctags file on the
+fly. Pure Automation. ;)</p>
+
+<h3>Global Projects</h3>
+
+<p>There are some projects that I always want available for source code browsing
+like the Rails source code itself. For such projects, I would generally run
+a one-off shell script that does this work for me, and store the generated
+tags file in a directory such as <code>~/.tags/</code> with a suitable name. O'course it
+does not make sense to version this directory.</p>
+
+<pre><code>#!bash
+#!/usr/bin/env sh
+
+RubyVersion="1.9.3-p194"
+LaravelPath="${HOME}/Code/projects/lab/laravel"
+
+mkdir -p "${HOME}/.ctags"
+
+# RVM: Ruby version 1.9.3-p194
+if [ -n "${RubyVersion}" ]; then
+  mkdir -p "${HOME}/.ctags/ruby/${RubyVersion}"
+  TAG_FILE="${HOME}/.ctags/ruby/${RubyVersion}/tags"
+  rm -f "${TAG_FILE}"
+  for rubydir in `find "${HOME}/.rvm/gems" -type d -depth 1 -iname "*${RubyVersion}*"`; do
+    if [ -d "${rubydir}/gems" ]; then
+      echo "Looking inside: ${rubydir}/gems"
+      ctags --recurse --tag-relative \
+        --languages=-javascript,sql \
+        --exclude=.git \
+        --sort=yes --append \
+        -f "${TAG_FILE}" \
+        $rubydir/gems/*
+    fi
+  done
+  echo
+  echo "------ generated ctags for: ${RubyVersion} ------"
+  cat "${TAG_FILE}" | wc
+  echo "---------------------------------------------"
+  echo
+fi
+
+# Laravel
+if [ -n "${LaravelPath}" -a -d "${LaravelPath}" ]; then
+  mkdir -p "${HOME}/.ctags/php/laravel"
+  TAG_FILE="${HOME}/.ctags/php/laravel/tags"
+  rm -f "${TAG_FILE}"
+  echo "Looking inside: ${LaravelPath}"
+  ctags --recurse --tag-relative \
+    --languages=-javascript,sql \
+    --exclude=.git \
+    --sort=yes --append \
+    --PHP-kinds=+cf \
+    --regex-PHP='/abstract class ([^ ]*)/\1/c/' \
+    --regex-PHP='/interface ([^ ]*)/\1/c/' \
+    --regex-PHP='/(public |static |abstract |protected |private )+function ([^ (]*)/\2/f/' \
+    -f "${TAG_FILE}" \
+    $LaravelPath
+  echo
+  echo "-------- generated ctags for: Laravel -------"
+  cat "${TAG_FILE}" | wc
+  echo "---------------------------------------------"
+  echo
+fi
+</code></pre>
+
+<p>Finally, I set the following inside my <code>~/.vimrc</code> file:</p>
+
+<pre><code>#!vim
+set tags=./tags;/
+augroup TagFileType
+  autocmd!
+  autocmd FileType * setl tags&lt;
+  autocmd FileType * exe 'setl tags+=~/.ctags/' . &amp;filetype . '/*/tags'
+augroup END
+</code></pre>
+
+<p>This basically tells vim to only load ctags for the current filetype, i.e. for
+a <code>ruby</code> buffer, vim will load all ctags files inside <code>~/.ctags/ruby</code>
+directory, and no ctags file inside <code>~/.ctags/php</code></p>
+
+<h3>Epilogue</h3>
+
+<p>(Now, that I have completed writing the post and I read it again, it seems
+that this post feels like a rewrite <a href="http://tbaggery.com/2011/08/08/effortless-ctags-with-git.html">a post by tPope</a>. Well,
+I was originally thinking of a different way to create these Ctags, but as
+I went deeper and deeper, I realized that what
+<a href="https://github.com/tpope">tPope</a> describes is so natural and easy, that
+I have to ditch whatever it is &ndash; what I was doing now. And, do not forget,
+I am less than a month old with Vim and I am talking Ctags with Vim.  I am
+allowed to reherse my steps :P )</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vim: Gundo and Tabular plugins]]></title>
+    <link href="http://nikhgupta.com/blog/2012/03/28/vim-awesomeness-gundo-and-tabular-plugins/"/>
+    <updated>2012-03-28T00:00:00+05:30</updated>
+    <id>http://nikhgupta.com/blog/2012/03/28/vim-awesomeness-gundo-and-tabular-plugins</id>
+    <content type="html"><![CDATA[<p>Recently, I switched to MacVim in order to give VIM another shot. Since, then,
+Vim has kept on amazing me with its feature set.</p>
+
+<p>Learning from Vimcasts.org, I get to know the Gundo and Tabular plugins. This
+post is a short excerpt of what they do and how they help me in my day to day
+editing.</p>
+
+<!-- more -->
+
+
+<h3>Gundo</h3>
+
+<p>Traditional editors have a concept of undo-redo which is fairly simple &ndash; you
+can do something &ndash; undo it and redo it, i.e. you can traverse on path <code>ABEFG</code></p>
+
+<p>VIM allows me to traverse the changes in a chronological manner, as well. That
+is to say, I can even go to edits not in the same timeline, i.e. I am able to
+traverse <code>ABCDEFG</code> as they happened.</p>
+
+<pre><code>#!text
+          / `---------- C ---- D
+A--- B -- |
+          \,----------------------- E ----- F ------- G
+</code></pre>
+
+<p>We can use the <code>:earlier Nm</code> command to go back a few minutes (and even
+seconds, hours, days). We can use <code>:GundoToggle</code> to view a quick Ascii tree of
+our changes and compare the two edits in the vim timeline for undos</p>
+
+<h3>Tabular</h3>
+
+<p>I can simply align my code using <code>:Tabularize /{pattern}</code>. For example, to
+align assignments I can use something like <code>:Tab /=</code> and, if I prefer to keep
+the spaces attached to the code on the left, I can use something like <code>:Tab
+/=\zs</code> The effects will be as below:</p>
+
+<pre><code>#!ruby
+# no tabularize
+a = 1322
+abc = 1323
+abcde = 1324
+
+# :Tab /=
+a     = 1322
+abc   = 1323
+abcde = 1324
+
+# :Tab /=\zs
+a =     1322
+abc =   1323
+abcde = 1324
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[5minutes.to Beta Video]]></title>
+    <link href="http://nikhgupta.com/blog/2012/03/28/5minutes-to-beta-video/"/>
+    <updated>2012-03-28T00:00:00+05:30</updated>
+    <id>http://nikhgupta.com/blog/2012/03/28/5minutes-to-beta-video</id>
+    <content type="html"><![CDATA[<p>Recently, I have been involved with the <a href="http://5minutes.to/">5minutes.to</a>
+application. This application helps you get up and ready with your next website
+in 5 minutes or less including email addresses, templates and what not.</p>
+
+<p>In this post, I have posted an introductory video we made for
+<a href="http://beta.5minutes.to/">5minutes.to</a>, and by all means we love it :)</p>
+
+<!-- more -->
+
+
+
+
+<p><iframe
+src="http://player.vimeo.com/video/39292344?title=0&amp;byline=0&amp;portrait=0"
+frameborder="0" width="100%" height="500px"></iframe></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Bootstrapping my Rails application]]></title>
+    <link href="http://nikhgupta.com/blog/2012/03/20/bootstrapping-my-rails-application/"/>
+    <updated>2012-03-20T00:00:00+05:30</updated>
+    <id>http://nikhgupta.com/blog/2012/03/20/bootstrapping-my-rails-application</id>
+    <content type="html"><![CDATA[<p>This post details my starting steps with a new <a href="http://rubyonrails.org">Rails</a>
+project, and is only kept here to remind me of various tasks that I,
+generally, like to do at this time. Many of these steps might be redundant or
+even, obsolete by the time you lay yours eyes on this post :)</p>
+
+<!-- more -->
+
+
+<h5>Install Rails</h5>
+
+<pre><code>#!bash
+rails new my_app -T -d mysql -j jquery
+</code></pre>
+
+<h5>Initialize a git repository</h5>
+
+<pre><code>#!bash
+cd my_app
+git flow init -d # initialize git work-flow
+git add .
+git commit -am "Installed Rails"
+git flow feature start prepare_base
+</code></pre>
+
+<h5>Create a RVM configuration file</h5>
+
+<pre><code>#!bash
+rvm use 1.9.3@rails --rvmrc
+</code></pre>
+
+<h5>Add some starting gems to Gemfile</h5>
+
+<pre><code>#!ruby
+gem 'haml'
+# gem 'kaminari'
+# gem 'devise'
+# gem 'capistrano'
+# gem 'unicorn'
+
+group :test, :development do
+  gem 'turn'
+  gem 'haml-rails'
+  gem 'rspec-rails'
+  gem 'cucumber-rails'
+  gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'database_cleaner'
+  gem 'guard-rspec'
+  gem 'guard-cucumber'
+  # gem 'guard-unicorn'
+  gem 'ruby_gntp'
+  gem 'minitest'
+  gem 'launchy'
+end
+</code></pre>
+
+<h5>Run Bundle Install</h5>
+
+<pre><code>#!bash
+bundle install
+</code></pre>
+
+<h5>Add database settings in config/database.yml</h5>
+
+<pre><code>#!bash
+rake db:create:all
+</code></pre>
+
+<h5>Change Home Page</h5>
+
+<pre><code>#!bash
+rails generate controller home index
+rm -rf public/index.html
+find . -type f -iname "*.erb" -delete # remove all erb files since we are using haml
+# add 'root :to =&gt; "Home#index"' in config/routes.rb
+</code></pre>
+
+<h5>Lets, make some generations, huh.</h5>
+
+<pre><code>#!bash
+rails generate rspec:install
+rails generate cucumber:install --capybara
+guard init rspec &amp;&amp; guard init cucumber
+</code></pre>
+
+<h5>Make some changes to the <code>features/support/env.rb</code> file:</h5>
+
+<pre><code>#!ruby
+require 'cucumber/rails'
+require 'capybara/rails'
+require 'capybara/cucumber'
+require 'capybara/session'
+require "factory_girl/step_definitions"
+Capybara.default_selector  = :css
+Capybara.javascript_driver = :webkit
+ActionController::Base.allow_rescue = false
+DatabaseCleaner.strategy = :transaction
+Cucumber::Rails::Database.javascript_strategy = :truncation
+</code></pre>
+
+<h5>Lets, add some Cucumber Tests (<code>features/test.feature</code> file):</h5>
+
+<pre><code>#!ruby
+Feature: Testing Configuration
+  In order to have a base for my new application
+  As a developer
+  I want to test the configuration settings for this application
+
+  Scenario: Test Home Page
+    Given I am on the home page
+    Then  I should see "Home#index"
+</code></pre>
+
+<h5>And, the corresponding steps in <code>features/step_definitions/test_steps.rb</code> file:</h5>
+
+<pre><code>#!ruby
+Given /^I am on the home page$/ do
+  visit "/"
+end
+
+Then /^I should see "([^"]*)"$/ do |text|
+  page.should have_content text
+end
+</code></pre>
+
+<h5>Open a iTerm2 tab each for the following processes:</h5>
+
+<pre><code>#!bash
+# default tab
+guard
+tail -fn0 log/test.log
+rails console
+tail -fn0 log/development.log
+rails server
+</code></pre>
+
+<h5>Merge our feature into development</h5>
+
+<pre><code>#!bash
+git commit -am "finished with preparing base"
+git flow feature finish prepare_base
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Getting Started with Ruby and Rails..]]></title>
+    <link href="http://nikhgupta.com/blog/2012/03/19/thoughts-getting-started-with-ruby-rails/"/>
+    <updated>2012-03-19T00:00:00+05:30</updated>
+    <id>http://nikhgupta.com/blog/2012/03/19/thoughts-getting-started-with-ruby-rails</id>
+    <content type="html"><![CDATA[<p>Okay, so past an year I have been trying to switch into RubyOnRails for
+various reasons &ndash; and yes, they are numerous. I wanted to work less with the
+<em>how-tos</em> and instead, wanna work more with <em>what-i-want-next</em> when I develop
+applications for myself. I wanted to make use of those gorgeous little gems
+that will fit in so nicely with my Ruby code &ndash; I wanted to develop business
+logic instead of behavior (think devise, paperclip, clearance, and so on) and
+then, I, also, wanted to make use of some of the awesome assistants the rail
+community has for their everyday tasks (think capistrano, cucumber, and so
+on).</p>
+
+<!-- more -->
+
+
+<p>Now, I do understand that the language (or I should say Syntax) is easy to
+learn and gorgeously, so.</p>
+
+<pre><code># Think PHP:
+if (!empty($my_variable)) do_this();
+# v/s Ruby:
+do_this if my_variable
+</code></pre>
+
+<p>But, then again, learning RubyOnRails has been a tough job. Primarily, due to
+the steep learning curve on <em>how-to-get-started-with-ruby-on-rails</em> frontier.</p>
+
+<p>Fortunately, for me, I have been a <code>shell</code> guy &ndash; I, absolutely, adore shell
+and rely on it for much of the repetitive tasks, everyday &ndash; kinda to the
+extent that, iTerm.app is the most frequently used application on my Mac, just
+like every other developer, who understands the sheer power shell puts in our
+hand ;) (Not to mention, <code>git</code> is involved in almost all my projects)</p>
+
+<p>So, I went on and installed RVM and loaded it with Rubies and Gems and what
+not, and I have been using this setup from quite a long time &ndash; just not enough
+to actually start building some awesome application.</p>
+
+<p>This was partly due to the fact that, whenever I needed to make some
+application for a client, I would go in and start building it with CakePHP
+rather. Probably, the simple reason being I wanted to get on with creating the
+application, instead of learning a framework which will create the
+application, afterwards. I did not <em>really</em> wanted to invest the time into
+RubyOnRails.</p>
+
+<p>But, alas! we are humans &ndash; and, that makes us unsatisfied with whatever little
+satisfaction, we might have, by chance. And, I wanted to dwell inside
+RubyOnRails world, yet, again. But, this time, I really wanted to go all out
+and give it a good fight and either win or lose, but have an outcome at once.</p>
+
+<p>I know, most of us would never go in the step-by-step-of-learnings-steps and
+jump to things we don&rsquo;t quite understand &ndash; which is nice, but may often, force
+you to give up on things &ndash; which is what used to happen with me. So, this
+time, I decided to go slow &ndash; learnings things one step at a time &ndash; and follow
+screencasts and tutorials, with all my heart.</p>
+
+<p>Oh, and did I tell you? It was just not enough! I wanted to know if I can use
+Vim to be more productive? And, hence I got myself a shiny new MacVim.app to
+learn along with (and, I must say its been around 3 weeks and I am more than
+happy with what I can do with Vim).</p>
+
+<p>Well, coming back to RubyOnRails, I started with the famous <code>_why</code> tutorial at:
+tryruby.org and man! that definitely, did help me a lot (as an example,
+earlier I was never aware why some methods had an exclamation in ruby at the
+end). So, the first step would be to <em>really</em> know things work in Ruby. And,
+TryRuby.org helps with that when you are starting out in Ruby.</p>
+
+<p>Next, I started watching a few screencasts on getting started with RubyOnRails
+(note that, I wanted to learn things from the basic &ndash; just so that, I am sure
+I have my basics all covered up &ndash; also, note that I have already gone through:
+<a href="http://ruby.railstutorial.org/ruby-on-rails-tutorial-book">Michael Hartl&rsquo;s awesome RubyOnRails
+book</a>), and
+finally, I was really inspired by <a href="http://net.tutsplus.com/tutorials/ruby/the-intro-to-rails-screencast-i-wish-i-had/">this particular
+tutorial</a>
+which really explained things a lot, and not to mention the <a href="http://railsforzombies.org">Rails for
+Zombies</a> session.</p>
+
+<p>Within a short time, I was up and running with an application I could use to
+tweak and learn all-things-rails! However, this is not simply what I wanted.
+I wanted to learn new ways &ndash; the tools &ndash; wanted to learn BDD, easy
+deployments, and things alike.</p>
+
+<p>So, I next started learning how to use capybara for my BDD needs. BDD is
+awesome &ndash; since I can simply write what I wanted and every time I could just
+look up what test is failing and write the code for it &ndash; it keeps me on track
+with what needs to be done next, and while doing so definitely, takes away the
+pain associated with manually testing the application. I guess, the Rails
+Introduction tutorial I mentioned above, also, deals with setting up Capybara
+with RSpec for testing purposes.</p>
+
+<p>Soon, I found out using Cucumber will further help me be more expressive, and
+concise while being forgiving on my clients. So, I started finding out how to
+integrate Capybara with Cucumber and <a href="http://net.tutsplus.com/tutorials/ruby/ruby-for-newbies-testing-web-apps-with-capybara-and-cucumber/">this
+screencast</a>
+really helped me along with Google searches.</p>
+
+<p>So, now I had Cucumber working along with Capybara, but yet I have always
+loved the work done by <a href="http://thoughtbot.com/community/">ThoughtBot Studio</a>
+and wanted to utilize Factory Girl in my tests &ndash; so, I started searching and
+I guess <a href="http://collectiveidea.com/blog/archives/2010/09/09/practical-cucumber-factory-girl-steps/">this is the
+post</a>
+that really helped me with getting Factory Girl fixtures to work with my
+Cucumber features.</p>
+
+<p>At the end, I would say:</p>
+
+<blockquote><p>I am very new to RubyOnRails world, and wanted to simply pen down my
+thoughts about this awesome community at around 6 AM while I am all
+exhausted. I would keep updating this post with my thoughts on how I am
+learning things in the RubyOnRails world.</p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>
