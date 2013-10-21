@@ -160,6 +160,7 @@ body {
     -ms-transition: all .2s ease-in;
     transition: all .2s ease-in;
     height: 100%;
+    border-right: 7px dashed white;
     .intrude-less {
       width: 80%;
     }
@@ -301,6 +302,7 @@ body {
       position: relative;
       width: 100%;
       opacity: 1;
+      border-bottom: 7px dashed white;
       .intrude-less {
         margin: auto auto;
       }
@@ -324,7 +326,6 @@ body {
     .mid-col {
       float: none;
       width: 100%;
-      border-top: 7px dashed $greyshade;
       .mid-col-container {
         padding: 15px 15px;
         #content {
@@ -341,7 +342,6 @@ body {
 @media screen and (min-width: 700px) {
   .container {
     .left-col:hover {
-      border-right: 7px dashed white;
       width: 77%;
       margin-right: 10px;
       #header {
