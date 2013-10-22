@@ -29,7 +29,6 @@ body {
     min-height: 100%;
     width: 77%;
     background: white;
-    border-left: 7px dashed $greyshade;
     #banner {
       width: 100%;
       small {
@@ -129,17 +128,11 @@ body {
           h1.title{
             a {
               color: #333;
-              -webkit-transition: color 0.3s;
-              -moz-transition: color 0.3s;
-              -o-transition: color 0.3s;
-              transition: color 0.3s;
+              @include animation(color, 0.3s);
             }
             a:hover {
               color: $greyshade;
-              -webkit-transition: color 0.3s;
-              -moz-transition: color 0.3s;
-              -o-transition: color 0.3s;
-              transition: color 0.3s;
+              @include animation(color, 0.3s);
             }
           }
         }
@@ -222,11 +215,22 @@ body {
         }
       }
       .profilepic {
-        img {
-          border-radius: 50%;
-          -moz-border-radius: 50%;
-          -webkit-border-radius: 50%;
-        }
+        width: 160px;
+        height: 160px;
+        background-size: 160px 160px;
+        border-width: 80px;
+        border-style: dashed;
+        border-color: rgba(0,0,0,0);
+        border-radius: 100%;
+        display: inline-block;
+        background-origin: border-box;
+        background-image: $profile-pic;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+      }
+      .profilepic:hover {
+        border-width: 0px;
+        border-color: rgba(0,0,0,0.5);
       }
 
       #authorinfo {
@@ -276,6 +280,7 @@ body {
 }
 
 // RESPONSIVENESS
+// when using small width devices
 @media screen and (max-width: 760px){
   .container {
     .credit-box {
@@ -322,6 +327,8 @@ body {
     }
   }
 }
+
+// on hovering over sidebar, when on large devices
 @media screen and (min-width: 761px) {
   .container {
     .left-col:hover {
@@ -331,51 +338,51 @@ body {
       #header {
         margin-left: 0;
         margin-right: 0;
-        #authorinfo {
-          right: -5%;
-          h1 {
-            font-size: 2.2em;
-          }
-        }
       }
+    }
+
+    .left-col + .mid-col {
+      margin-left: 23%;
+      right: auto;
+      border-left: 7px dashed $greyshade;
+    }
+
+    .left-col:hover + .mid-col {
+      opacity: 0.5;
+      margin-left: 77%;
+      right: auto;
+      border-left: none;
     }
   }
 }
-@media screen and (min-width: 1041px){
-  .container {
-    .left-col:hover {
-      #header {
-        #authorinfo {
-          right: 5%;
-          h1 {
-            font-size: 3.6em;
-          }
-        }
-      }
+
+// for adjusting authorinfo when hovering over sidebar
+.container .left-col #header #authorinfo {
+  @media screen and (min-width: 761px) {
+    right: -5%;
+    h1 {
+      font-size: 2.2em;
     }
   }
-}
-@media screen and (min-width: 1241px){
-  .container {
-    .left-col {
-      #header {
-        #authorinfo {
-          right: 9%;
-        }
-      }
+  @media screen and (min-width: 1041px){
+    right: 5%;
+    h1 {
+      font-size: 3.6em;
     }
   }
+  @media screen and (min-width: 1241px){
+    right: 9%;
+  }
 }
+
+// for adjusting profilepic when sidebar is too narrow
 @media screen and (min-width: 761px) and (max-width: 1000px) {
-  .container {
-    .left-col {
-      #header {
-        .profilepic {
-          img {
-            max-width: 80px !important;
-          }
-        }
-      }
+.container .left-col #header {
+    .profilepic {
+      width: 80px;
+      height: 80px;
+      background-size: 80px 80px;
+      border-width: 40px;
     }
   }
 }

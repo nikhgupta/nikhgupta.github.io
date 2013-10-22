@@ -1,27 +1,35 @@
-@mixin awesome-animation($property:all, $time:4s, $delay: 0s) {
-  -webkit-transition: $property $time cubic-bezier(1.000, 0, 0.45, 1.625) $delay;
-  -moz-transition: $property $time cubic-bezier(1.000, 0, 0.45, 1.625) $delay;
-  -o-transition: $property $time cubic-bezier(1.000, 0, 0.45, 1.625) $delay;
-  transition: $property $time cubic-bezier(1.000, 0, 0.45, 1.625) $delay;
+@mixin animation($property:all, $time:1.5s, $anim: ease, $delay: 0s) {
+  transition: $property $time $anim $delay;
+  -o-transition: $property $time $anim $delay;
+  -moz-transition: $property $time $anim $delay;
+  -webkit-transition: $property $time $anim $delay;
 }
 
 // and animate .left-col sliding
-.container .left-col {
-  z-index: 30;
-  @include awesome-animation(width, 0.5s);
+.container {
+  .left-col {
+    @include animation();
+    #header .profilepic {
+      -moz-border-radius: 100%;
+      -webkit-border-radius: 100%;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      @include animation(border, 0.5s);
+    }
+  }
+  .left-col + .mid-col {
+    @include animation();
+  }
 }
 
 // do and animate appearance of #authorinfo
 .container .left-col #authorinfo {
-  height: 0;
   opacity: 0;
-  display: none;
-  overflow: hidden;
-  @include awesome-animation(opacity, 0.3s, 0.5s);
+  @include animation(opacity, 0.5s, ease, 0.5s);
 }
-@media screen and (min-width: 761px) {
-  .container .left-col:hover #authorinfo {
-    height: auto;
-    display: block;
+.container .left-col:hover #authorinfo {
+  @media screen and (min-width: 761px) {
+    opacity: 1;
   }
 }
