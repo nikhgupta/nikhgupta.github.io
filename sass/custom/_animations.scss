@@ -1,4 +1,4 @@
-@mixin animation($property:all, $time:1.5s, $anim: ease, $delay: 0s) {
+@mixin animation($property:all, $time:0.5s, $anim: ease, $delay: 0s) {
   transition: $property $time $anim $delay;
   -o-transition: $property $time $anim $delay;
   -moz-transition: $property $time $anim $delay;
@@ -15,7 +15,7 @@
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
-      @include animation(border, 0.5s);
+      @include animation(border);
     }
   }
   .left-col + .mid-col {
@@ -26,7 +26,7 @@
 // do and animate appearance of #authorinfo
 .container .left-col #authorinfo {
   opacity: 0;
-  @include animation(opacity, 0.5s, ease, 0.5s);
+  @include animation(opacity, 0.2s);
 }
 .container .left-col:hover #authorinfo {
   @media screen and (min-width: 761px) {
