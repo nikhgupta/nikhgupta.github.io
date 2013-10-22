@@ -4,7 +4,7 @@
   <title><![CDATA[Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-10-23T02:10:41+05:30</updated>
+  <updated>2013-10-23T02:13:06+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -41,29 +41,33 @@ as a GNU license, and nor it is the 2000&rsquo;s, when I did not know how to cre
 app dedicated for my own purposes.</p>
 
 <p>The solution, then? It&rsquo;s easy. I would prefer to create my own app, which does
-the following:
-&ndash; Has a client side gem that can be used to list a user&rsquo;s scripts, and allow him
-  to copy them in a folder on his machine, and assign aliases to these scripts
-  on the go.
-&ndash; The gem should be able to search for scripts based on some keywords.
-&ndash; User should be able to have CRUD rights over their scripts. They should be
-  able to share these scripts, as well as export them. They should be able to
-  reference another script inside the script they are creating.
-&ndash; All the scripts would be created use Github Gists, and hence, be versioned.
-&ndash; The application should provide an interface to write (and, probably, test) the
-  scripts on the server, itself. Provide a dedicated backend to the user?
-&ndash; The users should be able to run the scripts on their server via the app
-  interface, once they have the SSH authentication established? This is not as
-  straight-forward, since the app server will be the one connecting to the
-  user&rsquo;s server and hence, it is not safe.
-&ndash; Scripts should have a unique programming structure, which identifies their
-  requirements and alike, and notifies the user about the same.
-&ndash; Logging should be done on cloud for output of the scripts.
-&ndash; Scripts should be marked as safe based on their MD5 hash, kinda like thor
-  does for its installed scripts.
-&ndash; Scripts should be intelligent in telling the user when the runtime is not
-  available, e.g. the user tries to run a ruby script on a server with no-ruby
-  installed.</p>
+the following:</p>
+
+<ul>
+<li>Has a client side gem that can be used to list a user&rsquo;s scripts, and allow him
+to copy them in a folder on his machine, and assign aliases to these scripts
+on the go.</li>
+<li>The gem should be able to search for scripts based on some keywords.</li>
+<li>User should be able to have CRUD rights over their scripts. They should be
+able to share these scripts, as well as export them. They should be able to
+reference another script inside the script they are creating.</li>
+<li>All the scripts would be created use Github Gists, and hence, be versioned.</li>
+<li>The application should provide an interface to write (and, probably, test) the
+scripts on the server, itself. Provide a dedicated backend to the user?</li>
+<li>The users should be able to run the scripts on their server via the app
+interface, once they have the SSH authentication established? This is not as
+straight-forward, since the app server will be the one connecting to the
+user&rsquo;s server and hence, it is not safe.</li>
+<li>Scripts should have a unique programming structure, which identifies their
+requirements and alike, and notifies the user about the same.</li>
+<li>Logging should be done on cloud for output of the scripts.</li>
+<li>Scripts should be marked as safe based on their MD5 hash, kinda like thor
+does for its installed scripts.</li>
+<li>Scripts should be intelligent in telling the user when the runtime is not
+available, e.g. the user tries to run a ruby script on a server with no-ruby
+installed.</li>
+</ul>
+
 ]]></content>
   </entry>
   
