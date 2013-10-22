@@ -61,6 +61,10 @@ Now, the site is all up and running and I, quickly, want to jot down a few tasks
 that I am committed for this month:
 
 - Improve upon the current website design.
+  - The header hover should occur when hovering over the picture and not when
+  	hovering over the header, itself. This is a bit difficult in pure CSS3,
+  	since that defies the `cascading` rule of CSS, and instead, tries to modify
+  	the parent from the child.
 - Write a post daily on the current website, preferably, about coding in ruby.
 - Setup org mode in Emacs, so that I can write my blog posts using it.
 - Create a few basic public APIs:
