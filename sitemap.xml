@@ -63,8 +63,14 @@
         <lastmod>2013-10-22T07:07:30+05:30</lastmod>
     </url>
     <url>
+        <loc>
+            http://nikhgupta.com/blog/2013/10/23/managing-your-scripts-should-not-be-that-hard/
+        </loc>
+        <lastmod>2013-10-23T02:04:08+05:30</lastmod>
+    </url>
+    <url>
         <loc>http://nikhgupta.com/blog/archives/</loc>
-        <lastmod>2013-10-22T07:07:30+05:30</lastmod>
+        <lastmod>2013-10-23T02:04:08+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/blog/categories/</loc>
@@ -72,7 +78,7 @@
     </url>
     <url>
         <loc>http://nikhgupta.com/</loc>
-        <lastmod>2013-10-22T07:07:30+05:30</lastmod>
+        <lastmod>2013-10-23T02:04:08+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/robots.txt</loc>
