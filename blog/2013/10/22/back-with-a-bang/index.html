@@ -5,11 +5,12 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Vim: Gundo and Tabular plugins - Nikhil Gupta</title>
+	<title>Back with a Bang! - Nikhil Gupta</title>
 	<meta name="author" content="Nikhil Gupta">
 
 	
-	<meta name="description" content="notes on some awesome vim plugins">
+	<meta name="description" content="Back With a Bang! Oh, yes! I am, definitely, back &ndash; with a bang! Before, an interpretion is made
+on the word, you ought to know about !#: &hellip;">
 	
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +20,7 @@
 
 	<link href="/atom.xml" rel="alternate" title="Nikhil Gupta" type="application/atom+xml">
 	
-	<link rel="canonical" href="http://nikhgupta.com/blog/2012/03/28/vim-awesomeness-gundo-and-tabular-plugins/">
+	<link rel="canonical" href="http://nikhgupta.com/blog/2013/10/22/back-with-a-bang/">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -107,75 +108,85 @@
       
       <div class="mid-col-container">
         <div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-	<h1 class="title" itemprop="name">Vim: Gundo and Tabular Plugins</h1>
-	<div class="entry-content" itemprop="articleBody"><p>Recently, I switched to MacVim in order to give VIM another shot. Since, then,
-Vim has kept on amazing me with its feature set.</p>
+	<h1 class="title" itemprop="name">Back With a Bang!</h1>
+	<div class="entry-content" itemprop="articleBody"><p>Oh, yes! I am, definitely, back &ndash; with a bang! Before, an interpretion is made
+on the word, you ought to know about <code>!#</code>: <a href="http://en.wikipedia.org/wiki/Shebang_(Unix">Shebang</a>.</p>
 
-<p>Learning from Vimcasts.org, I get to know the Gundo and Tabular plugins. This
-post is a short excerpt of what they do and how they help me in my day to day
-editing.</p>
+<p>First, let me talk about <strong>Writing</strong> &ndash; a habit that I have cultivated over time,
+and a strong case can be made for the fact that it is one of the rarest
+recreational stuff that I do and preach to my friends. It can be really helpful,
+and at the same time, can take you to an n-dimensional hyperspace, where you can
+imagine nearly anything you want to believe or create. Not only that, for me,
+writing is a process to jot down those pesky little thoughts (hundreds of them)
+that roam inside my mind like ants near a sugar cube. I, usually, keep
+a personal diary where I am able to write these things down, but then, I am
+craving for some social interaction (online, to be precise) and maintaining
+a steady blog can really help with that.</p>
 
 <!-- more -->
 
 
-<h3>Gundo</h3>
+<p>Anyways, I write here. And, I write rarely as per the reasons stated above. But,
+I am thinking to make a switch &ndash; give it a try. I won&rsquo;t be writing anything
+personal, but atleast, I will be trying to make a steady attempt at posting once
+per day &ndash; on coding, particularly.</p>
 
-<p>Traditional editors have a concept of undo-redo which is fairly simple &ndash; you
-can do something &ndash; undo it and redo it, i.e. you can traverse on path <code>ABEFG</code></p>
+<p>Coming back to the <em>bang</em>, anyone who knows will agree that I live in code.
+<strong>Shebang</strong> is probably the first thing that crosses my mind when I wake up, and
+definitely, the last when I sleep. But, these days, I am leaning towarding
+combining the two. That can either be done via <a href="http://en.wikipedia.org/wiki/Literate_programming">Literate Programming</a>
+(when coding), or otherwise, writing about code (when writing).</p>
 
-<p>VIM allows me to traverse the changes in a chronological manner, as well. That
-is to say, I can even go to edits not in the same timeline, i.e. I am able to
-traverse <code>ABCDEFG</code> as they happened.</p>
+<p>In order to accomplish the above goals, I have setup a new blog at the current
+address &ndash; with only a few posts from the past. I am using <a href="http://octopress.org">Octopress</a>,
+and yes, I chose it over <a href="http://wordpress.org">WordPress</a>, again.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>      / `---------- C ---- D
-</span><span class='line'>A--- B -- |
-</span><span class='line'>      \,----------------------- E ----- F ------- G
-</span></code></pre></td></tr></table></div></figure>
+<p>Reasons for switching are really simple:</p>
+
+<ul>
+<li>Comfort of using <a href="http://www.vim.org">Vim</a> or
+<a href="http://www.gnu.org/software/emacs/">Emacs</a> to write my posts. In particular,
+<a href="http://orgmode.org">Emacs&#8217; Org mode</a> is a godsend for writing your thoughts.
+I have been using it since last 2 months or so, and I am pretty confident with
+it, now.</li>
+<li>Posts are versioned and securely stored inside a Github repository.</li>
+<li>Site is served via Github pages, which in turn means, safer hosting. I am
+always experimenting with my hosting server, and often time, I am able to blow
+it up. Hosting my site on Github ensures that it is free from such
+manipulations and always served nicely.</li>
+<li>It, just, feels more appropriate. :)</li>
+</ul>
 
 
-<p>We can use the <code>:earlier Nm</code> command to go back a few minutes (and even
-seconds, hours, days). We can use <code>:GundoToggle</code> to view a quick Ascii tree of
-our changes and compare the two edits in the vim timeline for undos</p>
+<p>So, I used the <a href="https://github.com/shashankmehta/greyshade">GreyShade</a> theme
+from <a href="http://shashankmehta.in">Shashank Mehta</a>, a fellow IIT guy (yeah, I have
+served my time at IIT Delhi, too :P) and, gave it a simple spin to roll out with
+the current version. I must say, he has done a really good work with the
+Octopress theme and definitely, deserves a kudos!</p>
 
-<h3>Tabular</h3>
+<p>Now, the site is all up and running and I, quickly, want to jot down a few tasks
+that I am committed for this month:</p>
 
-<p>I can simply align my code using <code>:Tabularize /{pattern}</code>. For example, to
-align assignments I can use something like <code>:Tab /=</code> and, if I prefer to keep
-the spaces attached to the code on the left, I can use something like <code>:Tab
-/=\zs</code> The effects will be as below:</p>
+<ul>
+<li>Improve upon the current website design.</li>
+<li>Write a post daily on the current website, preferably, about coding in ruby.</li>
+<li>Setup org mode in Emacs, so that I can write my blog posts using it.</li>
+<li>Create a few basic public APIs:
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># no tabularize</span>
-</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">1322</span>
-</span><span class='line'><span class="n">abc</span> <span class="o">=</span> <span class="mi">1323</span>
-</span><span class='line'><span class="n">abcde</span> <span class="o">=</span> <span class="mi">1324</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># :Tab /=</span>
-</span><span class='line'><span class="n">a</span>     <span class="o">=</span> <span class="mi">1322</span>
-</span><span class='line'><span class="n">abc</span>   <span class="o">=</span> <span class="mi">1323</span>
-</span><span class='line'><span class="n">abcde</span> <span class="o">=</span> <span class="mi">1324</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># :Tab /=\zs</span>
-</span><span class='line'><span class="n">a</span> <span class="o">=</span>     <span class="mi">1322</span>
-</span><span class='line'><span class="n">abc</span> <span class="o">=</span>   <span class="mi">1323</span>
-</span><span class='line'><span class="n">abcde</span> <span class="o">=</span> <span class="mi">1324</span>
-</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>an API that lists words matching a given pattern.</li>
+<li>a WhoIs API that also, lists available domains matching a given pattern.</li>
+</ul>
+</li>
+<li>Create a few basic applications using RoR:
+
+<ul>
+<li>a domain searching application, somewhat like <a href="http://domai.nr">domai.nr</a></li>
+<li>an application that makes it easy to run scripts on servers (have detailed
+specifications listed in a separate personal diary)</li>
+</ul>
+</li>
+</ul>
 
 </div>
 
@@ -217,8 +228,8 @@ the spaces attached to the code on the left, I can use something like <code>:Tab
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://nikhgupta.com/blog/2012/03/28/vim-awesomeness-gundo-and-tabular-plugins/';
-        var disqus_url = 'http://nikhgupta.com/blog/2012/03/28/vim-awesomeness-gundo-and-tabular-plugins/';
+        var disqus_identifier = 'http://nikhgupta.com/blog/2013/10/22/back-with-a-bang/';
+        var disqus_url = 'http://nikhgupta.com/blog/2013/10/22/back-with-a-bang/';
         var disqus_script = 'embed.js';
       
     (function () {
