@@ -4,7 +4,7 @@
   <title><![CDATA[Category: personal | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/personal/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-10-23T02:30:44+05:30</updated>
+  <updated>2013-10-23T02:35:03+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -144,7 +144,15 @@ Octopress theme and definitely, deserves a kudos!</p>
 that I am committed for this month:</p>
 
 <ul>
-<li>Improve upon the current website design.</li>
+<li>Improve upon the current website design.
+
+<ul>
+<li>The header hover should occur when hovering over the picture and not when
+hovering over the header, itself. This is a bit difficult in pure CSS3,
+since that defies the <code>cascading</code> rule of CSS, and instead, tries to modify
+the parent from the child.</li>
+</ul>
+</li>
 <li>Write a post daily on the current website, preferably, about coding in ruby.</li>
 <li>Setup org mode in Emacs, so that I can write my blog posts using it.</li>
 <li>Create a few basic public APIs:
