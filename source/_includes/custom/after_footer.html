@@ -7,8 +7,16 @@ Add content to be output at the bottom of each page. (You might use this for ana
 $(function() {
     $('.left-col').hover(function() {
       $('.mid-col').css('opacity', '0.3');
+      $('.mid-col').css('right', "auto");
+      $('.mid-col').animate({
+        margin-left: 70%
+      })
+      $('#authorinfo').css('opacity', '1');
     }, function() {
       $('.mid-col').css('opacity', '1');
+      $('.mid-col').css('right', '0');
+      $('.mid-col').css('margin-left', '0');
+      $('#authorinfo').css('opacity', '0');
     });
 });
 </script>

@@ -1,26 +1,27 @@
-#awesome {
-font-size: 12px;
-position: relative;
-width: 10px;
-height: 10px;
-margin-bottom: 10px;
-background-color: #eee;
--webkit-transition: all 4s cubic-bezier(1.000, -0.530, 0.405, 1.425);
--moz-transition: all 4s cubic-bezier(1.000, -0.530, 0.405, 1.425);
--o-transition: all 4s cubic-bezier(1.000, -0.530, 0.405, 1.425);
-transition: all 4s cubic-bezier(1.000, -0.530, 0.405, 1.425);
-border: 1px #000 dotted;
+@mixin awesome-animation($property:all, $time:4s, $delay: 0s) {
+  -webkit-transition: $property $time cubic-bezier(1.000, 0, 0.45, 1.625) $delay;
+  -moz-transition: $property $time cubic-bezier(1.000, 0, 0.45, 1.625) $delay;
+  -o-transition: $property $time cubic-bezier(1.000, 0, 0.45, 1.625) $delay;
+  transition: $property $time cubic-bezier(1.000, 0, 0.45, 1.625) $delay;
 }
 
-#header:hover #awesome {
--webkit-border-radius: 30px;
--moz-border-radius: 30px;
-border-radius: 30px;
--webkit-transform: rotate(720deg);
--moz-transform: rotate(720deg);
--o-transform: rotate(720deg);
--ms-transform: rotate(720deg);
-transform: rotate(720deg);
-margin-left: 420px;
-background-color: #fff;
+// and animate .left-col sliding
+.container .left-col {
+  z-index: 30;
+  @include awesome-animation(width, 0.5s);
+}
+
+// do and animate appearance of #authorinfo
+.container .left-col #authorinfo {
+  height: 0;
+  opacity: 0;
+  display: none;
+  overflow: hidden;
+  @include awesome-animation(opacity, 0.3s, 0.5s);
+}
+@media screen and (min-width: 761px) {
+  .container .left-col:hover #authorinfo {
+    height: auto;
+    display: block;
+  }
 }
