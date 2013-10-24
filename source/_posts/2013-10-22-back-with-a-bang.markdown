@@ -60,6 +60,8 @@ Octopress theme and definitely, deserves a kudos!
 Now, the site is all up and running and I, quickly, want to jot down a few tasks
 that I am committed for this month:
 
+- Migrate old posts from various sources to the current blog.
+- Redirect old blog's links to the current blog.
 - Improve upon the current website design.
   - The header hover should occur when hovering over the picture and not when
   	hovering over the header, itself. This is a bit difficult in pure CSS3,
