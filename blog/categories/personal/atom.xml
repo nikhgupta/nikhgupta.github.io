@@ -4,7 +4,7 @@
   <title><![CDATA[Category: personal | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/personal/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-10-23T02:35:03+05:30</updated>
+  <updated>2013-10-26T14:03:24+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -144,6 +144,8 @@ Octopress theme and definitely, deserves a kudos!</p>
 that I am committed for this month:</p>
 
 <ul>
+<li>Migrate old posts from various sources to the current blog.</li>
+<li>Redirect old blog&rsquo;s links to the current blog.</li>
 <li>Improve upon the current website design.
 
 <ul>

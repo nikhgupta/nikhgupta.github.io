@@ -4,7 +4,7 @@
   <title><![CDATA[Category: code | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-10-23T02:35:03+05:30</updated>
+  <updated>2013-10-26T14:03:24+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -12,6 +12,55 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Finally. A self-hosted Gitlab instance!]]></title>
+    <link href="http://nikhgupta.com/blog/2013/10/26/finally-a-self-hosted-gitlab-instance/"/>
+    <updated>2013-10-26T13:26:00+05:30</updated>
+    <id>http://nikhgupta.com/blog/2013/10/26/finally-a-self-hosted-gitlab-instance</id>
+    <content type="html"><![CDATA[<p>Alright. I seem to be pretty happy today. I think any stupid developer, like me,
+would be in the given circumstances. If you are aware about the existance of
+a very nifty witchcraft named <a href="http://github.com">Github</a>, then, I am sure you
+will be equally happy for me.</p>
+
+<p><strong>Github is magic</strong>. /A protective one./</p>
+
+<p>For those unaware, Github is a code hosting platform. It allows me to write my
+code and then, keep it safe and versioned in their platform. That way, my code
+is always there for me. I can share code with other developers, as well as
+<em>fork</em> their work and modify it, locally. And, so on. The cool thing is that the
+service is really amazing and free for open-source projects.</p>
+
+<p>However, there are times when a person needs some privacy, even with the code,
+he writes. Especially, with the code, he writes. I, often, used Github&rsquo;s private
+repositories for this purpose. But, with a recent project, I was aiming to
+create around 100 different private repositories, which was a bit unmanageable
+with Github. I know, I know. I must not need that much private repositories.
+But, what can I do about it if the project specification itself demand for the
+same.</p>
+
+<p>Therefore, I began looking at private repository hosts, and
+<a href="http://bitbucket.org">BitBucket</a> seemed to be off, for some reasons. Finally,
+I settled on using <a href="http://gitlab.org">GitlabHQ</a> for my purposes. It offered
+everything Github had to offer, and more. More in the sense, that I can host
+things privately on my own server. Perfect.</p>
+
+<p>And, since I was already using <a href="http://digitalocean.com">DigitalOcean</a> for
+hosting my server, and was using Ubuntu 12.10 as my operating system, it became
+really easy to install Gitlab on my server. Followed <a href="https://www.digitalocean.com/community/articles/how-to-set-up-gitlab-as-your-very-own-private-github-clone">this
+tutorial</a>
+from DigitialOcean&rsquo;s community tutorials, and I was up and running with my own
+private repository server.</p>
+
+<p>I was, further, planning to install <a href="http://gitlab-ci.org">Gitlab CI</a> on my
+server, but that seemed to be an overkill, since I do not think I will need
+continuous integration for my private projects, and for public projects, we have
+another awesome witchcraft named <a href="http://travis-ci.org">Travis CI</a>.</p>
+
+<p>O'course, you can test drive this on <a href="http://git.wickeddevelopers.com">Git @WickedDevelopers</a>.  <br/>
+Happy, code browsing!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[managing your scripts should not be that hard]]></title>
@@ -384,168 +433,6 @@ in 5 minutes or less including email addresses, templates and what not.</p>
 <p><iframe
 src="http://player.vimeo.com/video/39292344?title=0&amp;byline=0&amp;portrait=0"
 frameborder="0" width="100%" height="500px"></iframe></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Bootstrapping my Rails application]]></title>
-    <link href="http://nikhgupta.com/blog/2012/03/20/bootstrapping-my-rails-application/"/>
-    <updated>2012-03-20T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2012/03/20/bootstrapping-my-rails-application</id>
-    <content type="html"><![CDATA[<p>This post details my starting steps with a new <a href="http://rubyonrails.org">Rails</a>
-project, and is only kept here to remind me of various tasks that I,
-generally, like to do at this time. Many of these steps might be redundant or
-even, obsolete by the time you lay yours eyes on this post :)</p>
-
-<!-- more -->
-
-
-<h5>Install Rails</h5>
-
-<p><code>bash
-rails new my_app -T -d mysql -j jquery
-</code></p>
-
-<h5>Initialize a git repository</h5>
-
-<p><code>bash
-cd my_app
-git flow init -d # initialize git work-flow
-git add .
-git commit -am "Installed Rails"
-git flow feature start prepare_base
-</code></p>
-
-<h5>Create a RVM configuration file</h5>
-
-<p><code>bash
-rvm use 1.9.3@rails --rvmrc
-</code></p>
-
-<h5>Add some starting gems to Gemfile</h5>
-
-<p>``` ruby
-gem &lsquo;haml&rsquo;</p>
-
-<h1>gem &lsquo;kaminari&rsquo;</h1>
-
-<h1>gem &lsquo;devise&rsquo;</h1>
-
-<h1>gem &lsquo;capistrano&rsquo;</h1>
-
-<h1>gem &lsquo;unicorn&rsquo;</h1>
-
-<p>group :test, :development do
-  gem &lsquo;turn&rsquo;
-  gem &lsquo;haml-rails&rsquo;
-  gem &lsquo;rspec-rails&rsquo;
-  gem &lsquo;cucumber-rails&rsquo;
-  gem &lsquo;factory_girl_rails&rsquo;
-  gem &lsquo;capybara&rsquo;
-  gem &lsquo;capybara-webkit&rsquo;
-  gem &lsquo;database_cleaner&rsquo;
-  gem &lsquo;guard-rspec&rsquo;
-  gem &lsquo;guard-cucumber&rsquo;
-  # gem &lsquo;guard-unicorn&rsquo;
-  gem &lsquo;ruby_gntp&rsquo;
-  gem &lsquo;minitest&rsquo;
-  gem &lsquo;launchy&rsquo;
-end
-```</p>
-
-<h5>Run Bundle Install</h5>
-
-<p><code>bash
-bundle install
-</code></p>
-
-<h5>Add database settings in config/database.yml</h5>
-
-<p><code>bash
-rake db:create:all
-</code></p>
-
-<h5>Change Home Page</h5>
-
-<p>``` bash
-rails generate controller home index
-rm -rf public/index.html
-find . -type f -iname &ldquo;*.erb&rdquo; -delete # remove all erb files since we are using haml</p>
-
-<h1>add &lsquo;root :to => &ldquo;Home#index&rdquo;&rsquo; in config/routes.rb</h1>
-
-<p>```</p>
-
-<h5>Lets, make some generations, huh.</h5>
-
-<p><code>bash
-rails generate rspec:install
-rails generate cucumber:install --capybara
-guard init rspec &amp;&amp; guard init cucumber
-</code></p>
-
-<h5>Make some changes to the <code>features/support/env.rb</code> file:</h5>
-
-<p><code>ruby
-require 'cucumber/rails'
-require 'capybara/rails'
-require 'capybara/cucumber'
-require 'capybara/session'
-require "factory_girl/step_definitions"
-Capybara.default_selector  = :css
-Capybara.javascript_driver = :webkit
-ActionController::Base.allow_rescue = false
-DatabaseCleaner.strategy = :transaction
-Cucumber::Rails::Database.javascript_strategy = :truncation
-</code></p>
-
-<h5>Lets, add some Cucumber Tests (<code>features/test.feature</code> file):</h5>
-
-<p>``` ruby
-Feature: Testing Configuration
-  In order to have a base for my new application
-  As a developer
-  I want to test the configuration settings for this application</p>
-
-<p>  Scenario: Test Home Page</p>
-
-<pre><code>Given I am on the home page
-Then  I should see "Home#index"
-</code></pre>
-
-<p>```</p>
-
-<h5>And, the corresponding steps in <code>features/step_definitions/test_steps.rb</code> file:</h5>
-
-<p>``` ruby
-Given /^I am on the home page$/ do
-  visit &ldquo;/&rdquo;
-end</p>
-
-<p>Then /^I should see &ldquo;([^&rdquo;]*)&ldquo;$/ do |text|
-  page.should have_content text
-end
-```</p>
-
-<h5>Open a iTerm2 tab each for the following processes:</h5>
-
-<p>``` bash</p>
-
-<h1>default tab</h1>
-
-<p>guard
-tail -fn0 log/test.log
-rails console
-tail -fn0 log/development.log
-rails server
-```</p>
-
-<h5>Merge our feature into development</h5>
-
-<p><code>bash
-git commit -am "finished with preparing base"
-git flow feature finish prepare_base
-</code></p>
 ]]></content>
   </entry>
   

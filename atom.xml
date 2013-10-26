@@ -4,7 +4,7 @@
   <title><![CDATA[Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-10-23T02:35:03+05:30</updated>
+  <updated>2013-10-26T14:03:24+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -12,6 +12,55 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Finally. A self-hosted Gitlab instance!]]></title>
+    <link href="http://nikhgupta.com/blog/2013/10/26/finally-a-self-hosted-gitlab-instance/"/>
+    <updated>2013-10-26T13:26:00+05:30</updated>
+    <id>http://nikhgupta.com/blog/2013/10/26/finally-a-self-hosted-gitlab-instance</id>
+    <content type="html"><![CDATA[<p>Alright. I seem to be pretty happy today. I think any stupid developer, like me,
+would be in the given circumstances. If you are aware about the existance of
+a very nifty witchcraft named <a href="http://github.com">Github</a>, then, I am sure you
+will be equally happy for me.</p>
+
+<p><strong>Github is magic</strong>. /A protective one./</p>
+
+<p>For those unaware, Github is a code hosting platform. It allows me to write my
+code and then, keep it safe and versioned in their platform. That way, my code
+is always there for me. I can share code with other developers, as well as
+<em>fork</em> their work and modify it, locally. And, so on. The cool thing is that the
+service is really amazing and free for open-source projects.</p>
+
+<p>However, there are times when a person needs some privacy, even with the code,
+he writes. Especially, with the code, he writes. I, often, used Github&rsquo;s private
+repositories for this purpose. But, with a recent project, I was aiming to
+create around 100 different private repositories, which was a bit unmanageable
+with Github. I know, I know. I must not need that much private repositories.
+But, what can I do about it if the project specification itself demand for the
+same.</p>
+
+<p>Therefore, I began looking at private repository hosts, and
+<a href="http://bitbucket.org">BitBucket</a> seemed to be off, for some reasons. Finally,
+I settled on using <a href="http://gitlab.org">GitlabHQ</a> for my purposes. It offered
+everything Github had to offer, and more. More in the sense, that I can host
+things privately on my own server. Perfect.</p>
+
+<p>And, since I was already using <a href="http://digitalocean.com">DigitalOcean</a> for
+hosting my server, and was using Ubuntu 12.10 as my operating system, it became
+really easy to install Gitlab on my server. Followed <a href="https://www.digitalocean.com/community/articles/how-to-set-up-gitlab-as-your-very-own-private-github-clone">this
+tutorial</a>
+from DigitialOcean&rsquo;s community tutorials, and I was up and running with my own
+private repository server.</p>
+
+<p>I was, further, planning to install <a href="http://gitlab-ci.org">Gitlab CI</a> on my
+server, but that seemed to be an overkill, since I do not think I will need
+continuous integration for my private projects, and for public projects, we have
+another awesome witchcraft named <a href="http://travis-ci.org">Travis CI</a>.</p>
+
+<p>O&#8217;course, you can test drive this on <a href="http://git.wickeddevelopers.com">Git @WickedDevelopers</a>.  <br/>
+Happy, code browsing!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[managing your scripts should not be that hard]]></title>
@@ -144,6 +193,8 @@ Octopress theme and definitely, deserves a kudos!</p>
 that I am committed for this month:</p>
 
 <ul>
+<li>Migrate old posts from various sources to the current blog.</li>
+<li>Redirect old blog&rsquo;s links to the current blog.</li>
 <li>Improve upon the current website design.
 
 <ul>
