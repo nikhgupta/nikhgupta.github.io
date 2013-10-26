@@ -4,7 +4,7 @@
   <title><![CDATA[Category: code | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-10-26T14:03:24+05:30</updated>
+  <updated>2013-10-26T14:04:57+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -23,13 +23,16 @@ would be in the given circumstances. If you are aware about the existance of
 a very nifty witchcraft named <a href="http://github.com">Github</a>, then, I am sure you
 will be equally happy for me.</p>
 
-<p><strong>Github is magic</strong>. /A protective one./</p>
+<p><strong>Github is magic</strong>. <em>A protective one.</em></p>
 
 <p>For those unaware, Github is a code hosting platform. It allows me to write my
 code and then, keep it safe and versioned in their platform. That way, my code
 is always there for me. I can share code with other developers, as well as
 <em>fork</em> their work and modify it, locally. And, so on. The cool thing is that the
 service is really amazing and free for open-source projects.</p>
+
+<!-- more -->
+
 
 <p>However, there are times when a person needs some privacy, even with the code,
 he writes. Especially, with the code, he writes. I, often, used Github&rsquo;s private
