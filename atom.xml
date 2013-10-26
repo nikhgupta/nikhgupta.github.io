@@ -4,7 +4,7 @@
   <title><![CDATA[Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-10-26T14:04:57+05:30</updated>
+  <updated>2013-10-26T14:09:20+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -55,8 +55,8 @@ tutorial</a>
 from DigitialOcean&rsquo;s community tutorials, and I was up and running with my own
 private repository server.</p>
 
-<p>I was, further, planning to install <a href="http://gitlab-ci.org">Gitlab CI</a> on my
-server, but that seemed to be an overkill, since I do not think I will need
+<p>I was, further, planning to install <a href="http://gitlab.org/gitlab-ci">Gitlab CI</a> on
+my server, but that seemed to be an overkill, since I do not think I will need
 continuous integration for my private projects, and for public projects, we have
 another awesome witchcraft named <a href="http://travis-ci.org">Travis CI</a>.</p>
 
