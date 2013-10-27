@@ -4,7 +4,7 @@
   <title><![CDATA[Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-10-27T13:53:34+05:30</updated>
+  <updated>2013-10-27T17:17:58+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -12,6 +12,83 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Custom Domains on Github Pages without fucking up your Emails]]></title>
+    <link href="http://nikhgupta.com/code/custom-domains-on-github-pages-without-fucking-up-your-emails/"/>
+    <updated>2013-10-27T16:18:00+05:30</updated>
+    <id>http://nikhgupta.com/code/custom-domains-on-github-pages-without-fucking-up-your-emails</id>
+    <content type="html"><![CDATA[<p>As stated in my post titled <a href="http://nikhgupta.com/personal/back-with-a-bang/">Back with a Bang!</a>
+(that title, still, amuses me), I have moved from
+<a href="http://wordpress.org">WordPress</a> to using <a href="http://octopress.org">Octopress</a> on
+Github pages. I was happy with my new blogging configuration, and I think, I am
+on schedule with my post updates, till date. However, in making the switch,
+I messed up my email configuration while setting up custom domain for this blog.
+And, I was not even aware my emails were bouncing off, silently.</p>
+
+<!-- more -->
+
+
+<p>The <code>nikhgupta.com</code> domain is registered on <a href="http://namecheap.com">Namecheap</a>
+(which has been my reliable domain manager, since the very start), and is hosted
+on <a href="http://digitalocean.com">DigitalOcean</a> (which is an amazin&#8217; host and my
+recommendation, these days). I am using [ZPanel][<a href="http://zpanelcp.com">http://zpanelcp.com</a>], since
+cPanel is not a necessity for me (I would, rather, install the bare minimum on
+my servers).</p>
+
+<p>I must say that this silent bouncing of my emails was my own idiocy, and
+therefore, I am writing this post to help anyone who may have gone through the
+same.</p>
+
+<h2>Custom Domain on Github Pages</h2>
+
+<p>This has, already, been discussed on <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-pages">this Github Help page</a>,
+and therefore, I will not go in details. For summary:</p>
+
+<ul>
+<li>Create a repository on GitHub with the name of <code>username.github.com</code>.</li>
+<li>Next, clone the Octopress (or Jekyll) repository, and make changes, as
+required. My source for the website is in <code>source</code> branch, which is pushed to
+the same branch on Github, while my website (real HTML pages) are pushed to
+the <code>master</code> branch on Github. This is all managed by Octopress, by default.</li>
+<li>Once we push the site (or run <code>bundle exec rake gen_deploy</code> if using
+Octopress), our site will be viewable at <code>http://username.github.com</code>.</li>
+<li>Next, we add a file named <code>CNAME</code> to our <code>source</code> directory. This file is
+a simple text file that just contains one line, the domain name you wish to
+use. In my case, <code>nikhgupta.com</code>.</li>
+<li>Change the DNS settings for your domain to point to GitHub’s servers. Since,
+I was using the root domain name, I had to create <code>A</code> records for the <code>@</code> and
+<code>www</code> entries, and point them to Github&rsquo;s IP (<code>204.232.175.78</code>).</li>
+</ul>
+
+
+<h2>Ensuring that Email configuration works</h2>
+
+<p>Did you notice that last step? This is where I messed up my email
+configuration. The <code>MX</code> records in my DNS settings for this domain, were
+pointing to <code>mail.nikhgupta.com</code>, which in turn was pointing to <code>@</code> entry.</p>
+
+<p>Now, that is what is wrong! The <code>@</code> entry was initially pointing to my server&rsquo;s
+IP address, which meant that the incoming mails were being processed by my
+server.</p>
+
+<p>When I changed the <code>@</code> entry to point to Github&rsquo;s server, I made Github
+responsible for managing my mails. Shit!</p>
+
+<p>Anyways, now, that I am aware of what is wrong, it is a simple fix. I made the
+<code>MX</code> records to point to <code>mail.nikhgupta.com</code> (this was the default), but also
+made <code>mail</code> A-record to point to my server&rsquo;s IP address (by adding an <code>A</code>
+record.)</p>
+
+<p>Below are snapshots for my <code>A</code> and <code>MX</code> records, in their current state:</p>
+
+<p><img class="center" src="http://nikhgupta.com/images/nikhgupta-dns-a-records.png">
+<img class="center" src="http://nikhgupta.com/images/nikhgupta-dns-mx-records.png"></p>
+
+<p>Now, I only had to wait to let the DNS propogate, and my emails were right back
+to where they belonged. :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Finally. A self-hosted Gitlab instance!]]></title>
@@ -1206,7 +1283,8 @@ learning things in the RubyOnRails world.</p></blockquote>
     <link href="http://nikhgupta.com/code/setting-up-anonymous-proxy-with-squid/"/>
     <updated>2012-02-12T00:00:00+05:30</updated>
     <id>http://nikhgupta.com/code/setting-up-anonymous-proxy-with-squid</id>
-    <content type="html"><![CDATA[<p>Recently, I <a href="Installing%20Squid%20Proxy%20Server%20on%0ACentos%205%20VPS">set up a Squid Proxy Server</a>, however when I tried to check my IP address, I found that it
+    <content type="html"><![CDATA[<p>Recently, I <a href="http://nikhgupta.com/code/installing-squid-proxy-server-on-centos-5-vps/">set up a Squid Proxy Server</a>,
+however, when I tried to check my IP address, I found that it
 was easy for such a service to detect that I am using a proxy server. But,
 I really wanted  anonymity and privacy when I use internet for my peculiar
 uses, and hence, I tried to setup an anonymous proxy with squid, which nearly
@@ -1433,7 +1511,8 @@ command, instead):</p>
 
 <h3>Bonus</h3>
 
-<p>If you want to <a href="Setting%20up%20Anonymous%20Proxy%0Awith%20Squid">setup Anonymous Proxy with Squid</a>  in order to increase privacy and anonymity, make sure you check
+<p>If you want to <a href="http://nikhgupta.com/code/setting-up-anonymous-proxy-with-squid/">setup Anonymous Proxy with Squid</a>
+in order to increase privacy and anonymity, make sure you check
 that link ;)</p>
 ]]></content>
   </entry>

@@ -22,11 +22,11 @@
     </url>
     <url>
         <loc>http://nikhgupta.com/code/installing-squid-proxy-server-on-centos-5-vps/</loc>
-        <lastmod>2013-10-23T02:22:48+05:30</lastmod>
+        <lastmod>2013-10-27T16:16:48+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/code/setting-up-anonymous-proxy-with-squid/</loc>
-        <lastmod>2013-10-23T02:22:48+05:30</lastmod>
+        <lastmod>2013-10-27T16:16:51+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/code/thoughts-getting-started-with-ruby-rails/</loc>
@@ -67,8 +67,14 @@
         <lastmod>2013-10-26T14:09:00+05:30</lastmod>
     </url>
     <url>
+        <loc>
+            http://nikhgupta.com/code/custom-domains-on-github-pages-without-fucking-up-your-emails/
+        </loc>
+        <lastmod>2013-10-27T17:06:59+05:30</lastmod>
+    </url>
+    <url>
         <loc>http://nikhgupta.com/blog/archives/</loc>
-        <lastmod>2013-10-26T14:09:00+05:30</lastmod>
+        <lastmod>2013-10-27T17:06:59+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/blog/categories/</loc>
@@ -76,7 +82,7 @@
     </url>
     <url>
         <loc>http://nikhgupta.com/</loc>
-        <lastmod>2013-10-26T14:09:00+05:30</lastmod>
+        <lastmod>2013-10-27T17:06:59+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/robots.txt</loc>
