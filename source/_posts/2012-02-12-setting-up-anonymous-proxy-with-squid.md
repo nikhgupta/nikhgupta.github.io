@@ -8,10 +8,11 @@ tags: [tutorials, tools]
 kind: article
 comments: true
 created_at: 2012-02-12 12:46:31 +05:30
+updated_at: 2013-10-27 02:31:42 +05:30
 ---
 
-Recently, I [set up a Squid Proxy Server](Installing Squid Proxy Server on
-Centos 5 VPS), however when I tried to check my IP address, I found that it
+Recently, I [set up a Squid Proxy Server](/code/installing-squid-proxy-server-on-centos-5-vps/),
+however, when I tried to check my IP address, I found that it
 was easy for such a service to detect that I am using a proxy server. But,
 I really wanted  anonymity and privacy when I use internet for my peculiar
 uses, and hence, I tried to setup an anonymous proxy with squid, which nearly

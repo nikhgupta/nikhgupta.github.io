@@ -8,6 +8,7 @@ published: true
 kind: article
 comments: true
 created_at: 2012-02-12 12:46:31 +05:30
+updated_at: 2013-10-27 02:31:42 +05:30
 ---
 
 I wanted to browse the internet using a proxy for a variety of reasons. So,
@@ -78,6 +79,6 @@ Now, we can simply connect to this squid server, by **defining the relevant prox
 
 ### Bonus
 
-If you want to [setup Anonymous Proxy with Squid](Setting up Anonymous Proxy
-with Squid)  in order to increase privacy and anonymity, make sure you check
+If you want to [setup Anonymous Proxy with Squid](/code/setting-up-anonymous-proxy-with-squid/)
+in order to increase privacy and anonymity, make sure you check
 that link ;)
