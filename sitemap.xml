@@ -1,75 +1,69 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://nikhgupta.com/blog/2011/07/09/installing-graylog2-on-ubunty-natty-11-04/</loc>
+        <loc>http://nikhgupta.com/code/installing-graylog2-on-ubunty-natty-11-04/</loc>
         <lastmod>2013-10-23T02:22:48+05:30</lastmod>
     </url>
     <url>
-        <loc>http://nikhgupta.com/blog/2011/07/31/initialize-gitolite-bash-script/</loc>
+        <loc>http://nikhgupta.com/code/initialize-gitolite-bash-script/</loc>
         <lastmod>2013-10-23T02:22:48+05:30</lastmod>
     </url>
     <url>
-        <loc>
-            http://nikhgupta.com/blog/2011/07/31/quattro-responsive-wordpress-theme-colophon/
-        </loc>
+        <loc>http://nikhgupta.com/code/quattro-responsive-wordpress-theme-colophon/</loc>
         <lastmod>2013-10-23T02:22:48+05:30</lastmod>
     </url>
     <url>
-        <loc>http://nikhgupta.com/blog/2011/07/31/xslt-auto-incrementing-a-variable/</loc>
+        <loc>http://nikhgupta.com/code/xslt-auto-incrementing-a-variable/</loc>
         <lastmod>2013-10-23T02:22:48+05:30</lastmod>
     </url>
     <url>
-        <loc>http://nikhgupta.com/blog/2011/12/23/installing-puppet-on-master-and-client/</loc>
+        <loc>http://nikhgupta.com/code/installing-puppet-on-master-and-client/</loc>
         <lastmod>2013-10-23T02:22:48+05:30</lastmod>
     </url>
     <url>
-        <loc>
-            http://nikhgupta.com/blog/2012/02/12/installing-squid-proxy-server-on-centos-5-vps/
-        </loc>
+        <loc>http://nikhgupta.com/code/installing-squid-proxy-server-on-centos-5-vps/</loc>
         <lastmod>2013-10-23T02:22:48+05:30</lastmod>
     </url>
     <url>
-        <loc>http://nikhgupta.com/blog/2012/02/12/setting-up-anonymous-proxy-with-squid/</loc>
+        <loc>http://nikhgupta.com/code/setting-up-anonymous-proxy-with-squid/</loc>
         <lastmod>2013-10-23T02:22:48+05:30</lastmod>
     </url>
     <url>
-        <loc>http://nikhgupta.com/blog/2012/03/19/thoughts-getting-started-with-ruby-rails/</loc>
+        <loc>http://nikhgupta.com/code/thoughts-getting-started-with-ruby-rails/</loc>
         <lastmod>2013-10-23T02:22:48+05:30</lastmod>
     </url>
     <url>
-        <loc>http://nikhgupta.com/blog/2012/03/20/bootstrapping-my-rails-application/</loc>
+        <loc>http://nikhgupta.com/code/bootstrapping-my-rails-application/</loc>
         <lastmod>2013-10-23T02:22:48+05:30</lastmod>
     </url>
     <url>
-        <loc>http://nikhgupta.com/blog/2012/03/28/5minutes-to-beta-video/</loc>
+        <loc>http://nikhgupta.com/code/5minutes-to-beta-video/</loc>
         <lastmod>2013-10-23T02:22:48+05:30</lastmod>
     </url>
     <url>
-        <loc>http://nikhgupta.com/blog/2012/03/28/vim-awesomeness-gundo-and-tabular-plugins/</loc>
+        <loc>http://nikhgupta.com/code/vim-awesomeness-gundo-and-tabular-plugins/</loc>
         <lastmod>2013-10-23T02:22:48+05:30</lastmod>
     </url>
     <url>
-        <loc>
-            http://nikhgupta.com/blog/2012/04/01/using-vim-php-ide-exuberant-ctags-code-browsing/
-        </loc>
+        <loc>http://nikhgupta.com/code/using-vim-php-ide-exuberant-ctags-code-browsing/</loc>
         <lastmod>2013-10-23T02:22:48+05:30</lastmod>
     </url>
     <url>
-        <loc>http://nikhgupta.com/blog/2013/04/01/meet-the-amazing-hubot/</loc>
+        <loc>http://nikhgupta.com/meet-the-amazing-hubot/</loc>
         <lastmod>2013-10-23T02:22:48+05:30</lastmod>
     </url>
     <url>
-        <loc>http://nikhgupta.com/blog/2013/10/22/back-with-a-bang/</loc>
+        <loc>http://nikhgupta.com/personal/back-with-a-bang/</loc>
         <lastmod>2013-10-24T14:26:38+05:30</lastmod>
     </url>
     <url>
         <loc>
-            http://nikhgupta.com/blog/2013/10/23/managing-your-scripts-should-not-be-that-hard/
+            http://nikhgupta.com/personal/code/managing-your-scripts-should-not-be-that-hard/
         </loc>
         <lastmod>2013-10-23T02:24:57+05:30</lastmod>
     </url>
     <url>
-        <loc>http://nikhgupta.com/blog/2013/10/26/finally-a-self-hosted-gitlab-instance/</loc>
+        <loc>http://nikhgupta.com/code/finally-a-self-hosted-gitlab-instance/</loc>
         <lastmod>2013-10-26T14:09:00+05:30</lastmod>
     </url>
     <url>

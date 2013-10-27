@@ -4,7 +4,7 @@
   <title><![CDATA[Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-10-26T14:56:02+05:30</updated>
+  <updated>2013-10-27T13:53:34+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Finally. A self-hosted Gitlab instance!]]></title>
-    <link href="http://nikhgupta.com/blog/2013/10/26/finally-a-self-hosted-gitlab-instance/"/>
+    <link href="http://nikhgupta.com/code/finally-a-self-hosted-gitlab-instance/"/>
     <updated>2013-10-26T13:26:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2013/10/26/finally-a-self-hosted-gitlab-instance</id>
+    <id>http://nikhgupta.com/code/finally-a-self-hosted-gitlab-instance</id>
     <content type="html"><![CDATA[<p>Alright. I seem to be pretty happy today. I think any stupid developer, like me,
 would be in the given circumstances. If you are aware about the existance of
 a very nifty witchcraft named <a href="http://github.com">Github</a>, then, I am sure you
@@ -67,9 +67,9 @@ Happy, code browsing!</p>
   
   <entry>
     <title type="html"><![CDATA[managing your scripts should not be that hard]]></title>
-    <link href="http://nikhgupta.com/blog/2013/10/23/managing-your-scripts-should-not-be-that-hard/"/>
+    <link href="http://nikhgupta.com/personal/code/managing-your-scripts-should-not-be-that-hard/"/>
     <updated>2013-10-23T01:46:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2013/10/23/managing-your-scripts-should-not-be-that-hard</id>
+    <id>http://nikhgupta.com/personal/code/managing-your-scripts-should-not-be-that-hard</id>
     <content type="html"><![CDATA[<p>I am, often, found creating simple scripts to automate one or the other part of
 my life. Most of the times, I would use a combination of project managers, task
 managers, automation tools, and so on to do the tedious work for me. But, at the
@@ -134,9 +134,9 @@ installed.</li>
   
   <entry>
     <title type="html"><![CDATA[Back with a Bang!]]></title>
-    <link href="http://nikhgupta.com/blog/2013/10/22/back-with-a-bang/"/>
+    <link href="http://nikhgupta.com/personal/back-with-a-bang/"/>
     <updated>2013-10-22T06:21:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2013/10/22/back-with-a-bang</id>
+    <id>http://nikhgupta.com/personal/back-with-a-bang</id>
     <content type="html"><![CDATA[<p>Oh, yes! I am, definitely, back &ndash; with a bang! Before, an interpretion is made
 on the word, you ought to know about <code>!#</code>: <a href="http://en.wikipedia.org/wiki/Shebang_(Unix">Shebang</a>.</p>
 
@@ -231,9 +231,9 @@ specifications listed in a separate personal diary)</li>
   
   <entry>
     <title type="html"><![CDATA[Meet the Amazing Hubot]]></title>
-    <link href="http://nikhgupta.com/blog/2013/04/01/meet-the-amazing-hubot/"/>
+    <link href="http://nikhgupta.com/meet-the-amazing-hubot/"/>
     <updated>2013-04-01T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2013/04/01/meet-the-amazing-hubot</id>
+    <id>http://nikhgupta.com/meet-the-amazing-hubot</id>
     <content type="html"><![CDATA[<p>Recently, I came across <a href="http://hubot.github.com">Hubot</a> &ndash; the amazing bot
 from <a href="http://github.com">Github</a>, which lets me do nearly anything while
 talking to it. Some of the examples being querying my site for availability,
@@ -488,9 +488,9 @@ name was <code>@jarvis</code>)</li>
   
   <entry>
     <title type="html"><![CDATA[Vim as PHP IDE: Ctags, and Code Browsing]]></title>
-    <link href="http://nikhgupta.com/blog/2012/04/01/using-vim-php-ide-exuberant-ctags-code-browsing/"/>
+    <link href="http://nikhgupta.com/code/using-vim-php-ide-exuberant-ctags-code-browsing/"/>
     <updated>2012-04-01T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2012/04/01/using-vim-php-ide-exuberant-ctags-code-browsing</id>
+    <id>http://nikhgupta.com/code/using-vim-php-ide-exuberant-ctags-code-browsing</id>
     <content type="html"><![CDATA[<p>So, past few weeks, I have been really fascinated with the all powerful Vim.
 And, I often wonder why: I took so much time switching to it? Probably, the
 steep learning curve! It has to be.</p>
@@ -756,9 +756,9 @@ allowed to reherse my steps :P )</p>
   
   <entry>
     <title type="html"><![CDATA[Vim: Gundo and Tabular plugins]]></title>
-    <link href="http://nikhgupta.com/blog/2012/03/28/vim-awesomeness-gundo-and-tabular-plugins/"/>
+    <link href="http://nikhgupta.com/code/vim-awesomeness-gundo-and-tabular-plugins/"/>
     <updated>2012-03-28T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2012/03/28/vim-awesomeness-gundo-and-tabular-plugins</id>
+    <id>http://nikhgupta.com/code/vim-awesomeness-gundo-and-tabular-plugins</id>
     <content type="html"><![CDATA[<p>Recently, I switched to MacVim in order to give VIM another shot. Since, then,
 Vim has kept on amazing me with its feature set.</p>
 
@@ -833,9 +833,9 @@ the spaces attached to the code on the left, I can use something like <code>:Tab
   
   <entry>
     <title type="html"><![CDATA[5minutes.to Beta Video]]></title>
-    <link href="http://nikhgupta.com/blog/2012/03/28/5minutes-to-beta-video/"/>
+    <link href="http://nikhgupta.com/code/5minutes-to-beta-video/"/>
     <updated>2012-03-28T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2012/03/28/5minutes-to-beta-video</id>
+    <id>http://nikhgupta.com/code/5minutes-to-beta-video</id>
     <content type="html"><![CDATA[<p>Recently, I have been involved with the <a href="http://5minutes.to/">5minutes.to</a>
 application. This application helps you get up and ready with your next website
 in 5 minutes or less including email addresses, templates and what not.</p>
@@ -856,9 +856,9 @@ frameborder="0" width="100%" height="500px"></iframe></p>
   
   <entry>
     <title type="html"><![CDATA[Bootstrapping my Rails application]]></title>
-    <link href="http://nikhgupta.com/blog/2012/03/20/bootstrapping-my-rails-application/"/>
+    <link href="http://nikhgupta.com/code/bootstrapping-my-rails-application/"/>
     <updated>2012-03-20T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2012/03/20/bootstrapping-my-rails-application</id>
+    <id>http://nikhgupta.com/code/bootstrapping-my-rails-application</id>
     <content type="html"><![CDATA[<p>This post details my starting steps with a new <a href="http://rubyonrails.org">Rails</a>
 project, and is only kept here to remind me of various tasks that I,
 generally, like to do at this time. Many of these steps might be redundant or
@@ -1078,9 +1078,9 @@ even, obsolete by the time you lay yours eyes on this post :)</p>
   
   <entry>
     <title type="html"><![CDATA[Getting Started with Ruby and Rails..]]></title>
-    <link href="http://nikhgupta.com/blog/2012/03/19/thoughts-getting-started-with-ruby-rails/"/>
+    <link href="http://nikhgupta.com/code/thoughts-getting-started-with-ruby-rails/"/>
     <updated>2012-03-19T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2012/03/19/thoughts-getting-started-with-ruby-rails</id>
+    <id>http://nikhgupta.com/code/thoughts-getting-started-with-ruby-rails</id>
     <content type="html"><![CDATA[<p>Okay, so past an year I have been trying to switch into RubyOnRails for
 various reasons &ndash; and yes, they are numerous. I wanted to work less with the
 <em>how-tos</em> and instead, wanna work more with <em>what-i-want-next</em> when I develop
@@ -1203,9 +1203,9 @@ learning things in the RubyOnRails world.</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[Anonymous Proxy with Squid]]></title>
-    <link href="http://nikhgupta.com/blog/2012/02/12/setting-up-anonymous-proxy-with-squid/"/>
+    <link href="http://nikhgupta.com/code/setting-up-anonymous-proxy-with-squid/"/>
     <updated>2012-02-12T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2012/02/12/setting-up-anonymous-proxy-with-squid</id>
+    <id>http://nikhgupta.com/code/setting-up-anonymous-proxy-with-squid</id>
     <content type="html"><![CDATA[<p>Recently, I <a href="Installing%20Squid%20Proxy%20Server%20on%0ACentos%205%20VPS">set up a Squid Proxy Server</a>, however when I tried to check my IP address, I found that it
 was easy for such a service to detect that I am using a proxy server. But,
 I really wanted  anonymity and privacy when I use internet for my peculiar
@@ -1341,9 +1341,9 @@ following line must go in <code>/etc/squid/squid.conf</code> file at the very bo
   
   <entry>
     <title type="html"><![CDATA[Squid Proxy Server on VPS]]></title>
-    <link href="http://nikhgupta.com/blog/2012/02/12/installing-squid-proxy-server-on-centos-5-vps/"/>
+    <link href="http://nikhgupta.com/code/installing-squid-proxy-server-on-centos-5-vps/"/>
     <updated>2012-02-12T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2012/02/12/installing-squid-proxy-server-on-centos-5-vps</id>
+    <id>http://nikhgupta.com/code/installing-squid-proxy-server-on-centos-5-vps</id>
     <content type="html"><![CDATA[<p>I wanted to browse the internet using a proxy for a variety of reasons. So,
 I decided to give it a go using the Squid Proxy Server, which I could easily
 setup on my own VPS Server, and manage it in whatever way I wanted.
@@ -1440,9 +1440,9 @@ that link ;)</p>
   
   <entry>
     <title type="html"><![CDATA[Introduction to Puppet]]></title>
-    <link href="http://nikhgupta.com/blog/2011/12/23/installing-puppet-on-master-and-client/"/>
+    <link href="http://nikhgupta.com/code/installing-puppet-on-master-and-client/"/>
     <updated>2011-12-23T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2011/12/23/installing-puppet-on-master-and-client</id>
+    <id>http://nikhgupta.com/code/installing-puppet-on-master-and-client</id>
     <content type="html"><![CDATA[<p>This post details the steps/instructions to install the puppet and also,
 connect the client to the master.</p>
 
@@ -1563,9 +1563,9 @@ better yet setup SSH access from/to master.</p></li>
   
   <entry>
     <title type="html"><![CDATA[XSLT: auto incrementing a variable]]></title>
-    <link href="http://nikhgupta.com/blog/2011/07/31/xslt-auto-incrementing-a-variable/"/>
+    <link href="http://nikhgupta.com/code/xslt-auto-incrementing-a-variable/"/>
     <updated>2011-07-31T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2011/07/31/xslt-auto-incrementing-a-variable</id>
+    <id>http://nikhgupta.com/code/xslt-auto-incrementing-a-variable</id>
     <content type="html"><![CDATA[<p>Recently, while utilizing XSLT for one of my projects, I came across this
 issue when I needed to auto-increment a variable for my records. After a bit
 of Google searching, I came across a somewhat usable method, which I improved
@@ -1607,9 +1607,9 @@ be auto-incremented:</p>
   
   <entry>
     <title type="html"><![CDATA[Quattro and its Colophon]]></title>
-    <link href="http://nikhgupta.com/blog/2011/07/31/quattro-responsive-wordpress-theme-colophon/"/>
+    <link href="http://nikhgupta.com/code/quattro-responsive-wordpress-theme-colophon/"/>
     <updated>2011-07-31T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2011/07/31/quattro-responsive-wordpress-theme-colophon</id>
+    <id>http://nikhgupta.com/code/quattro-responsive-wordpress-theme-colophon</id>
     <content type="html"><![CDATA[<p>So, Yeah! I know. I switched to <a href="http://jekyllrb.com/">Jekyll</a>  for a very
 short phase, owing to the attraction it has to developers and &lsquo;blog-hackers&rsquo;.
 But, then, I soon started missing some of the advanced  functionality
@@ -1716,9 +1716,9 @@ me to re-use it for more pages.</p>
   
   <entry>
     <title type="html"><![CDATA[Initializing gitolite repositories]]></title>
-    <link href="http://nikhgupta.com/blog/2011/07/31/initialize-gitolite-bash-script/"/>
+    <link href="http://nikhgupta.com/code/initialize-gitolite-bash-script/"/>
     <updated>2011-07-31T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2011/07/31/initialize-gitolite-bash-script</id>
+    <id>http://nikhgupta.com/code/initialize-gitolite-bash-script</id>
     <content type="html"><![CDATA[<p>This script creates a git repository in the current directory, syncs it with
 the Gitolite server (and also, the Github &ndash; optional) and all the regular
 mumbo-jumbo when setting up the Git repository for the first time for
@@ -1904,9 +1904,9 @@ echo -e &quot;\t${BLU}Completed${NML}.&quot;</code></pre></noscript></div>
   
   <entry>
     <title type="html"><![CDATA[Install Graylog2 on Ubuntu 11.04]]></title>
-    <link href="http://nikhgupta.com/blog/2011/07/09/installing-graylog2-on-ubunty-natty-11-04/"/>
+    <link href="http://nikhgupta.com/code/installing-graylog2-on-ubunty-natty-11-04/"/>
     <updated>2011-07-09T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2011/07/09/installing-graylog2-on-ubunty-natty-11-04</id>
+    <id>http://nikhgupta.com/code/installing-graylog2-on-ubunty-natty-11-04</id>
     <content type="html"><![CDATA[<p>Alright, so I wanted to install a <a href="http://graylog2.org">Graylog2</a> server on my
 Ubuntu Natty for managing various system logs, custom tasks output, and
 specially capturing <a href="http://rubyonrails.org">Rails</a> exceptions.  Configuring

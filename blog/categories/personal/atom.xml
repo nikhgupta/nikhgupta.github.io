@@ -4,7 +4,7 @@
   <title><![CDATA[Category: personal | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/personal/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-10-26T14:56:02+05:30</updated>
+  <updated>2013-10-27T13:53:34+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[managing your scripts should not be that hard]]></title>
-    <link href="http://nikhgupta.com/blog/2013/10/23/managing-your-scripts-should-not-be-that-hard/"/>
+    <link href="http://nikhgupta.com/personal/code/managing-your-scripts-should-not-be-that-hard/"/>
     <updated>2013-10-23T01:46:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2013/10/23/managing-your-scripts-should-not-be-that-hard</id>
+    <id>http://nikhgupta.com/personal/code/managing-your-scripts-should-not-be-that-hard</id>
     <content type="html"><![CDATA[<p>I am, often, found creating simple scripts to automate one or the other part of
 my life. Most of the times, I would use a combination of project managers, task
 managers, automation tools, and so on to do the tedious work for me. But, at the
@@ -82,9 +82,9 @@ installed.</li>
   
   <entry>
     <title type="html"><![CDATA[Back with a Bang!]]></title>
-    <link href="http://nikhgupta.com/blog/2013/10/22/back-with-a-bang/"/>
+    <link href="http://nikhgupta.com/personal/back-with-a-bang/"/>
     <updated>2013-10-22T06:21:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2013/10/22/back-with-a-bang</id>
+    <id>http://nikhgupta.com/personal/back-with-a-bang</id>
     <content type="html"><![CDATA[<p>Oh, yes! I am, definitely, back &ndash; with a bang! Before, an interpretion is made
 on the word, you ought to know about <code>!#</code>: <a href="http://en.wikipedia.org/wiki/Shebang_(Unix">Shebang</a>.</p>
 

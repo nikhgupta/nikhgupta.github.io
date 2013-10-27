@@ -4,7 +4,7 @@
   <title><![CDATA[Category: code | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-10-26T14:56:02+05:30</updated>
+  <updated>2013-10-27T13:53:34+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Finally. A self-hosted Gitlab instance!]]></title>
-    <link href="http://nikhgupta.com/blog/2013/10/26/finally-a-self-hosted-gitlab-instance/"/>
+    <link href="http://nikhgupta.com/code/finally-a-self-hosted-gitlab-instance/"/>
     <updated>2013-10-26T13:26:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2013/10/26/finally-a-self-hosted-gitlab-instance</id>
+    <id>http://nikhgupta.com/code/finally-a-self-hosted-gitlab-instance</id>
     <content type="html"><![CDATA[<p>Alright. I seem to be pretty happy today. I think any stupid developer, like me,
 would be in the given circumstances. If you are aware about the existance of
 a very nifty witchcraft named <a href="http://github.com">Github</a>, then, I am sure you
@@ -67,9 +67,9 @@ Happy, code browsing!</p>
   
   <entry>
     <title type="html"><![CDATA[managing your scripts should not be that hard]]></title>
-    <link href="http://nikhgupta.com/blog/2013/10/23/managing-your-scripts-should-not-be-that-hard/"/>
+    <link href="http://nikhgupta.com/personal/code/managing-your-scripts-should-not-be-that-hard/"/>
     <updated>2013-10-23T01:46:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2013/10/23/managing-your-scripts-should-not-be-that-hard</id>
+    <id>http://nikhgupta.com/personal/code/managing-your-scripts-should-not-be-that-hard</id>
     <content type="html"><![CDATA[<p>I am, often, found creating simple scripts to automate one or the other part of
 my life. Most of the times, I would use a combination of project managers, task
 managers, automation tools, and so on to do the tedious work for me. But, at the
@@ -134,9 +134,9 @@ installed.</li>
   
   <entry>
     <title type="html"><![CDATA[Vim as PHP IDE: Ctags, and Code Browsing]]></title>
-    <link href="http://nikhgupta.com/blog/2012/04/01/using-vim-php-ide-exuberant-ctags-code-browsing/"/>
+    <link href="http://nikhgupta.com/code/using-vim-php-ide-exuberant-ctags-code-browsing/"/>
     <updated>2012-04-01T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2012/04/01/using-vim-php-ide-exuberant-ctags-code-browsing</id>
+    <id>http://nikhgupta.com/code/using-vim-php-ide-exuberant-ctags-code-browsing</id>
     <content type="html"><![CDATA[<p>So, past few weeks, I have been really fascinated with the all powerful Vim.
 And, I often wonder why: I took so much time switching to it? Probably, the
 steep learning curve! It has to be.</p>
@@ -348,9 +348,9 @@ allowed to reherse my steps :P )</p>
   
   <entry>
     <title type="html"><![CDATA[Vim: Gundo and Tabular plugins]]></title>
-    <link href="http://nikhgupta.com/blog/2012/03/28/vim-awesomeness-gundo-and-tabular-plugins/"/>
+    <link href="http://nikhgupta.com/code/vim-awesomeness-gundo-and-tabular-plugins/"/>
     <updated>2012-03-28T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2012/03/28/vim-awesomeness-gundo-and-tabular-plugins</id>
+    <id>http://nikhgupta.com/code/vim-awesomeness-gundo-and-tabular-plugins</id>
     <content type="html"><![CDATA[<p>Recently, I switched to MacVim in order to give VIM another shot. Since, then,
 Vim has kept on amazing me with its feature set.</p>
 
@@ -418,9 +418,9 @@ abcde = 1324
   
   <entry>
     <title type="html"><![CDATA[5minutes.to Beta Video]]></title>
-    <link href="http://nikhgupta.com/blog/2012/03/28/5minutes-to-beta-video/"/>
+    <link href="http://nikhgupta.com/code/5minutes-to-beta-video/"/>
     <updated>2012-03-28T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/blog/2012/03/28/5minutes-to-beta-video</id>
+    <id>http://nikhgupta.com/code/5minutes-to-beta-video</id>
     <content type="html"><![CDATA[<p>Recently, I have been involved with the <a href="http://5minutes.to/">5minutes.to</a>
 application. This application helps you get up and ready with your next website
 in 5 minutes or less including email addresses, templates and what not.</p>
