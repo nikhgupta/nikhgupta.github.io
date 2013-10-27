@@ -4,7 +4,7 @@
   <title><![CDATA[Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-10-27T17:22:17+05:30</updated>
+  <updated>2013-10-27T17:25:54+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -73,7 +73,10 @@ IP address, which meant that the incoming mails were being processed by my
 server.</p>
 
 <p>When I changed the <code>@</code> entry to point to Github&rsquo;s server, I made Github
-responsible for managing my mails. Shit!</p>
+responsible for managing my mails. Shit! Here is a snapshot for the change,
+I made:</p>
+
+<p><img class="center" src="http://nikhgupta.com/images/nikhgupta-dns-a-records-digitalocean.png"></p>
 
 <p>Anyways, now, that I am aware of what is wrong, it is a simple fix. I made the
 <code>MX</code> records to point to <code>mail.nikhgupta.com</code> (this was the default), but also
