@@ -4,7 +4,7 @@
   <title><![CDATA[Category: code | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-10-27T17:25:54+05:30</updated>
+  <updated>2013-10-27T17:28:05+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -32,7 +32,7 @@ And, I was not even aware my emails were bouncing off, silently.</p>
 <p>The <code>nikhgupta.com</code> domain is registered on <a href="http://namecheap.com">Namecheap</a>
 (which has been my reliable domain manager, since the very start), and is hosted
 on <a href="http://digitalocean.com">DigitalOcean</a> (which is an amazin' host and my
-recommendation, these days). I am using [ZPanel][<a href="http://zpanelcp.com">http://zpanelcp.com</a>], since
+recommendation, these days). I am using <a href="http://zpanelcp.com">ZPanel</a>, since
 cPanel is not a necessity for me (I would, rather, install the bare minimum on
 my servers).</p>
 
