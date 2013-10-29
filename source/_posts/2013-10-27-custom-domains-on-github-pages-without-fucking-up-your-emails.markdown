@@ -65,12 +65,16 @@ I made:
 Anyways, now, that I am aware of what is wrong, it is a simple fix. I made the
 `MX` records to point to `mail.nikhgupta.com` (this was the default), but also
 made `mail` A-record to point to my server's IP address (by adding an `A`
-record.)
+record).
 
 Below are snapshots for my `A` and `MX` records, in their current state:
 
 {% img center /images/nikhgupta-dns-a-records.png %}
 {% img center /images/nikhgupta-dns-mx-records.png %}
+
+Finally, since I am using DigitalOcean server, I also needed to point the same
+A-record to the server's IP using the management console provided by
+DigitalOcean.
 
 Now, I only had to wait to let the DNS propogate, and my emails were right back
 to where they belonged. :)
