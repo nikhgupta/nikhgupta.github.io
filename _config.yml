@@ -96,5 +96,8 @@ disqus_show_comment_count: false
 # Google Analytics
 google_analytics_tracking_id: "UA-21306915-1"
 
+# Google Authorship
+google_author: "Nikhil Gupta"
+
 # Facebook Like
 facebook_like: true
