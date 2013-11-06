@@ -78,3 +78,7 @@ DigitalOcean.
 
 Now, I only had to wait to let the DNS propogate, and my emails were right back
 to where they belonged. :)
+
+**Update (05.11.2013)**: It seems that I also needed to point out `MX` record
+inside DigitalOcean's DNS settings to `mail.nikhgupta.com.` to make this all
+work.
