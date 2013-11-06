@@ -4,7 +4,7 @@
   <title><![CDATA[Category: code | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-11-06T10:45:31+05:30</updated>
+  <updated>2013-11-06T10:47:57+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -95,8 +95,9 @@ DigitalOcean.</p>
 <p>Now, I only had to wait to let the DNS propogate, and my emails were right back
 to where they belonged. :)</p>
 
-<p><em>Update (05.11.2013)</em>: It seems that I also needed to point out <code>MX</code> record inside
-DigitalOcean&rsquo;s DNS settings to <code>mail.nikhgupta.com.</code> to make this all work.</p>
+<p><strong>Update (05.11.2013)</strong>: It seems that I also needed to point out <code>MX</code> record
+inside DigitalOcean&rsquo;s DNS settings to <code>mail.nikhgupta.com.</code> to make this all
+work.</p>
 ]]></content>
   </entry>
   
