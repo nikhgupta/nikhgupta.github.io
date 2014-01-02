@@ -4,7 +4,7 @@
   <title><![CDATA[Category: personal | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/personal/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-11-06T10:47:57+05:30</updated>
+  <updated>2014-01-02T20:58:45+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -12,6 +12,91 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The overdue silence]]></title>
+    <link href="http://nikhgupta.com/personal/diary/the-overdue-silence/"/>
+    <updated>2014-01-01T13:18:00+05:30</updated>
+    <id>http://nikhgupta.com/personal/diary/the-overdue-silence</id>
+    <content type="html"><![CDATA[<blockquote><p>It&rsquo;s wonderful. This new year. The <code>2014</code>.<br/>
+Everything seems different &ndash; not in their appearance or behaviour or
+properties, but it feels like things have a new soul, or like an invisible
+painting has been performed on them to give them a more living feeling.</p></blockquote>
+
+<p>I know. I know. New year, sometimes, have such an effect on individuals, and
+I am no different. I am a person who appreciates art, and the new year just
+happens to bring so much of it. So, let me first wish a new year to you and to
+me, with a wish that this year will give us the ever-elusive satisfaction every
+one wants in their life, that this year will bring us closer to our dreams &ndash; the
+precious!</p>
+
+<!-- more -->
+
+
+<h2>The Apology</h2>
+
+<p>Via this blog post, I wanted to put an excuse to my blog for not being able to
+post for the last two months, and I am still wondering on one. All I can say is
+that:</p>
+
+<blockquote><p>We, the mere humans, are lazy.<br/>
+We, the mere humans, can never stick to our promises, no matter how special.</p></blockquote>
+
+<p>To be honest, I got involved with a ruby gem that tried to convert text markup
+from one language to another, e.g. from <a href="markdown">Markdown</a> to
+<a href="textile">Textile</a> markup, or maybe from <a href="org-mode">Org Mode</a> to
+<a href="markdown">Markdown</a>, and so on. Oh, and not only that, I was in the process of
+picking up a partner for a few startups I had in my mind, and was building up on
+them.</p>
+
+<p>Later, when I was about missing my newly-refreshed blog, things in my
+personal life took some turn &ndash; my dad suffered from heart strokes &ndash; two of them
+&ndash; in a matter of days. Life sucks for such things.</p>
+
+<p>Moreover, I am really fighting with myself to put an end to my 9-5 job. I have
+been wanting to end it since an year, now, and finally, I have decided to do
+this. Yeah, I went over this decision, slept over it and what not. A 9-5
+government job that has no relation to what I love, what I am passionate about
+simply does not make any sense to me or to anyone who knows my affair with
+programming and computers, anymore.</p>
+
+<p>Having settled the reasons, all I can say is that I plan on posting regularly,
+though I won&rsquo;t make a promise, but I will post when possible.</p>
+
+<h2>Resolutions</h2>
+
+<p>I hate resolutions. They bind me for the things I do not want to do. Now, you
+would ask:</p>
+
+<blockquote><p><strong>Why only things that you do not want to do?</strong></p>
+
+<blockquote><p><em>Because, if I really wanted to do something, I won&rsquo;t wait for the new year to
+happen.</em></p></blockquote>
+
+<p><strong>Alright, but even then, resolutions are good, right?</strong></p>
+
+<blockquote><p><em>No! They are evil. They tell me to do something against my freewill. And,
+hence, I already know, I won&rsquo;t listen to them after sometime, anyways.</em></p></blockquote>
+
+<p><strong>Okay, so you don&rsquo;t plan on changing yourself, for the good?</strong></p>
+
+<blockquote><p>Who said, I don&rsquo;t want to do that. You must first tell me what&rsquo;s wrong with
+me, for this conversation to work out.</p></blockquote></blockquote>
+
+<h2>The First Month</h2>
+
+<p>Oh, yes, I have a few simple plans for this month, which include:</p>
+
+<ul>
+<li>posting a timeline of the major events from my life on this blog.</li>
+<li>start work on one of the startup ideas I had in my mind.</li>
+<li>resign from my 9-5 job and leave the government to work on its own.</li>
+<li>pack up and go live in a place with a better climate by the end of the month.</li>
+<li>photography visits nearly every week</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[managing your scripts should not be that hard]]></title>

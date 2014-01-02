@@ -4,7 +4,7 @@
   <title><![CDATA[Category: code | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2013-11-06T10:47:57+05:30</updated>
+  <updated>2014-01-02T20:58:45+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -12,6 +12,58 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[wish yourself a happy new year]]></title>
+    <link href="http://nikhgupta.com/code/wish-yourself-a-happy-new-year/"/>
+    <updated>2014-01-01T01:19:00+05:30</updated>
+    <id>http://nikhgupta.com/code/wish-yourself-a-happy-new-year</id>
+    <content type="html"><![CDATA[<blockquote><p>Well, before you do that, I will do it from my side: <code>Happy new year to you!</code></p></blockquote>
+
+<p>So, I was just working on somethings, and found this nice little code snippet
+that was totally appropriate for this event.</p>
+
+<!-- more -->
+
+
+<h2>Ruby</h2>
+
+<p>If you are a fan of the ruby (like me), define a function with the following
+definition (try, using <code>irb</code> for this purpose):</p>
+
+<pre><code>def encode(str); str.chars.map(&amp;:ord).inject(:+); end
+</code></pre>
+
+<p>The above function does the following:</p>
+
+<ul>
+<li>accept a string as an input</li>
+<li>break it into its constituent characters</li>
+<li>convert these characters to their ascii integer value</li>
+<li>sum up all the integer values and return that sum</li>
+</ul>
+
+
+<p>Nothin' great about that function, right?<br/>
+Now, try this in your <code>irb</code> session:</p>
+
+<pre><code>encode "Happy new year to you!"
+</code></pre>
+
+<p>You will see that the above function is quite intelligent in itself.</p>
+
+<blockquote><p>That little function is empowered with an artificial intelligence by its code,
+without any complex mechanisms :)</p></blockquote>
+
+<h2>Python</h2>
+
+<p>If you are a python fan, instead, try this:</p>
+
+<pre><code>encode = lambda str: sum(ord(c) for c in str)
+encode("Happy new year to you!")
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Custom Domains on Github Pages without fucking up your Emails]]></title>
@@ -431,76 +483,6 @@ I went deeper and deeper, I realized that what
 I have to ditch whatever it is &ndash; what I was doing now. And, do not forget,
 I am less than a month old with Vim and I am talking Ctags with Vim.  I am
 allowed to reherse my steps :P )</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Vim: Gundo and Tabular plugins]]></title>
-    <link href="http://nikhgupta.com/code/vim-awesomeness-gundo-and-tabular-plugins/"/>
-    <updated>2012-03-28T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/code/vim-awesomeness-gundo-and-tabular-plugins</id>
-    <content type="html"><![CDATA[<p>Recently, I switched to MacVim in order to give VIM another shot. Since, then,
-Vim has kept on amazing me with its feature set.</p>
-
-<p>Learning from Vimcasts.org, I get to know the Gundo and Tabular plugins. This
-post is a short excerpt of what they do and how they help me in my day to day
-editing.</p>
-
-<!-- more -->
-
-
-<h3>Gundo</h3>
-
-<p>Traditional editors have a concept of undo-redo which is fairly simple &ndash; you
-can do something &ndash; undo it and redo it, i.e. you can traverse on path <code>ABEFG</code></p>
-
-<p>VIM allows me to traverse the changes in a chronological manner, as well. That
-is to say, I can even go to edits not in the same timeline, i.e. I am able to
-traverse <code>ABCDEFG</code> as they happened.</p>
-
-<p>``` text</p>
-
-<pre><code>      / `---------- C ---- D
-</code></pre>
-
-<p>A&mdash;&ndash; B &mdash; |</p>
-
-<pre><code>      \,----------------------- E ----- F ------- G
-</code></pre>
-
-<p>```</p>
-
-<p>We can use the <code>:earlier Nm</code> command to go back a few minutes (and even
-seconds, hours, days). We can use <code>:GundoToggle</code> to view a quick Ascii tree of
-our changes and compare the two edits in the vim timeline for undos</p>
-
-<h3>Tabular</h3>
-
-<p>I can simply align my code using <code>:Tabularize /{pattern}</code>. For example, to
-align assignments I can use something like <code>:Tab /=</code> and, if I prefer to keep
-the spaces attached to the code on the left, I can use something like <code>:Tab
-/=\zs</code> The effects will be as below:</p>
-
-<p>``` ruby</p>
-
-<h1>no tabularize</h1>
-
-<p>a = 1322
-abc = 1323
-abcde = 1324</p>
-
-<h1>:Tab /=</h1>
-
-<p>a     = 1322
-abc   = 1323
-abcde = 1324</p>
-
-<h1>:Tab /=\zs</h1>
-
-<p>a =     1322
-abc =   1323
-abcde = 1324
-```</p>
 ]]></content>
   </entry>
   
