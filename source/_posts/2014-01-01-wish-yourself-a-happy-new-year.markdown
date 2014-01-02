@@ -19,7 +19,9 @@ Ruby
 If you are a fan of the ruby (like me), define a function with the following
 definition (try, using `irb` for this purpose):
 
-    def encode(str); str.chars.map(&:ord).inject(:+); end
+``` ruby
+def encode(str); str.chars.map(&:ord).inject(:+); end
+```
 
 The above function does the following:
 
@@ -31,17 +33,29 @@ The above function does the following:
 Nothin' great about that function, right?  
 Now, try this in your `irb` session:
 
-    encode "Happy new year to you!"
+``` ruby
+encode "Happy new year to you!"
+```
 
 You will see that the above function is quite intelligent in itself.
 
 > That little function is empowered with an artificial intelligence by its code,
 > without any complex mechanisms :)
 
+Oh, and here is an alternative:
+
+``` ruby
+Happy = Time
+Happy.new.year
+```
+
+
 Python
 ------
 
 If you are a python fan, instead, try this:
 
-    encode = lambda str: sum(ord(c) for c in str)
-    encode("Happy new year to you!")
+``` python
+encode = lambda str: sum(ord(c) for c in str)
+encode("Happy new year to you!")
+```
