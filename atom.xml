@@ -4,7 +4,7 @@
   <title><![CDATA[Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2014-01-02T20:58:45+05:30</updated>
+  <updated>2014-01-02T21:03:57+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -116,8 +116,10 @@ that was totally appropriate for this event.</p>
 <p>If you are a fan of the ruby (like me), define a function with the following
 definition (try, using <code>irb</code> for this purpose):</p>
 
-<pre><code>def encode(str); str.chars.map(&amp;:ord).inject(:+); end
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="n">str</span><span class="p">);</span> <span class="n">str</span><span class="o">.</span><span class="n">chars</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:ord</span><span class="p">)</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="ss">:+</span><span class="p">);</span> <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>The above function does the following:</p>
 
@@ -132,21 +134,35 @@ definition (try, using <code>irb</code> for this purpose):</p>
 <p>Nothin&#8217; great about that function, right?<br/>
 Now, try this in your <code>irb</code> session:</p>
 
-<pre><code>encode "Happy new year to you!"
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">encode</span> <span class="s2">&quot;Happy new year to you!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>You will see that the above function is quite intelligent in itself.</p>
 
 <blockquote><p>That little function is empowered with an artificial intelligence by its code,
 without any complex mechanisms :)</p></blockquote>
 
+<p>Oh, and here is an alternative:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Happy</span> <span class="o">=</span> <span class="no">Time</span>
+</span><span class='line'><span class="no">Happy</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">year</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h2>Python</h2>
 
 <p>If you are a python fan, instead, try this:</p>
 
-<pre><code>encode = lambda str: sum(ord(c) for c in str)
-encode("Happy new year to you!")
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">encode</span> <span class="o">=</span> <span class="k">lambda</span> <span class="nb">str</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">)</span>
+</span><span class='line'><span class="n">encode</span><span class="p">(</span><span class="s">&quot;Happy new year to you!&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
 ]]></content>
   </entry>
   

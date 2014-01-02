@@ -4,7 +4,7 @@
   <title><![CDATA[Category: code | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2014-01-02T20:58:45+05:30</updated>
+  <updated>2014-01-02T21:03:57+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -31,8 +31,9 @@ that was totally appropriate for this event.</p>
 <p>If you are a fan of the ruby (like me), define a function with the following
 definition (try, using <code>irb</code> for this purpose):</p>
 
-<pre><code>def encode(str); str.chars.map(&amp;:ord).inject(:+); end
-</code></pre>
+<p><code>ruby
+def encode(str); str.chars.map(&amp;:ord).inject(:+); end
+</code></p>
 
 <p>The above function does the following:</p>
 
@@ -47,21 +48,30 @@ definition (try, using <code>irb</code> for this purpose):</p>
 <p>Nothin' great about that function, right?<br/>
 Now, try this in your <code>irb</code> session:</p>
 
-<pre><code>encode "Happy new year to you!"
-</code></pre>
+<p><code>ruby
+encode "Happy new year to you!"
+</code></p>
 
 <p>You will see that the above function is quite intelligent in itself.</p>
 
 <blockquote><p>That little function is empowered with an artificial intelligence by its code,
 without any complex mechanisms :)</p></blockquote>
 
+<p>Oh, and here is an alternative:</p>
+
+<p><code>ruby
+Happy = Time
+Happy.new.year
+</code></p>
+
 <h2>Python</h2>
 
 <p>If you are a python fan, instead, try this:</p>
 
-<pre><code>encode = lambda str: sum(ord(c) for c in str)
+<p><code>python
+encode = lambda str: sum(ord(c) for c in str)
 encode("Happy new year to you!")
-</code></pre>
+</code></p>
 ]]></content>
   </entry>
   
