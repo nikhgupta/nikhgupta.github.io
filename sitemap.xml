@@ -74,15 +74,21 @@
     </url>
     <url>
         <loc>http://nikhgupta.com/code/wish-yourself-a-happy-new-year/</loc>
-        <lastmod>2014-01-02T21:03:52+05:30</lastmod>
+        <lastmod>2014-01-02T21:22:56+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/personal/diary/the-overdue-silence/</loc>
         <lastmod>2014-01-02T20:01:24+05:30</lastmod>
     </url>
     <url>
+        <loc>
+            http://nikhgupta.com/code/wrapping-long-lines-in-ruby-for-display-in-source-files/
+        </loc>
+        <lastmod>2014-01-31T03:57:38+05:30</lastmod>
+    </url>
+    <url>
         <loc>http://nikhgupta.com/blog/archives/</loc>
-        <lastmod>2014-01-02T21:03:52+05:30</lastmod>
+        <lastmod>2014-01-31T03:57:38+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/blog/categories/</loc>
@@ -90,7 +96,7 @@
     </url>
     <url>
         <loc>http://nikhgupta.com/</loc>
-        <lastmod>2014-01-02T21:03:52+05:30</lastmod>
+        <lastmod>2014-01-31T03:57:38+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/robots.txt</loc>

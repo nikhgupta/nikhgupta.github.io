@@ -4,7 +4,7 @@
   <title><![CDATA[Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2014-01-02T21:03:57+05:30</updated>
+  <updated>2014-01-31T03:58:52+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -12,6 +12,201 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[wrapping long lines in ruby for display in source files]]></title>
+    <link href="http://nikhgupta.com/code/wrapping-long-lines-in-ruby-for-display-in-source-files/"/>
+    <updated>2014-01-31T02:42:00+05:30</updated>
+    <id>http://nikhgupta.com/code/wrapping-long-lines-in-ruby-for-display-in-source-files</id>
+    <content type="html"><![CDATA[<p>While working on a gem, I needed to generate ruby classes on the fly. Yeah,
+I know this should never be the case, unless I needed around 600+ classes (I was
+converting schema.org schemas to ruby classes).</p>
+
+<p>Now, this required me to add descriptive text inside these classes, but the text
+was very long and I hated how the text overflowed the screen. I use vim, which
+promptly highlights the 80-char column marker on my source files, and I wanted
+this text to stick to that. Effectively, I wanted something like the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">MyModule</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">MyClass</span>
+</span><span class='line'>    <span class="n">describes</span> <span class="s2">&quot;A really long text that respects the 80-char column marker and</span>
+</span><span class='line'><span class="s2">    wraps nicely when it exceeds this length.&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<p>I knew that Rails provided a nearly similar method with the name <code>word_wrap</code>,
+and I tweaked it a bit to this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">String</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">wrap</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="n">width</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:width</span><span class="p">,</span> <span class="mi">76</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">strip</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">line</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="n">width</span> <span class="p">?</span> <span class="n">line</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/(.{1,</span><span class="si">#{</span><span class="n">width</span><span class="si">}</span><span class="sr">})(\s+|$)/</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">1</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="p">:</span> <span class="n">line</span>
+</span><span class='line'>    <span class="k">end</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:strip</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">indent</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="n">spaces</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="n">options</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:spaces</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/^/</span><span class="p">,</span> <span class="n">spaces</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/^\s*$/</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">indent_with_wrap</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="n">spaces</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:spaces</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">width</span>  <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:width</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">width</span>  <span class="o">=</span> <span class="n">width</span> <span class="o">&gt;</span> <span class="n">spaces</span> <span class="p">?</span> <span class="n">width</span> <span class="o">-</span> <span class="n">spaces</span> <span class="p">:</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="ss">width</span><span class="p">:</span> <span class="n">width</span><span class="p">)</span><span class="o">.</span><span class="n">indent</span><span class="p">(</span><span class="ss">spaces</span><span class="p">:</span> <span class="n">spaces</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The last method, i.e. <code>indent_with_wrap</code> is what I am interested in, really.
+Now, this might not be the best implementation for what I want, but it works and
+is self-explanatory to me.</p>
+
+<p>So, now, I can create my ERB template like this to get the desired results:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">module</span> <span class="o">&lt;</span><span class="sx">%= module_name %&gt;</span>
+</span><span class='line'><span class="sx">  class &lt;%=</span> <span class="n">class_name</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;%= &quot;describes </span><span class="si">#{</span><span class="n">description</span><span class="si">}</span><span class="sx">&quot;.indent_with_wrap spaces: 4, width: 80 %&gt;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Specs</h3>
+
+<p>Although, not really required (and not fully implemented), some sample tests can
+be:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="nb">String</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">subject</span><span class="p">(</span><span class="ss">:string</span><span class="p">)</span> <span class="p">{</span> <span class="s2">&quot;abcdef ghijkl mno</span><span class="se">\n</span><span class="s2">pqr stuvwx yzabcd efghij&quot;</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">describe</span> <span class="s1">&#39;.wrap&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;wraps long lines at word boundaries&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">result</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">wrap</span> <span class="ss">width</span><span class="p">:</span> <span class="mi">8</span>
+</span><span class='line'>      <span class="n">expected</span> <span class="o">=</span> <span class="s2">&quot;abcdef</span><span class="se">\n</span><span class="s2">ghijkl</span><span class="se">\n</span><span class="s2">mno</span><span class="se">\n</span><span class="s2">pqr</span><span class="se">\n</span><span class="s2">stuvwx</span><span class="se">\n</span><span class="s2">yzabcd</span><span class="se">\n</span><span class="s2">efghij&quot;</span>
+</span><span class='line'>      <span class="n">expect</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">result</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">wrap</span> <span class="ss">width</span><span class="p">:</span> <span class="mi">16</span>
+</span><span class='line'>      <span class="n">expected</span> <span class="o">=</span> <span class="s2">&quot;abcdef ghijkl</span><span class="se">\n</span><span class="s2">mno</span><span class="se">\n</span><span class="s2">pqr stuvwx</span><span class="se">\n</span><span class="s2">yzabcd efghij&quot;</span>
+</span><span class='line'>      <span class="n">expect</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">describe</span> <span class="s1">&#39;.indent&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;indents text with a default of 4 spaces&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">result</span>   <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">indent</span>
+</span><span class='line'>      <span class="n">expected</span> <span class="o">=</span> <span class="s2">&quot;    abcdef ghijkl mno</span><span class="se">\n</span><span class="s2">    pqr stuvwx yzabcd efghij&quot;</span>
+</span><span class='line'>      <span class="n">expect</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;indents text with given number of spaces&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">result</span>   <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">indent</span> <span class="ss">spaces</span><span class="p">:</span> <span class="mi">2</span>
+</span><span class='line'>      <span class="n">expected</span> <span class="o">=</span> <span class="s2">&quot;  abcdef ghijkl mno</span><span class="se">\n</span><span class="s2">  pqr stuvwx yzabcd efghij&quot;</span>
+</span><span class='line'>      <span class="n">expect</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">describe</span> <span class="s1">&#39;.indent_with_wrap&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;indents and wraps long text&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">result</span>   <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">indent_with_wrap</span> <span class="ss">spaces</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="ss">width</span><span class="p">:</span> <span class="mi">20</span>
+</span><span class='line'>      <span class="n">expected</span> <span class="o">=</span> <span class="s2">&quot;  abcdef ghijkl mno</span><span class="se">\n</span><span class="s2">  pqr stuvwx yzabcd</span><span class="se">\n</span><span class="s2">  efghij&quot;</span>
+</span><span class='line'>      <span class="n">expect</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">result</span>   <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">indent_with_wrap</span> <span class="ss">spaces</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">width</span><span class="p">:</span> <span class="mi">20</span>
+</span><span class='line'>      <span class="n">expected</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">wrap</span> <span class="ss">width</span><span class="p">:</span> <span class="mi">20</span>
+</span><span class='line'>      <span class="n">expect</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The overdue silence]]></title>

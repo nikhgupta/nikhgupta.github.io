@@ -124,6 +124,66 @@
   
 
 
+<time datetime="2014-01-31T02:42:00+05:30" data-updated="true" itemprop="datePublished">Jan 31<span>st</span>, 2014</time></div>
+    <div class="tags">
+
+
+	<a class='category' href='/blog/categories/code/'>code</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/code/wrapping-long-lines-in-ruby-for-display-in-source-files/" itemprop="url">Wrapping Long Lines in Ruby for Display in Source Files</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>While working on a gem, I needed to generate ruby classes on the fly. Yeah,
+I know this should never be the case, unless I needed around 600+ classes (I was
+converting schema.org schemas to ruby classes).</p>
+
+<p>Now, this required me to add descriptive text inside these classes, but the text
+was very long and I hated how the text overflowed the screen. I use vim, which
+promptly highlights the 80-char column marker on my source files, and I wanted
+this text to stick to that. Effectively, I wanted something like the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">MyModule</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">MyClass</span>
+</span><span class='line'>    <span class="n">describes</span> <span class="s2">&quot;A really long text that respects the 80-char column marker and</span>
+</span><span class='line'><span class="s2">    wraps nicely when it exceeds this length.&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+		
+		<a href="/code/wrapping-long-lines-in-ruby-for-display-in-source-files/" class="more-link">Read on &rarr;</a>
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2014-01-01T13:18:00+05:30" data-updated="true" itemprop="datePublished">Jan 1<span>st</span>, 2014</time></div>
     <div class="tags">
 
@@ -504,47 +564,6 @@ editing.</p>
 
 		
 		<a href="/code/vim-awesomeness-gundo-and-tabular-plugins/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-28T00:00:00+05:30" data-updated="true" itemprop="datePublished">Mar 28<span>th</span>, 2012</time></div>
-    <div class="tags">
-
-
-	<a class='category' href='/blog/categories/code/'>code</a>
-
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/code/5minutes-to-beta-video/" itemprop="url">5minutes. To Beta Video</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Recently, I have been involved with the <a href="http://5minutes.to/">5minutes.to</a>
-application. This application helps you get up and ready with your next website
-in 5 minutes or less including email addresses, templates and what not.</p>
-
-<p>In this post, I have posted an introductory video we made for
-<a href="http://beta.5minutes.to/">5minutes.to</a>, and by all means we love it :)</p>
-
-
-		
-		<a href="/code/5minutes-to-beta-video/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: code | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2014-01-02T21:03:57+05:30</updated>
+  <updated>2014-01-31T03:58:52+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -12,6 +12,148 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[wrapping long lines in ruby for display in source files]]></title>
+    <link href="http://nikhgupta.com/code/wrapping-long-lines-in-ruby-for-display-in-source-files/"/>
+    <updated>2014-01-31T02:42:00+05:30</updated>
+    <id>http://nikhgupta.com/code/wrapping-long-lines-in-ruby-for-display-in-source-files</id>
+    <content type="html"><![CDATA[<p>While working on a gem, I needed to generate ruby classes on the fly. Yeah,
+I know this should never be the case, unless I needed around 600+ classes (I was
+converting schema.org schemas to ruby classes).</p>
+
+<p>Now, this required me to add descriptive text inside these classes, but the text
+was very long and I hated how the text overflowed the screen. I use vim, which
+promptly highlights the 80-char column marker on my source files, and I wanted
+this text to stick to that. Effectively, I wanted something like the following:</p>
+
+<p>```ruby
+module MyModule
+  class MyClass</p>
+
+<pre><code>describes "A really long text that respects the 80-char column marker and
+wraps nicely when it exceeds this length."
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<!-- more -->
+
+
+<p>I knew that Rails provided a nearly similar method with the name <code>word_wrap</code>,
+and I tweaked it a bit to this:</p>
+
+<p>```ruby
+class String
+  def wrap options = {}</p>
+
+<pre><code>width = options.fetch(:width, 76)
+self.strip.split("\n").collect do |line|
+  line.length &gt; width ? line.gsub(/(.{1,#{width}})(\s+|$)/, "\\1\n") : line
+end.map(&amp;:strip).join("\n")
+</code></pre>
+
+<p>  end</p>
+
+<p>  def indent options = {}</p>
+
+<pre><code>spaces = " " * options.fetch(:spaces, 4)
+self.gsub(/^/, spaces).gsub(/^\s*$/, '')
+</code></pre>
+
+<p>  end</p>
+
+<p>  def indent_with_wrap options = {}</p>
+
+<pre><code>spaces = options.fetch(:spaces, 4)
+width  = options.fetch(:width, 80)
+width  = width &gt; spaces ? width - spaces : 1
+self.wrap(width: width).indent(spaces: spaces)
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>The last method, i.e. <code>indent_with_wrap</code> is what I am interested in, really.
+Now, this might not be the best implementation for what I want, but it works and
+is self-explanatory to me.</p>
+
+<p>So, now, I can create my ERB template like this to get the desired results:</p>
+
+<p>```ruby
+module &lt;%= module_name %>
+  class &lt;%= class_name %></p>
+
+<pre><code>&lt;%= "describes #{description}".indent_with_wrap spaces: 4, width: 80 %&gt;
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<h3>Specs</h3>
+
+<p>Although, not really required (and not fully implemented), some sample tests can
+be:</p>
+
+<p>```ruby
+require &lsquo;spec_helper&rsquo;</p>
+
+<p>describe String do</p>
+
+<p>  subject(:string) { &ldquo;abcdef ghijkl mno\npqr stuvwx yzabcd efghij&rdquo; }</p>
+
+<p>  describe &lsquo;.wrap&rsquo; do</p>
+
+<pre><code>it "wraps long lines at word boundaries" do
+  result = string.wrap width: 8
+  expected = "abcdef\nghijkl\nmno\npqr\nstuvwx\nyzabcd\nefghij"
+  expect(result).to eq(expected)
+  result = string.wrap width: 16
+  expected = "abcdef ghijkl\nmno\npqr stuvwx\nyzabcd efghij"
+  expect(result).to eq(expected)
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  describe &lsquo;.indent&rsquo; do</p>
+
+<pre><code>it "indents text with a default of 4 spaces" do
+  result   = string.indent
+  expected = "    abcdef ghijkl mno\n    pqr stuvwx yzabcd efghij"
+  expect(result).to eq(expected)
+end
+
+it "indents text with given number of spaces" do
+  result   = string.indent spaces: 2
+  expected = "  abcdef ghijkl mno\n  pqr stuvwx yzabcd efghij"
+  expect(result).to eq(expected)
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  describe &lsquo;.indent_with_wrap&rsquo; do</p>
+
+<pre><code>it "indents and wraps long text" do
+  result   = string.indent_with_wrap spaces: 2, width: 20
+  expected = "  abcdef ghijkl mno\n  pqr stuvwx yzabcd\n  efghij"
+  expect(result).to eq(expected)
+  result   = string.indent_with_wrap spaces: 0, width: 20
+  expected = string.wrap width: 20
+  expect(result).to eq(expected)
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[wish yourself a happy new year]]></title>
@@ -279,220 +421,6 @@ available, e.g. the user tries to run a ruby script on a server with no-ruby
 installed.</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Vim as PHP IDE: Ctags, and Code Browsing]]></title>
-    <link href="http://nikhgupta.com/code/using-vim-php-ide-exuberant-ctags-code-browsing/"/>
-    <updated>2012-04-01T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/code/using-vim-php-ide-exuberant-ctags-code-browsing</id>
-    <content type="html"><![CDATA[<p>So, past few weeks, I have been really fascinated with the all powerful Vim.
-And, I often wonder why: I took so much time switching to it? Probably, the
-steep learning curve! It has to be.</p>
-
-<p>Anyways, so I have really really progressed with Vim this time, as compared to
-my earlier trials. I am quite efficient with Vim now &ndash; even writing this blog
-post on it. I know how to move quickly, make efficient uses of search and
-replace, using Vim scripts etc. I have really really found plugins like
-Gundo, Fugitive, Tagbar, Syntastic, Snipmate, NerdTree, and Powerline to be
-useful and not to mention plugins like Vim-Rails which make my day-to-day
-tasks easier with a particular language. Oh, and did I mention the incredible
-<code>!</code> and <code>@</code> operators? They just rock!</p>
-
-<p>But, well. This post is about using Ctags with Vim to make Vim feel more like
-an IDE and readily use Source Code Browsing within frameworks, large code
-projects, etc. Here, in this post, I have specified my configuration/process
-for using Ctags with MacVim for a CakePHP based project.</p>
-
-<!-- more -->
-
-
-<h3>The Process</h3>
-
-<p>Well, I would try to create my Ctags on the fly, using Git hooks. This lets me
-simply checkout, merge or commit to a branch and my tags would be generated
-for the code in question. Moreover, these Ctags generated files are stored
-inside <code>.git</code> directory, which keeps our repositories clean (no need to add
-a file to <code>.gitignore</code>). Also, I would prefer a centralized place where I can
-manage any script I use to create these Ctags, and hence, if after about an
-year I think I need a change in the way script is working, or if say I want to
-add support for or remove support for a language, I should be able to do it
-from a single place and affect all my git repositories using these Ctags
-hooks.</p>
-
-<p>For this to work, i.e. for Vim to pick up our Ctags (that will be created in
-<code>.git/tags</code> file) we need to have <code>Fugitive</code> installed (which I will really
-really recommend anyways). This will make Vim look for Ctags in a <code>.git/tags</code>
-and <code>.git/&lt;lang&gt;.tags</code> file in our repository, irrespective of the current
-working directory.</p>
-
-<p>Let   s set up a default set of hooks that Git will use as a template when
-creating or cloning a repository (requires Git 1.7.1 or newer):</p>
-
-<p><code>bash
-git config --global init.templatedir '~/.git_template'
-mkdir -p ~/.git_template/hooks
-</code></p>
-
-<p>I, usually, put all my Git related stuff in <code>~/Code/__dotfiles/git/</code> and
-hence, the above template directory lands up as
-<code>~/Code/__dotfiles/git/template/</code> with all the hooks, in my
-<a href="http://github.com/nikhgupta/dotfiles">.dotfiles</a> repository.</p>
-
-<p>Now onto the first hook, which isn&rsquo;t actually a hook at all, but rather
-a script the other hooks will call. Place in <code>~/.git_template/hooks/ctags</code> and
-mark as executable:</p>
-
-<p>``` bash</p>
-
-<h1>!/bin/sh</h1>
-
-<p>rm -f .git/tags ctags &mdash;tag-relative -Rf.git/tags \
-  &mdash;exclude=.git &mdash;languages=-javascript,sql
-```</p>
-
-<p>Although, make sure that the <code>ctags</code> version is the GNU one, and the above
-script runs without showing any errors. If installing via <code>Homebrew</code> make sure
-that the <code>which ctags</code> command shows the correct <code>ctags</code> executable path.</p>
-
-<p>Making this a separate script makes it easy to invoke <code>.git/hooks/ctags</code> for
-a one-off re-index (or <code>git config --global alias.ctags '!.git/hooks/ctags'</code>,
-then <code>git ctags</code>), as well as easy to edit for that special case repository
-that needs a different set of options to ctags. For example, I might want to
-re-enable indexing for JavaScript or SQL files, which I&rsquo;ve disabled here
-because I&rsquo;ve found both to be of limited value and noisy in the warning
-department.  And, in these edge cases, all I need is to modify the
-corresponding <code>.git/hooks/ctags</code> script in that git repository. Neat and
-clean.</p>
-
-<p>We still need to create the actual hooks that the Git will copy to all
-repositories that are (re)initialized using the <code>git init</code> command.  All the
-files in the <code>~/.git_template/hooks</code> folder needs to be marked as executables.
-You should use the following content for: <code>post-commit</code>, <code>post-merge</code>, and
-<code>post-checkout</code> hooks (which simply calls the <code>ctags</code> hook, we create above):</p>
-
-<p>``` bash</p>
-
-<h1>!/bin/sh</h1>
-
-<p>.git/hooks/ctags >/dev/null 2>&amp;1 &amp;
-```</p>
-
-<p>Additionally, if you feel tags should also be generated on using <code>git rebase</code>,
-add the following code to <code>post-rewrite</code> hook:</p>
-
-<p>``` bash</p>
-
-<h1>!/bin/sh</h1>
-
-<p>case &ldquo;$1&rdquo; in
-  rebase) exec .git/hooks/post-merge ;;
-esac
-```</p>
-
-<p>Once, the above is done, all we need to do is to issue a <code>git init</code> command to
-create Ctags for an already existing repository. All new git repositories will
-automatically include these hooks and hence, will create the Ctags file on the
-fly. Pure Automation. ;)</p>
-
-<h3>Global Projects</h3>
-
-<p>There are some projects that I always want available for source code browsing
-like the Rails source code itself. For such projects, I would generally run
-a one-off shell script that does this work for me, and store the generated
-tags file in a directory such as <code>~/.tags/</code> with a suitable name. O'course it
-does not make sense to version this directory.</p>
-
-<p>``` bash</p>
-
-<h1>!/usr/bin/env sh</h1>
-
-<p>RubyVersion=&ldquo;1.9.3-p194&rdquo;
-LaravelPath=&ldquo;${HOME}/Code/projects/lab/laravel&rdquo;</p>
-
-<p>mkdir -p &ldquo;${HOME}/.ctags&rdquo;</p>
-
-<h1>RVM: Ruby version 1.9.3-p194</h1>
-
-<p>if [ -n &ldquo;${RubyVersion}&rdquo; ]; then
-  mkdir -p &ldquo;${HOME}/.ctags/ruby/${RubyVersion}&rdquo;
-  TAG_FILE=&ldquo;${HOME}/.ctags/ruby/${RubyVersion}/tags&rdquo;
-  rm -f &ldquo;${TAG_FILE}&rdquo;
-  for rubydir in <code>find "${HOME}/.rvm/gems" -type d -depth 1 -iname "*${RubyVersion}*"</code>; do</p>
-
-<pre><code>if [ -d "${rubydir}/gems" ]; then
-  echo "Looking inside: ${rubydir}/gems"
-  ctags --recurse --tag-relative \
-    --languages=-javascript,sql \
-    --exclude=.git \
-    --sort=yes --append \
-    -f "${TAG_FILE}" \
-    $rubydir/gems/*
-fi
-</code></pre>
-
-<p>  done
-  echo
-  echo &ldquo;&mdash;&mdash;&mdash; generated ctags for: ${RubyVersion} &mdash;&mdash;&mdash;&rdquo;
-  cat &ldquo;${TAG_FILE}&rdquo; | wc
-  echo &ldquo;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;&rdquo;
-  echo
-fi</p>
-
-<h1>Laravel</h1>
-
-<p>if [ -n &ldquo;${LaravelPath}&rdquo; -a -d &ldquo;${LaravelPath}&rdquo; ]; then
-  mkdir -p &ldquo;${HOME}/.ctags/php/laravel&rdquo;
-  TAG_FILE=&ldquo;${HOME}/.ctags/php/laravel/tags&rdquo;
-  rm -f &ldquo;${TAG_FILE}&rdquo;
-  echo &ldquo;Looking inside: ${LaravelPath}&rdquo;
-  ctags &mdash;recurse &mdash;tag-relative \</p>
-
-<pre><code>--languages=-javascript,sql \
---exclude=.git \
---sort=yes --append \
---PHP-kinds=+cf \
---regex-PHP='/abstract class ([^ ]*)/\1/c/' \
---regex-PHP='/interface ([^ ]*)/\1/c/' \
---regex-PHP='/(public |static |abstract |protected |private )+function ([^ (]*)/\2/f/' \
--f "${TAG_FILE}" \
-$LaravelPath
-</code></pre>
-
-<p>  echo
-  echo &ldquo;&mdash;&mdash;&mdash;&mdash; generated ctags for: Laravel &mdash;&mdash;&mdash;&ndash;&rdquo;
-  cat &ldquo;${TAG_FILE}&rdquo; | wc
-  echo &ldquo;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;&rdquo;
-  echo
-fi
-```</p>
-
-<p>Finally, I set the following inside my <code>~/.vimrc</code> file:</p>
-
-<p><code>vim
-set tags=./tags;/
-augroup TagFileType
-  autocmd!
-  autocmd FileType * setl tags&lt;
-  autocmd FileType * exe 'setl tags+=~/.ctags/' . &amp;filetype . '/*/tags'
-augroup END
-</code></p>
-
-<p>This basically tells vim to only load ctags for the current filetype, i.e. for
-a <code>ruby</code> buffer, vim will load all ctags files inside <code>~/.ctags/ruby</code>
-directory, and no ctags file inside <code>~/.ctags/php</code></p>
-
-<h3>Epilogue</h3>
-
-<p>(Now, that I have completed writing the post and I read it again, it seems
-that this post feels like a rewrite <a href="http://tbaggery.com/2011/08/08/effortless-ctags-with-git.html">a post by tPope</a>. Well,
-I was originally thinking of a different way to create these Ctags, but as
-I went deeper and deeper, I realized that what
-<a href="https://github.com/tpope">tPope</a> describes is so natural and easy, that
-I have to ditch whatever it is &ndash; what I was doing now. And, do not forget,
-I am less than a month old with Vim and I am talking Ctags with Vim.  I am
-allowed to reherse my steps :P )</p>
 ]]></content>
   </entry>
   
