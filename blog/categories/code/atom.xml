@@ -4,7 +4,7 @@
   <title><![CDATA[Category: code | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2014-01-31T03:58:52+05:30</updated>
+  <updated>2014-01-31T04:00:40+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -88,65 +88,6 @@ module &lt;%= module_name %>
   class &lt;%= class_name %></p>
 
 <pre><code>&lt;%= "describes #{description}".indent_with_wrap spaces: 4, width: 80 %&gt;
-</code></pre>
-
-<p>  end
-end
-```</p>
-
-<h3>Specs</h3>
-
-<p>Although, not really required (and not fully implemented), some sample tests can
-be:</p>
-
-<p>```ruby
-require &lsquo;spec_helper&rsquo;</p>
-
-<p>describe String do</p>
-
-<p>  subject(:string) { &ldquo;abcdef ghijkl mno\npqr stuvwx yzabcd efghij&rdquo; }</p>
-
-<p>  describe &lsquo;.wrap&rsquo; do</p>
-
-<pre><code>it "wraps long lines at word boundaries" do
-  result = string.wrap width: 8
-  expected = "abcdef\nghijkl\nmno\npqr\nstuvwx\nyzabcd\nefghij"
-  expect(result).to eq(expected)
-  result = string.wrap width: 16
-  expected = "abcdef ghijkl\nmno\npqr stuvwx\nyzabcd efghij"
-  expect(result).to eq(expected)
-end
-</code></pre>
-
-<p>  end</p>
-
-<p>  describe &lsquo;.indent&rsquo; do</p>
-
-<pre><code>it "indents text with a default of 4 spaces" do
-  result   = string.indent
-  expected = "    abcdef ghijkl mno\n    pqr stuvwx yzabcd efghij"
-  expect(result).to eq(expected)
-end
-
-it "indents text with given number of spaces" do
-  result   = string.indent spaces: 2
-  expected = "  abcdef ghijkl mno\n  pqr stuvwx yzabcd efghij"
-  expect(result).to eq(expected)
-end
-</code></pre>
-
-<p>  end</p>
-
-<p>  describe &lsquo;.indent_with_wrap&rsquo; do</p>
-
-<pre><code>it "indents and wraps long text" do
-  result   = string.indent_with_wrap spaces: 2, width: 20
-  expected = "  abcdef ghijkl mno\n  pqr stuvwx yzabcd\n  efghij"
-  expect(result).to eq(expected)
-  result   = string.indent_with_wrap spaces: 0, width: 20
-  expected = string.wrap width: 20
-  expect(result).to eq(expected)
-end
 </code></pre>
 
 <p>  end
