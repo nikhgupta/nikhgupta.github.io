@@ -4,7 +4,7 @@
   <title><![CDATA[Category: code | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2014-01-31T04:00:40+05:30</updated>
+  <updated>2014-01-31T04:01:10+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -93,6 +93,8 @@ module &lt;%= module_name %>
 <p>  end
 end
 ```</p>
+
+<p>This makes me a happy panda :)</p>
 ]]></content>
   </entry>
   
