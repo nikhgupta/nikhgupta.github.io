@@ -84,11 +84,17 @@
         <loc>
             http://nikhgupta.com/code/wrapping-long-lines-in-ruby-for-display-in-source-files/
         </loc>
-        <lastmod>2014-01-31T04:01:05+05:30</lastmod>
+        <lastmod>2014-02-03T06:47:41+05:30</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://nikhgupta.com/code/serving-legacy-php-applications-using-apache-alongside-pow/
+        </loc>
+        <lastmod>2014-02-03T07:20:01+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/blog/archives/</loc>
-        <lastmod>2014-01-31T04:01:05+05:30</lastmod>
+        <lastmod>2014-02-03T07:20:01+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/blog/categories/</loc>
@@ -96,7 +102,7 @@
     </url>
     <url>
         <loc>http://nikhgupta.com/</loc>
-        <lastmod>2014-01-31T04:01:05+05:30</lastmod>
+        <lastmod>2014-02-03T07:20:01+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/robots.txt</loc>
