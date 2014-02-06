@@ -4,7 +4,7 @@
   <title><![CDATA[Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2014-02-03T07:21:14+05:30</updated>
+  <updated>2014-02-07T04:22:09+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -12,6 +12,258 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[making ngrok work with pow and apache (exposing localhost domains to the internet)]]></title>
+    <link href="http://nikhgupta.com/workflow/making-ngrok-work-with-pow-and-apache-exposing-localhost-domains-to-the-internet/"/>
+    <updated>2014-02-07T02:56:00+05:30</updated>
+    <id>http://nikhgupta.com/workflow/making-ngrok-work-with-pow-and-apache-exposing-localhost-domains-to-the-internet</id>
+    <content type="html"><![CDATA[<p>OK. I am really happy with my recent endeavour to try out <a href="http://pow.cx">Pow</a>
+and making it work alongside Apache. What this means is that, on my macbook pro,
+I can simply run <code>powder link</code> inside a rack-based application, and then, use
+<code>http://&lt;appname&gt;.dev</code> to connect to this application. For legacy (non-rack)
+based application, I can simply create a directory in a specificied location,
+and that directory will be served by Apache at: <code>http://&lt;dirname&gt;.lab</code>. Details
+for this implementation/workflow can be found in <a href="http://nikhgupta.com/code/serving-legacy-php-applications-using-apache-alongside-pow/">this post</a>.</p>
+
+<p>Now, this works really nicely. But, I wanted a way to access these sites easily
+on the public internet, lets say, to showcase the current work to a client, etc.
+This is where <a href="http://ngrok.com">ngrok</a> comes in. It allows us to establish
+a tunnel that forwards a port on our machine and make it available on the public
+internet. This post walks through the steps I took to make it play nicely and
+really smoothly with Apache and Pow.</p>
+
+<!-- more -->
+
+
+<h2>Installing <code>ngrok</code></h2>
+
+<p>Installing <code>ngrok</code> is pretty easy. We need to download a zip file, unzip it and
+move the executable inside it to a directory in our <code>$PATH</code>. Assuming that
+<code>/usr/local/bin</code> is in our <code>$PATH</code>, we can do something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span> /tmp
+</span><span class='line'>wget https://dl.ngrok.com/darwin_amd64/ngrok.zip
+</span><span class='line'>unzip ngrok.zip
+</span><span class='line'>chmod +x ngrok
+</span><span class='line'>cp ngrok /usr/local/bin
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, we need to verify that <code>ngrok</code> is working by running: <code>ngrok help</code>. Once,
+we have it working, we need to <a href="https://ngrok.com/signup">register</a> us on
+<code>ngrok</code> website, and authorize us with <code>ngrok</code> as stated in the
+<a href="http://ngrok.com/dashboard">dashboard</a>.</p>
+
+<p>Now, <code>ngrok</code> is ready to serve our localhost on the public internet. Running:
+<code>ngrok 80</code> should provide us with a unique URL, which we can access to view our
+localhost site, i.e. <code>http://localhost/</code>.</p>
+
+<h2>Pow domains?</h2>
+
+<p>I wanted to view my Pow based domains over the internet, and this is fairly easy
+to do. With our <a href="http://nikhgupta.com/code/serving-legacy-php-applications-using-apache-alongside-pow/">current Pow setup</a>, it is still easier.</p>
+
+<blockquote><p>If you have reached this post while searching to make ngrok work with apache
+or pow, please read that article, before you proceed further. Instructions in
+this post assume that Pow and Apache are setup in a particular manner, and may
+not work in your case.</p></blockquote>
+
+<p>Alright, we need to reinstall Pow to let it know what mischief we are upto.
+We can run the following commands to uninstall Pow, add an environment variable
+to our Pow configuration file, and then, reinstall Pow. This particular
+environment variable tells Pow to resolve DNS for <code>*.ngrok.com</code> on our local
+machine, but not serve them.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl get.pow.cx/uninstall.sh | sh
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;export POW_EXT_DOMAINS=ngrok.com&quot;</span> &gt;&gt; ~/.powconfig
+</span><span class='line'>curl get.pow.cx | sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That is all we need to make Pow serve our local Pow site, e.g. <code>myapp.dev</code> on
+the internet, provided this application is being forwarded on <code>myapp.ngrok.com</code>
+hostname. In order to achieve this, we can run <code>ngrok</code>, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ngrok --subdomain<span class="o">=</span>myapp myapp.dev:88
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that, as per our current Pow configuration, Pow is running on port 88, and
+that is what we need to specify here. Great. So, we can now access our local
+<code>myapp.dev</code> Pow based site on the internet by visiting <code>http://myapp.ngrok.com</code>.</p>
+
+<h2>Apache domains?</h2>
+
+<p><code>ngrok</code> allows us to expose our Apache <code>VirtualHost</code> domains over
+the internet by adding the public hostname of the application as a <code>ServerAlias</code>
+inside the appropriate <code>VirtualHost</code> directive.</p>
+
+<p>In my case, I am using the following <code>VirtualHost</code> directive (which allows me
+to simply create a directory named <code>myapp</code> inside the path specified by the
+<code>VirtualDocumentRoot</code>, and access it on <code>http://myapp.lab</code>):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nt">&lt;VirtualHost</span> <span class="s">*:80</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nb">ServerName</span> lab
+</span><span class='line'>    <span class="nb">ServerAlias</span> *.lab
+</span><span class='line'>    <span class="nb">VirtualDocumentRoot</span> <span class="s2">&quot;/Users/nikhgupta/Code/legacy-apps/%1&quot;</span>
+</span><span class='line'><span class="nt">&lt;/VirtualHost&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We want <code>ngrok</code> to serve all <code>*.lab</code> local sites on the internet. Therefore, we
+add a <code>ServerAlias</code> with the value <code>*.lab.ngrok.com</code> to this <code>VirtualHost</code>
+directive.</p>
+
+<p>This works because, when a request to <code>*.lab.ngrok.com</code> is made on the internet,
+<code>ngrok</code> will forward it to our machine, which will read the hostname to be
+<code>*.lab.ngrok.com</code>, which is where Apache kicks in and tries to serve it, using
+the above directive. Nice, and simple :)</p>
+
+<p>So, our directive should look like this, now:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nt">&lt;VirtualHost</span> <span class="s">*:80</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nb">ServerName</span> lab
+</span><span class='line'>    <span class="nb">ServerAlias</span> *.lab *.lab.ngrok.com
+</span><span class='line'>    <span class="nb">VirtualDocumentRoot</span> <span class="s2">&quot;/Users/nikhgupta/Code/legacy-apps/%1&quot;</span>
+</span><span class='line'><span class="nt">&lt;/VirtualHost&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To make this all work, we need <code>ngrok</code> to serve the site correctly. Assuming
+that we want to access <code>myapp.lab</code>, we will need to issue a command like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ngrok --subdomain<span class="o">=</span>myapp.lab myapp.lab:80
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Voila, we can now access our Apache <code>VirtualHost</code> domains on the internet, as
+well.</p>
+
+<h2>Epilogue</h2>
+
+<p>To sum it up, with the above changes, and the following sites that work on our
+local machine:</p>
+
+<ol>
+<li><code>my-pow-app.dev</code>:    pow based application</li>
+<li><code>my-apache-app.lab</code>: apache based application</li>
+</ol>
+
+
+<p>We can issue the following two commands (in separate tabs):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># access `my-pow-app.dev` via: http://my-pow-app.ngrok.com</span>
+</span><span class='line'>ngrok --subdomain<span class="o">=</span>my-pow-app my-pow-app.dev:88
+</span><span class='line'>
+</span><span class='line'><span class="c"># access `my-apache-app.lab` via: http://my-apache-app.lab.ngrok.com</span>
+</span><span class='line'>ngrok --subdomain<span class="o">=</span>my-apache-app.lab my-apache-app.lab:80
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Further Improvement to Workflow</h2>
+
+<p>I created this handly little shell snippet to easily serve up a local domain on
+the internet using <code>ngrok</code> (and, optionally, with HTTP Basic Authentication):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>expose<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="nv">website</span><span class="o">=</span><span class="nv">$1</span>
+</span><span class='line'>    <span class="nv">subdomain</span><span class="o">=</span><span class="nv">$2</span>
+</span><span class='line'>    <span class="nv">username</span><span class="o">=</span><span class="nv">$3</span>
+</span><span class='line'>    <span class="nv">password</span><span class="o">=</span><span class="nv">$4</span>
+</span><span class='line'>    <span class="o">[</span> -n <span class="nv">$website</span> <span class="o">]</span> <span class="o">||</span> <span class="o">(</span><span class="nb">echo</span> <span class="s2">&quot;I need a local website to tunnel to.&quot;</span> <span class="o">&amp;&amp;</span> <span class="nb">exit</span><span class="o">)</span>
+</span><span class='line'>    <span class="o">[</span> -n <span class="nv">$subdomain</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nv">subdomain</span><span class="o">=</span><span class="s2">&quot;--subdomain=${subdomain}&quot;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">[[</span> -n <span class="nv">$username</span>  <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="o">[[</span> -n <span class="nv">$password</span> <span class="o">]]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">        </span><span class="nv">httpauth</span><span class="o">=</span><span class="s2">&quot;-httpauth=${username}:${password}&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'><span class="k">        </span><span class="nb">echo</span> <span class="s2">&quot;Not using secure tunnel since auth params were not provided.&quot;</span>
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'><span class="k">    </span>ngrok <span class="nv">$subdomain</span> <span class="nv">$httpauth</span> <span class="nv">$website</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I am pretty sure that the above function can be further improved, but it works.
+It empowers me to issue a simplified command to serve any local domain.</p>
+
+<p>To best realize the power of this little snippet, we need to add the following one-line
+functions (after the above function) in our shell configuration:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>expose-dev<span class="o">()</span> <span class="o">{</span> expose <span class="nv">$1</span>.dev:88 <span class="nv">$1</span> <span class="nv">$2</span> <span class="nv">$3</span>; <span class="o">}</span>
+</span><span class='line'>expose-lab<span class="o">()</span> <span class="o">{</span> expose <span class="nv">$1</span>.lab:80 <span class="nv">$1</span>.lab <span class="nv">$2</span> <span class="nv">$3</span>; <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, to serve up a Pow based site, e.g. <code>myapp.dev</code>, we can simply run:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>expose-dev myapp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And, to serve up an Apache based site, e.g. <code>myapp.lab</code>, we can simply run:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>expose-lab myapp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Not only that, we can, also, add HTTP Basic Authentication while serving up
+a local site, by simply passing two more parameters for username and password,
+like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>expose-lab myapp username password
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, when we visit <code>http://myapp.lab.ngrok.com</code>, we will be greeted with a HTTP
+Basic Authentication before we are allowed accessed to our local site.</p>
+
+<p><strong>Nice and really useful :)</strong></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[serving legacy php applications using Apache alongside Pow]]></title>
@@ -2197,194 +2449,6 @@ me to re-use it for more pages.</p>
 <li><del datetime="2011-07-31T06:37:58+00:00">Display related posts on 404 pages</del></li>
 <li>Also, post to Facebook and Twitter when a status update is made.</li>
 </ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Initializing gitolite repositories]]></title>
-    <link href="http://nikhgupta.com/code/initialize-gitolite-bash-script/"/>
-    <updated>2011-07-31T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/code/initialize-gitolite-bash-script</id>
-    <content type="html"><![CDATA[<p>This script creates a git repository in the current directory, syncs it with
-the Gitolite server (and also, the Github &ndash; optional) and all the regular
-mumbo-jumbo when setting up the Git repository for the first time for
-a particular folder.</p>
-
-<!--more-->
-
-
-
-
-<div><script src='https://gist.github.com/7077610.js'></script>
-<noscript><pre><code>#!/bin/bash
-
-GITOLITE_ADMIN_DIR=/home/$USERNAME/workspace/gitolite-admin
-GITOLITE_CONF=$GITOLITE_ADMIN_DIR/conf/gitolite.conf
-GITSERVER=gitserver
-SSHSTRING=&quot;ssh root@vps&quot;
-PATHTOREPOS=&quot;/home/develop/repositories&quot;
-GITHUB_USER=$USERNAME
-GITHUB_TOKEN=&quot;&amp;lt;GITHUBTOKEN&amp;gt;&quot;
-#REMOTENAMES=&quot;origin gitolite&quot; # $GITSERVER is always added as a REMOTENAME
-
-function oneline_usage() {
-    echo $&quot;Usage: init-gitolite.sh [-ghdvV0] [-r repo_macro] [dirname] [reponame]&quot;
-    exit 999
-}
-function version() {
-    echo -e $&quot;Gitolite init script\nVersion 1.1\nby Nikhil Gupta\n[me@nikhgupta.com]&quot;
-    exit 999
-}
-
-function error { show_success 0 &quot;failed&quot; &quot;$1&quot;; }
-function warn { show_success 1 &quot;warning&quot; &quot;$1&quot;; }
-function success { show_success 2 &quot;success&quot; &quot;$1&quot;; }
-function die { show_success 3 &quot;aborted&quot; &quot;$1&quot;; exit 999; }
-
-function show_success() {
-    # Parameters: condition_check (0|1|2|3), warn|fail|success|abort, [desc]
-    # Parameters: condition_check (0|1|2|3), message, [desc]
-    message=( $(echo &quot;$2&quot; | tr &#39;|&#39; &#39; &#39;) ); message=&quot;${message[$1]}&quot;; message=${message:-&quot;$2&quot;}
-    color=( &quot;${RED}&quot; &quot;${YLW}&quot; &quot;${GRN}&quot; &quot;${RED}&quot; )
-    desc=( &quot;_Error_&quot; &quot;Warning&quot; &quot;Success&quot; &quot;ABORTED&quot;)
-    if (( $COLORCODES )); then desc=&quot;${color[$1]}${desc[$1]}!${NML} $3&quot; ; else desc=&quot;${desc[$1]}! $3&quot;; fi
-    [ -n &quot;$3&quot; ] &amp;amp;&amp;amp; echo -ne &quot;${desc}&quot;;
-    if (( $COLORCODES )); then tput hpa $COL; echo -e &quot;${color[$1]}[ ${message} ]${NML}&quot;;
-    else printf &quot;\n%${COL}s\n&quot; &quot;...[ ${message} ]&quot;; fi
-}
-function check_requirements() {
-    type -P sed &amp;amp;&amp;gt;/dev/null || die &quot;I require &#39;sed&#39; but it&#39;s not installed.&quot;
-    type -P grep &amp;amp;&amp;gt;/dev/null || die &quot;I require &#39;grep&#39; but it&#39;s not installed.&quot;
-    type -P tput &amp;amp;&amp;gt;/dev/null || die &quot;I require &#39;tput&#39; but it&#39;s not installed.&quot;
-    type -P git &amp;amp;&amp;gt;/dev/null || die &quot;I require &#39;git&#39; but it&#39;s not installed.&quot;
-    # check if the gitolite-admin directory is actually present
-    [ -w &quot;$GITOLITE_CONF&quot; ] || die &quot;can not read/write gitolite configuration file..&quot;
-    # check if a git repository already exists for this repo
-    [ -d &quot;$REPO_DIR/.git&quot; ] &amp;amp;&amp;amp; die &quot;a git repository already exists for this location!&quot;
-}
-function GIT() {
-    GIT_DIR=&quot;$1&quot;; shift;
-    SUCCESS=&quot;$1&quot;; shift;
-    FAILURE=&quot;$1&quot;; shift;
-    GIT=&quot;git --git-dir=${GIT_DIR}/.git --work-tree=${GIT_DIR}&quot;
-    if (( $VERBOSE )) || [ &quot;$SUCCESS&quot; == &quot;NIL&quot; ]; then
-        if $GIT &quot;$@&quot;; then
-            [ &quot;$SUCCESS&quot; != &quot;NIL&quot; ] &amp;amp;&amp;amp; success &quot;$SUCCESS&quot;;
-        else
-            [ &quot;$FAILURE&quot; != &quot;NIL&quot; ] &amp;amp;&amp;amp; die &quot;$FAILURE&quot;;
-        fi
-    else
-        if $GIT &quot;$@&quot; 1&amp;gt;/dev/null; then
-            [ &quot;$SUCCESS&quot; != &quot;NIL&quot; ] &amp;amp;&amp;amp; success &quot;$SUCCESS&quot;;
-        else
-            [ &quot;$FAILURE&quot; != &quot;NIL&quot; ] &amp;amp;&amp;amp; die &quot;$FAILURE&quot;;
-        fi
-    fi
-}
-function delete_repo() {
-    REPO_NAME=&quot;`GIT &quot;$REPO_DIR&quot; &quot;NIL&quot; &quot;NIL&quot; remote -v show | grep &quot;gitserver:&quot; | head -1 | cut -f2 | cut -f1 -d&#39; &#39; | cut -f2 -d&#39;:&#39; | cut -f1 -d&#39;.&#39;`&quot;
-    [ -n &quot;$REPO_NAME&quot; ] || die &quot;Could not extract remote repository name...&quot;
-    sed -e &quot;s|${REPO_NAME} ||g&quot; -i $GITOLITE_CONF &amp;amp;&amp;amp; success &quot;made changes to gitolite configuration file..&quot;
-    rm -rf $REPO_DIR/.git/ &amp;amp;&amp;amp; success &quot;removed local git repository..&quot;
-    $SSHSTRING &quot;rm -rf $PATHTOREPOS/$REPO_NAME.git&quot; &amp;amp;&amp;amp; success &quot;removed gitolite server repository for this repository..&quot;
-    (( $GITHUB_REPO )) &amp;amp;&amp;amp; token=$(curl -X POST -su &quot;$GITHUB_USER/token:$GITHUB_TOKEN&quot; http://github.com/api/v2/json/repos/delete/$GITHUB_USER/&quot;$REPO_NAME&quot; | cut -f4 -d&#39;&quot;&#39;)
-    curl -d &quot;delete_token=${token}&quot; -su &quot;$GITHUB_USER/token:$GITHUB_TOKEN&quot; http://github.com/api/v2/json/repos/delete/$GITHUB_USER/&quot;$REPO_NAME&quot; &amp;amp;&amp;gt;/dev/null &amp;amp;&amp;amp; success &quot;Removed Github repository at: http://github.com/$GITHUB_USER/$REPO_NAME&quot;
-}
-
-while getopts &quot;:dgvV0r:&quot; options
-do
-    case $options in
-        d) DELETE_REPO=1;;
-        g) GITHUB_REPO=1;;
-        v) VERBOSE=1;;
-        0) COLORCODES=0;;
-        r) REPO_MACRO=&quot;$OPTARGS&quot;;;
-        V) version;;
-        h) oneline_usage;;
-        *) oneline_usage;;
-    esac
-done
-shift $(($OPTIND - 1))
-
-DELETE_REPO=${DELETE_REPO:-0}
-GITHUB_REPO=${GITHUB_REPO:-0}
-VERBOSE=${VERBOSE:-0}
-SHORTUSAGE=${SHORTUSAGE:-0}
-COLORCODES=${COLORCODES:-1}
-(( $COLORCODES )) &amp;amp;&amp;amp; BLD=$(tput bold)
-(( $COLORCODES )) &amp;amp;&amp;amp; NML=$(tput sgr0)
-(( $COLORCODES )) &amp;amp;&amp;amp; RED=$BLD$(tput setaf 1)
-(( $COLORCODES )) &amp;amp;&amp;amp; GRN=$BLD$(tput setaf 2)
-(( $COLORCODES )) &amp;amp;&amp;amp; YLW=$BLD$(tput setaf 3)
-(( $COLORCODES )) &amp;amp;&amp;amp; BLU=$BLD$(tput setaf 6)
-COL=$(tput cols); let COL=COL-16
-
-# check back which repo macro is the one, the user wants to add the repository in
-case $REPO_MACRO in
-    pr) REPO_MACRO=&quot;public-readable&quot;;;
-    pw) REPO_MACRO=&quot;public-writable&quot;;;
-    nr) REPO_MACRO=&quot;nikhgupta-repos&quot;;;
-    cw) REPO_MACRO=&quot;client-works&quot;;;
-    64) REPO_MACRO=&quot;inpiron-1564-repos&quot;;;
-esac
-REPO_MACRO=${REPO_MACRO:-&quot;inspiron-1564-repos&quot;}
-
-# if no directory is given create git repository in current directory
-REPO_DIR=${1:-&quot;$(pwd)&quot;}
-# if no name is given, create name based on directory name
-REPO_NAME=&quot;${REPO_DIR##*/}&quot;
-REPO_NAME=&quot;${2:-$REPO_NAME}&quot;
-
-# delete git repository if requested
-(( $DELETE_REPO )) &amp;amp;&amp;amp; { delete_repo; exit 900; }
-
-# check our requirements
-check_requirements
-
-# Pull changes from Gitolite server
-GIT &quot;$GITOLITE_ADMIN_DIR&quot; &quot;fetched changes from gitolite server..&quot; &quot;cannot fetch changes from Gitolite server..&quot; fetch -v origin master
-
-# backup our existing Gitolite Configuration file
-cp $GITOLITE_CONF $GITOLITE_CONF.bak &amp;amp;&amp;amp; success &quot;backed up existing gitolite configuration file..&quot;
-
-# make changes to our Gitolite Configuration file, if needed.
-sed -e &#39;s/\(@&#39;&quot;$REPO_MACRO&quot;&#39;.*\) #/\1 &#39;&quot;$REPO_NAME&quot;&#39; #/g&#39; -i $GITOLITE_CONF &amp;amp;&amp;amp; success &quot;made changes to gitolite configuration file..&quot;
-
-GIT &quot;$GITOLITE_ADMIN_DIR&quot; &quot;Added untracked files in &#39;gitolite-admin&#39; repo&quot; &quot;Failed to add untracked files in &#39;gitolite-admin&#39; repository&quot; add .
-GIT &quot;$GITOLITE_ADMIN_DIR&quot; &quot;Added a new commit for this Gitolite change&quot; &quot;Failed to make a commit for this Gitolite change&quot; commit -am &quot;Added repo: $REPO_NAME&quot;
-GIT &quot;$GITOLITE_ADMIN_DIR&quot; &quot;Pushed &#39;gitolite-admin&#39; repository to Gitolite server&quot; &quot;Failed to push &#39;gitolite-admin&#39; repository to Gitolite server&quot; push origin master
-if ssh $GITSERVER 2&amp;gt;/dev/null | tail -n +3 | cut -f2 | grep -q &quot;$REPO_NAME&quot;; then success &quot;Created a new bare repository on Gitolite server&quot;;
-else die &quot;Failed to find a reference of the new repository on Gitolite server&quot;; fi
-
-GIT &quot;$REPO_DIR&quot; &quot;Initialized new repository in &#39;${REPO_DIR}&#39;&quot; &quot;Failed to initilialize new repository in &#39;${REPO_DIR}&#39;&quot; init
-GIT &quot;$REPO_DIR&quot; &quot;Added untracked files in repository for tracking&quot; &quot;Failed to add untracked files in repository&quot; add .
-GIT &quot;$REPO_DIR&quot; &quot;Made the first commit with Gitolite server&quot; &quot;Failed to make the first commit&quot; commit -am &quot;First Sync with Gitolite Server&quot;
-
-#for REMOTE in $REMOTENAMES ; do
-# GIT &quot;$REPO_DIR&quot; &quot;Added remote branch with name: $REMOTE&quot; &quot;Failed to add a remote branch&quot; remote add $REMOTE $GITSERVER:$REPO_NAME.git
-#done
-GIT &quot;$REPO_DIR&quot; &quot;Added remote branch with name: gitserver&quot; &quot;Failed to add a remote branch&quot; remote add $GITSERVER $GITSERVER:$REPO_NAME.git
-
-GIT &quot;$REPO_DIR&quot; &quot;Pushed the new repository to Gitolite server&quot; &quot;Failed to push the new repository to Gitolite server&quot; push $GITSERVER --all
-
-if (( $GITHUB_REPO )); then
-    curl -d &quot;name=$REPO_NAME&quot; -su &quot;${GITHUB_USER}/token:${GITHUB_TOKEN}&quot; http://github.com/api/v2/json/repos/create &amp;amp;&amp;gt;/dev/null &amp;amp;&amp;amp; success &quot;created a github repository at: http://github.com/$GITHUB_USER/$REPO_NAME&quot;
-    GIT &quot;$REPO_DIR&quot; &quot;Added Remote branch with name: Github&quot; &quot;Failed to add a remote branch for Github&quot; remote add github git@github.com:$GITHUB_USER/$REPO_NAME.git
-    GIT &quot;$REPO_DIR&quot; &quot;Pushed the new repository to Github server&quot; &quot;Failed to push the new repository to Github server&quot; push github --all
-fi
-
-touch $REPO_DIR/.git/$TRACK_FILE &amp;amp;&amp;amp; success &quot;Created .git/$TRACK_FILE file for preventing re-run of this script&quot;
-success &quot;INITIALIZED LOCAL REPO AND SYNCED WITH GITOLITE REPO!!&quot;
-echo &quot;--------------------------------------------&quot;
-echo &quot;git clone $GITSERVER:$REPO_NAME&quot;
-if [ &quot;$3&quot; == &quot;github&quot; ]; then
-    echo &quot;git clone $GITHUB_REPO&quot;
-fi
-echo &quot;--------------------------------------------&quot;
-echo -e &quot;\t${BLU}Completed${NML}.&quot;</code></pre></noscript></div>
-
-
 
 ]]></content>
   </entry>
