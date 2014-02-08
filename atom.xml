@@ -4,7 +4,7 @@
   <title><![CDATA[Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2014-02-08T06:13:59+05:30</updated>
+  <updated>2014-02-08T06:21:29+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -22,9 +22,9 @@
 managing my hosts configuration.</p>
 
 <p>Recently, I was using <code>omniauth-twitter</code> to authenticate a client for my Rails
-application, when accessing the application&rsquo;s oauth url for twitter, i.e.
-<code>/auth/twitter</code> via the pow based domain gave me a <code>401 unauthorized</code> error,
-while accessing it via the Webrick&rsquo;s <code>http://localhost:3000</code> worked fine.</p>
+application. When trying to access the application&rsquo;s oauth url for twitter, i.e.
+<code>/auth/twitter</code> via the pow based domain I was getting a <code>401 unauthorized</code>
+error, while accessing it via the Webrick&rsquo;s <code>http://localhost:3000</code> worked fine.</p>
 
 <p>I was scratching my heads over the reason, when I noticed that I was using
 Environment variables in my provider definition, and I wondered probably Pow
@@ -33,7 +33,8 @@ webrick had access to these Environment variables.</p>
 
 <p>So, I googled for a while and found that Pow actually does not have access to
 <code>dotenv</code> based variables. Instead, it does allow setting them via a <code>.powenv</code>
-file. Therefore, I ran the following commands to configure all this:</p>
+file. Therefore, I ran the following commands to configure all this from my
+Rails&#8217; root path:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
