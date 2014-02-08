@@ -99,8 +99,14 @@
         <lastmod>2014-02-07T04:19:34+05:30</lastmod>
     </url>
     <url>
+        <loc>
+            http://nikhgupta.com/rails/401-unoauthorized-with-omniauth-twitter-and-pow-domains/
+        </loc>
+        <lastmod>2014-02-08T06:13:36+05:30</lastmod>
+    </url>
+    <url>
         <loc>http://nikhgupta.com/blog/archives/</loc>
-        <lastmod>2014-02-07T04:19:34+05:30</lastmod>
+        <lastmod>2014-02-08T06:13:36+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/blog/categories/</loc>
@@ -108,7 +114,7 @@
     </url>
     <url>
         <loc>http://nikhgupta.com/</loc>
-        <lastmod>2014-02-07T04:19:34+05:30</lastmod>
+        <lastmod>2014-02-08T06:13:36+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/robots.txt</loc>

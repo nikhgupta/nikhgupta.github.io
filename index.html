@@ -124,6 +124,67 @@
   
 
 
+<time datetime="2014-02-08T06:06:00+05:30" data-updated="true" itemprop="datePublished">Feb 8<span>th</span>, 2014</time></div>
+    <div class="tags">
+
+
+	<a class='category' href='/blog/categories/rails/'>rails</a>
+
+
+</div>
+		
+	</div>
+	<h1 class="title" itemprop="name"><a href="/rails/401-unoauthorized-with-omniauth-twitter-and-pow-domains/" itemprop="url">401 Unoauthorized With OmniAuth Twitter and Pow Domains</a></h1>
+	<div class="entry-content" itemprop="articleBody">
+		<p>As stated a few posts back, I have switched to using <a href="http://pow.cx">Pow</a> for
+managing my hosts configuration.</p>
+
+<p>Recently, I was using <code>omniauth-twitter</code> to authenticate a client for my Rails
+application, when accessing the application&rsquo;s oauth url for twitter, i.e.
+<code>/auth/twitter</code> via the pow based domain gave me a <code>401 unauthorized</code> error,
+while accessing it via the Webrick&rsquo;s <code>http://localhost:3000</code> worked fine.</p>
+
+<p>I was scratching my heads over the reason, when I noticed that I was using
+Environment variables in my provider definition, and I wondered probably Pow
+does not have access to these variables? I use <code>dotenv</code> and was pretty sure
+webrick had access to these Environment variables.</p>
+
+<p>So, I googled for a while and found that Pow actually does not have access to
+<code>dotenv</code> based variables. Instead, it does allow setting them via a <code>.powenv</code>
+file. Therefore, I ran the following commands to configure all this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s1">&#39;export TWITTER_KEY=&lt;MY-TWITTER-KEY&gt;&#39;</span> &gt;&gt; .powenv
+</span><span class='line'><span class="nb">echo</span> <span class="s1">&#39;export TWITTER_SECRET=&lt;MY-TWITTER-SECRET&gt;&#39;</span> &gt;&gt; .powenv
+</span><span class='line'>touch tmp/restart.txt
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And, voila! I can now access my oauth workflow, simply.</p>
+
+		
+		
+	</div>
+
+</article>
+
+
+    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="meta">
+		<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
 <time datetime="2014-02-07T02:56:00+05:30" data-updated="true" itemprop="datePublished">Feb 7<span>th</span>, 2014</time></div>
     <div class="tags">
 
@@ -527,49 +588,6 @@ a steady blog can really help with that.</p>
 
 		
 		<a href="/personal/back-with-a-bang/" class="more-link">Read on &rarr;</a>
-	</div>
-
-</article>
-
-
-    <article class="post" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="meta">
-		<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-01T00:00:00+05:30" data-updated="true" itemprop="datePublished">Apr 1<span>st</span>, 2013</time></div>
-    <div class="tags">
-
-</div>
-		
-	</div>
-	<h1 class="title" itemprop="name"><a href="/meet-the-amazing-hubot/" itemprop="url">Meet the Amazing Hubot</a></h1>
-	<div class="entry-content" itemprop="articleBody">
-		<p>Recently, I came across <a href="http://hubot.github.com">Hubot</a> &ndash; the amazing bot
-from <a href="http://github.com">Github</a>, which lets me do nearly anything while
-talking to it. Some of the examples being querying my site for availability,
-tracking down how many visitors I had in last 24 hours, updating my twitter
-status, grabbing tasks from my basecamp projects, and so on.</p>
-
-<p>Currently, I am using Hubot on <a href="http://hipchat.com">HipChat</a> and GTalk, but as
-my team frequently uses Skype, I will be enabling a Skype adapter for it,
-pretty soon (the Skype adapter, in particular, can not be installed on
-<a href="http://heroku.com">Heroku</a>). The Hubot instance runs as <em>Edwin Jarvis</em>, as
-I always wanted to have something close to the esteemed J.A.R.V.I.S. from the
-movie Iron-Man.</p>
-
-
-		
-		<a href="/meet-the-amazing-hubot/" class="more-link">Read on &rarr;</a>
 	</div>
 
 </article>

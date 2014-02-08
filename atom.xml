@@ -4,7 +4,7 @@
   <title><![CDATA[Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2014-02-07T04:22:09+05:30</updated>
+  <updated>2014-02-08T06:13:59+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -12,6 +12,41 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[401 unoauthorized with OmniAuth Twitter and Pow domains]]></title>
+    <link href="http://nikhgupta.com/rails/401-unoauthorized-with-omniauth-twitter-and-pow-domains/"/>
+    <updated>2014-02-08T06:06:00+05:30</updated>
+    <id>http://nikhgupta.com/rails/401-unoauthorized-with-omniauth-twitter-and-pow-domains</id>
+    <content type="html"><![CDATA[<p>As stated a few posts back, I have switched to using <a href="http://pow.cx">Pow</a> for
+managing my hosts configuration.</p>
+
+<p>Recently, I was using <code>omniauth-twitter</code> to authenticate a client for my Rails
+application, when accessing the application&rsquo;s oauth url for twitter, i.e.
+<code>/auth/twitter</code> via the pow based domain gave me a <code>401 unauthorized</code> error,
+while accessing it via the Webrick&rsquo;s <code>http://localhost:3000</code> worked fine.</p>
+
+<p>I was scratching my heads over the reason, when I noticed that I was using
+Environment variables in my provider definition, and I wondered probably Pow
+does not have access to these variables? I use <code>dotenv</code> and was pretty sure
+webrick had access to these Environment variables.</p>
+
+<p>So, I googled for a while and found that Pow actually does not have access to
+<code>dotenv</code> based variables. Instead, it does allow setting them via a <code>.powenv</code>
+file. Therefore, I ran the following commands to configure all this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s1">&#39;export TWITTER_KEY=&lt;MY-TWITTER-KEY&gt;&#39;</span> &gt;&gt; .powenv
+</span><span class='line'><span class="nb">echo</span> <span class="s1">&#39;export TWITTER_SECRET=&lt;MY-TWITTER-SECRET&gt;&#39;</span> &gt;&gt; .powenv
+</span><span class='line'>touch tmp/restart.txt
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And, voila! I can now access my oauth workflow, simply.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[making ngrok work with pow and apache (exposing localhost domains to the internet)]]></title>
@@ -2340,115 +2375,6 @@ be auto-incremented:</p>
 <figure class='code'><figcaption><span>print the value of the variable</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;xsl:attribute</span> <span class="na">name=</span><span class="s">&quot;rel&quot;</span><span class="nt">&gt;</span>flickr<span class="nt">&lt;xsl:copy-of</span> <span class="na">select=</span><span class="s">&quot;$my_var&quot;</span> <span class="nt">/&gt;&lt;/xsl:attribute&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Quattro and its Colophon]]></title>
-    <link href="http://nikhgupta.com/code/quattro-responsive-wordpress-theme-colophon/"/>
-    <updated>2011-07-31T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/code/quattro-responsive-wordpress-theme-colophon</id>
-    <content type="html"><![CDATA[<p>So, Yeah! I know. I switched to <a href="http://jekyllrb.com/">Jekyll</a>  for a very
-short phase, owing to the attraction it has to developers and &lsquo;blog-hackers&rsquo;.
-But, then, I soon started missing some of the advanced  functionality
-provided by WordPress, such as custom fields, granular designs, post formats,
-custom posts, etc.</p>
-
-<p>So, I finally switched back to WordPress. The old Jekyll site can still be
-seen on: <a href="http://nikhgupta.github.com">Github Pages</a>, which will, from now on,
-only host documentations about my <a href="https://github.com/nikhgupta/repositories">Github public
-repositories</a>.</p>
-
-<!-- more -->
-
-
-<p>When I switched to WordPress, I found myself converting the previous template
-again for WordPress, which was not what I really wanted to do, since it was
-boooooring! And, hence, I decided to create a new WordPress theme which will
-have some of the advanced functionality, I wanted, along with a unique design.</p>
-
-<p>I named the theme <strong>Quattro</strong>, owing to the heavy usage of the font:
-<strong>Quattrocento</strong> for primary styling, by this theme. Moreover, I wanted this
-theme to be HTML5 and CSS3 ready. So, I, carefully, selected the <a href="http://nathanstaines.com/archive/starkers-html5">Starkers
-HTML5 theme</a>  framework by
-<a href="Nathan%20Staines">Nathan Staines</a>  as the base framework for this theme.</p>
-
-<!--
-### Screenshots
-[gallery columns="4"]
--->
-
-
-<h3>Responsive Web Design</h3>
-
-<p>This theme utilizes the concept of
-<a href="http://www.w3.org/TR/css3-mediaqueries/">media-queries</a> and <a href="http://www.alistapart.com/articles/responsive-web-design/">responsive web
-design</a>  to target
-devices with specific max-width. Try resizing your browser window and the
-theme will try to adjust according to your browser width. Nice, right?</p>
-
-<p>Well, there is more to it. The real benefit of this design layout is seen when
-you will try to visit this site using a mobile browser, for example. The
-design adjusts itself to fit the narrow width of the mobile browser, as
-opposed to displaying a design which was, initially, designed for a 1200+ px
-wide screen. :)</p>
-
-<h3>Post Formats</h3>
-
-<p>This theme makes extensive use of <a href="http://codex.wordpress.org/Post_Formats">WordPress post
-formats</a> to render different post
-formats in different styles. For example, a post with a post format of Gallery
-is displayed to be, specifically, displayed as a photo gallery. The following
-post formats are defined for this theme (and the description tells how these
-formats are implemented in this theme):</p>
-
-<ul>
-<li><strong>Aside</strong>: Styled without a title. Similar to a Facebook note update.</li>
-<li><strong>Gallery</strong>: A gallery of images.</li>
-<li><strong>Image</strong>: A single image. This image is not linked to its attachment page.</li>
-<li><strong>Quote</strong>: A quotation. Stylized in Orange text. Quote author is displayed
-for this quote.</li>
-<li><strong>Status</strong>: A short status update, similar to a Twitter status update.
-Update date is displayed for this status, e.g. <a href="http://nikhgupta.com/status-updates/a-responsive-design/">this status
-update</a>.</li>
-</ul>
-
-
-<p>Moreover, this theme makes use of two more post formats (well, they are not
-actually post formats, but a similar functionality is achieved by using
-<a href="http://codex.wordpress.org/Custom_Fields">Custom Fields</a>  and <a href="http://wordpress.org/extend/plugins/j-flickr/">J-Flickr
-plugin for WordPress</a>):</p>
-
-<ul>
-<li><strong>Flickr Gallery</strong>: similar to Gallery post format. Except that, the images
-for this gallery are directly fetched from a Flickr photoset, or photo
-collection.    This gallery is
-<a href="http://www.lokeshdhakar.com/projects/lightbox2/">lightbox</a>  aware. Also,
-a single gallery can contain more than one photosets or photo collections.</li>
-<li><strong>Flickr Images</strong>: similar to Images post format. Except that, the image is
-directly fetched from Flickr. These posts can contain more than one images.
-Ideally, a Flickr Gallery is for photosets, and Flickr Images is for photos.</li>
-</ul>
-
-
-<h3>Home Page (Content Slider)</h3>
-
-<p>If you noticed the <a href="http://nikhgupta.com/">homepage</a>, it is made up of a content slider, which
-uses <a href="http://bxslider.com">bxSlider</a> to create the sliding content effect
-using <a href="http://jquery.com">jQuery</a>. This content slider is enabled as a <a href="http://codex.wordpress.org/Pages#Page_Templates">Page
-Template</a> and hence, allows
-me to re-use it for more pages.</p>
-
-<h3>ToDo List</h3>
-
-<ul>
-<li>Add support for Tasks (ToDo Lists)  <a href="http://bxslider.com/">Custom Post Type</a></li>
-<li>Add various shortcodes for easy styling and for download buttons, etc.</li>
-<li>Add post format: <strong>Chat</strong></li>
-<li><del datetime="2011-07-31T06:37:58+00:00">Display related posts on 404 pages</del></li>
-<li>Also, post to Facebook and Twitter when a status update is made.</li>
-</ul>
 
 ]]></content>
   </entry>
