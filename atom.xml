@@ -4,7 +4,7 @@
   <title><![CDATA[Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2014-03-12T09:51:56+05:30</updated>
+  <updated>2014-03-12T09:53:27+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Custom Filters using Ransacker in ActiveAdmin Interfaces]]></title>
-    <link href="http://nikhgupta.com/code,/activeadmin/custom-filters-using-ransacker-in-activeadmin-interfaces/"/>
+    <link href="http://nikhgupta.com/code/activeadmin/custom-filters-using-ransacker-in-activeadmin-interfaces/"/>
     <updated>2014-03-12T08:47:00+05:30</updated>
-    <id>http://nikhgupta.com/code,/activeadmin/custom-filters-using-ransacker-in-activeadmin-interfaces</id>
+    <id>http://nikhgupta.com/code/activeadmin/custom-filters-using-ransacker-in-activeadmin-interfaces</id>
     <content type="html"><![CDATA[<p>Oh, so, you have tried implementing custom filters in your shiny
 <a href="active-admin">ActiveAdmin</a> interface, and probably, have already started
 despising the time you have wasted in searching for an answer? Yeah, it happened

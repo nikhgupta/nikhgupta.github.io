@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: code, | Nikhil Gupta]]></title>
+  <title><![CDATA[Category: code | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2014-03-12T09:51:56+05:30</updated>
+  <updated>2014-03-12T09:53:27+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Custom Filters using Ransacker in ActiveAdmin Interfaces]]></title>
-    <link href="http://nikhgupta.com/code,/activeadmin/custom-filters-using-ransacker-in-activeadmin-interfaces/"/>
+    <link href="http://nikhgupta.com/code/activeadmin/custom-filters-using-ransacker-in-activeadmin-interfaces/"/>
     <updated>2014-03-12T08:47:00+05:30</updated>
-    <id>http://nikhgupta.com/code,/activeadmin/custom-filters-using-ransacker-in-activeadmin-interfaces</id>
+    <id>http://nikhgupta.com/code/activeadmin/custom-filters-using-ransacker-in-activeadmin-interfaces</id>
     <content type="html"><![CDATA[<p>Oh, so, you have tried implementing custom filters in your shiny
 <a href="active-admin">ActiveAdmin</a> interface, and probably, have already started
 despising the time you have wasted in searching for an answer? Yeah, it happened
@@ -227,6 +227,369 @@ end
 
 <p>Done! The above should provide us with everything that we need to filter out our
 users based on their categorization. Happy ransacking :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[serving legacy php applications using Apache alongside Pow]]></title>
+    <link href="http://nikhgupta.com/code/serving-legacy-php-applications-using-apache-alongside-pow/"/>
+    <updated>2014-02-03T06:49:00+05:30</updated>
+    <id>http://nikhgupta.com/code/serving-legacy-php-applications-using-apache-alongside-pow</id>
+    <content type="html"><![CDATA[<p>I have started using <a href="http://pow.cx">Pow</a> lately, which I have avoided for
+a long time, without any explicit reasoning. Now that I have actually tried it,
+I can definitely say that using Pow is really a breeze, and is really powerful
+at the same time. Before this, I used to run Phusion Passenger for my needs, and
+while that was a lot more powerful, it was a lot more fuss for my naive needs.</p>
+
+<p>Now, Pow is really great for Rack based applications, but does not work well
+enough with other applications, e.g. the ones using PHP. What makes it worse is
+that the default Pow configuration takes over the port 80, and thereby, my
+Apache server will never be hit. Great.</p>
+
+<p>I, quickly, googled some stuff and found a way to make Apache and Pow play
+nicely with each other, and at the same time remove the need for <code>dnsmasq</code>,
+which I am, currently, using to resolve arbitrary top-level domains. This post
+contains my notes on this topic.</p>
+
+<!-- more -->
+
+
+<h2>Uninstall Pow</h2>
+
+<p>The first step we need to perform is to uninstall Pow, if it is already
+installed. That way, we make sure that nothing interferes with our setup.</p>
+
+<p><code>bash
+curl get.pow.cx/uninstall.sh | sh
+</code></p>
+
+<h2>Add Configuration for Pow</h2>
+
+<p>We will tell Pow to use the port 3100, instead of taking over port 80, and let
+the poor Apache be. Furthermore, I will tell Pow to resolve a number of TLDs to
+<code>127.0.0.1</code>.</p>
+
+<p><code>bash
+echo 'export POW_DST_PORT=88' &gt;&gt; ~/.powconfig
+echo 'export POW_DOMAINS=dev,pow,lab,test' &gt;&gt; ~/.powconfig
+</code></p>
+
+<p>From the above list of TLDs, we want <code>dev</code>, and <code>pow</code> to serve applications
+using Pow, while <code>lab</code> and <code>test</code> will be serving Apache based applications
+using VirtualHost directives.</p>
+
+<h2>Adding Apache VirtualHosts</h2>
+
+<p>First, we will tell Apache to pass any requests for <code>dev</code>, and <code>pow</code> TLDs to
+Pow using reverse proxy:</p>
+
+<p>```apache
+<VirtualHost *:80></p>
+
+<pre><code>ServerName pow
+ServerAlias *.dev *.pow *.xip.io
+
+ProxyPass / http://localhost:20559/
+ProxyPassReverse / http://localhost:20559/
+ProxyPreserveHost On
+</code></pre>
+
+<p></VirtualHost>
+```</p>
+
+<p>Having done that, we tell Apache to serve up the remaining TLDs from
+a particular directory:</p>
+
+<p>```apache
+<VirtualHost *:80></p>
+
+<pre><code>ServerName lab
+ServerAlias *.lab *.test
+VirtualDocumentRoot "/Users/nikhgupta/Code/legacy-apps/%1"
+</code></pre>
+
+<p></VirtualHost>
+```</p>
+
+<p>Now, make sure that the above directives are being served up by Apache by
+including them in your <code>httpd.conf</code> somewhere, somehow.</p>
+
+<h2>Restart Apache</h2>
+
+<p>Apache will use the above VirtualHost directives upon restart/reload:</p>
+
+<p><code>bash
+sudo apachectl restart
+</code></p>
+
+<h2>Install Pow</h2>
+
+<p>All that remains is to install Pow:</p>
+
+<p><code>bash
+curl get.pow.cx | sh
+</code></p>
+
+<h2>Install Powder</h2>
+
+<p>Oh, yes, this is my favorite. Simply, install Powder to further simplify your
+life.</p>
+
+<p><code>bash
+gem install powder
+</code></p>
+
+<p><em>Ecstatic</em> :)</p>
+
+<h2>Results?</h2>
+
+<p>For starters, I can serve up any rack based application by simply running
+<code>powder list</code> in that directory, and then access it using <code>appname.dev</code> or
+<code>appname.pow</code>. And, this also works for static websites as well e.g.
+<a href="http://jekyllrb.com">Jekyll</a> (note that, this requires that the current
+directory has a <code>public</code> sub directory which contains an <code>index.html</code> file.)</p>
+
+<p>Moreover, my old Apache configurations run without any implications. And,
+therefore, I can keep on working on applications that are served using PHP.</p>
+
+<p>Effectively, I can run a ruby/rails based application in a single step by
+running <code>powder link</code>, and a php application in zero steps by simply placing it
+at the correct location.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[wrapping long lines in ruby for display in source files]]></title>
+    <link href="http://nikhgupta.com/code/wrapping-long-lines-in-ruby-for-display-in-source-files/"/>
+    <updated>2014-01-31T02:42:00+05:30</updated>
+    <id>http://nikhgupta.com/code/wrapping-long-lines-in-ruby-for-display-in-source-files</id>
+    <content type="html"><![CDATA[<p>While working on a gem, I needed to generate ruby classes on the fly. Yeah,
+I know this should never be the case, unless I needed around 600+ classes (I was
+converting schema.org schemas to ruby classes).</p>
+
+<p>Now, this required me to add descriptive text inside these classes, but the text
+was very long and I hated how the text overflowed the screen. I use vim, which
+promptly highlights the 80-char column marker on my source files, and I wanted
+this text to stick to that. Effectively, I wanted something like the following:</p>
+
+<p>```ruby
+module MyModule
+  class MyClass</p>
+
+<pre><code>describes "A really long text that respects the 80-char column marker and
+wraps nicely when it exceeds this length."
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<!-- more -->
+
+
+<p>I knew that Rails provided a nearly similar method with the name <code>word_wrap</code>,
+and I tweaked it a bit to this:</p>
+
+<p>```ruby
+class String
+  def wrap options = {}</p>
+
+<pre><code>width = options.fetch(:width, 76)
+self.strip.split("\n").collect do |line|
+  line.length &gt; width ? line.gsub(/(.{1,#{width}})(\s+|$)/, "\\1\n") : line
+end.map(&amp;:strip).join("\n")
+</code></pre>
+
+<p>  end</p>
+
+<p>  def indent options = {}</p>
+
+<pre><code>spaces = " " * options.fetch(:spaces, 4)
+self.gsub(/^/, spaces).gsub(/^\s*$/, '')
+</code></pre>
+
+<p>  end</p>
+
+<p>  def indent_with_wrap options = {}</p>
+
+<pre><code>spaces = options.fetch(:spaces, 4)
+width  = options.fetch(:width, 80)
+width  = width &gt; spaces ? width - spaces : 1
+self.wrap(width: width).indent(spaces: spaces)
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>The last method, i.e. <code>indent_with_wrap</code> is what I am interested in, really.
+Now, this might not be the best implementation for what I want, but it works and
+is self-explanatory to me.</p>
+
+<p>So, now, I can create my ERB template like this to get the desired results:</p>
+
+<p>```ruby
+module &lt;%= module_name %>
+  class &lt;%= class_name %></p>
+
+<pre><code>&lt;%= "describes #{description}".indent_with_wrap spaces: 4, width: 80 %&gt;
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>This makes me a happy panda :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[wish yourself a happy new year]]></title>
+    <link href="http://nikhgupta.com/code/wish-yourself-a-happy-new-year/"/>
+    <updated>2014-01-01T01:19:00+05:30</updated>
+    <id>http://nikhgupta.com/code/wish-yourself-a-happy-new-year</id>
+    <content type="html"><![CDATA[<blockquote><p>Well, before you do that, I will do it from my side: <code>Happy new year to you!</code></p></blockquote>
+
+<p>So, I was just working on somethings, and found this nice little code snippet
+that was totally appropriate for this event.</p>
+
+<!-- more -->
+
+
+<h2>Ruby</h2>
+
+<p>If you are a fan of the ruby (like me), define a function with the following
+definition (try, using <code>irb</code> for this purpose):</p>
+
+<p><code>ruby
+def encode(str); str.chars.map(&amp;:ord).inject(:+); end
+</code></p>
+
+<p>The above function does the following:</p>
+
+<ul>
+<li>accept a string as an input</li>
+<li>break it into its constituent characters</li>
+<li>convert these characters to their ascii integer value</li>
+<li>sum up all the integer values and return that sum</li>
+</ul>
+
+
+<p>Nothin' great about that function, right?<br/>
+Now, try this in your <code>irb</code> session:</p>
+
+<p><code>ruby
+encode "Happy new year to you!"
+</code></p>
+
+<p>You will see that the above function is quite intelligent in itself.</p>
+
+<blockquote><p>That little function is empowered with an artificial intelligence by its code,
+without any complex mechanisms :)</p></blockquote>
+
+<p>Oh, and here is an alternative:</p>
+
+<p><code>ruby
+Happy = Time
+Happy.new.year
+</code></p>
+
+<h2>Python</h2>
+
+<p>If you are a python fan, instead, try this:</p>
+
+<p><code>python
+encode = lambda str: sum(ord(c) for c in str)
+encode("Happy new year to you!")
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Custom Domains on Github Pages without fucking up your Emails]]></title>
+    <link href="http://nikhgupta.com/code/custom-domains-on-github-pages-without-fucking-up-your-emails/"/>
+    <updated>2013-10-27T16:18:00+05:30</updated>
+    <id>http://nikhgupta.com/code/custom-domains-on-github-pages-without-fucking-up-your-emails</id>
+    <content type="html"><![CDATA[<p>As stated in my post titled <a href="/personal/back-with-a-bang/">Back with a Bang!</a>
+(that title, still, amuses me), I have moved from
+<a href="http://wordpress.org">WordPress</a> to using <a href="http://octopress.org">Octopress</a> on
+Github pages. I was happy with my new blogging configuration, and I think, I am
+on schedule with my post updates, till date. However, in making the switch,
+I messed up my email configuration while setting up custom domain for this blog.
+And, I was not even aware my emails were bouncing off, silently.</p>
+
+<!-- more -->
+
+
+<p>The <code>nikhgupta.com</code> domain is registered on <a href="http://namecheap.com">Namecheap</a>
+(which has been my reliable domain manager, since the very start), and is hosted
+on <a href="http://digitalocean.com">DigitalOcean</a> (which is an amazin' host and my
+recommendation, these days). I am using <a href="http://zpanelcp.com">ZPanel</a>, since
+cPanel is not a necessity for me (I would, rather, install the bare minimum on
+my servers).</p>
+
+<p>I must say that this silent bouncing of my emails was my own idiocy, and
+therefore, I am writing this post to help anyone who may have gone through the
+same.</p>
+
+<h2>Custom Domain on Github Pages</h2>
+
+<p>This has, already, been discussed on <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-pages">this Github Help page</a>,
+and therefore, I will not go in details. For summary:</p>
+
+<ul>
+<li>Create a repository on GitHub with the name of <code>username.github.com</code>.</li>
+<li>Next, clone the Octopress (or Jekyll) repository, and make changes, as
+required. My source for the website is in <code>source</code> branch, which is pushed to
+the same branch on Github, while my website (real HTML pages) are pushed to
+the <code>master</code> branch on Github. This is all managed by Octopress, by default.</li>
+<li>Once we push the site (or run <code>bundle exec rake gen_deploy</code> if using
+Octopress), our site will be viewable at <code>http://username.github.com</code>.</li>
+<li>Next, we add a file named <code>CNAME</code> to our <code>source</code> directory. This file is
+a simple text file that just contains one line, the domain name you wish to
+use. In my case, <code>nikhgupta.com</code>.</li>
+<li>Change the DNS settings for your domain to point to GitHub’s servers. Since,
+I was using the root domain name, I had to create <code>A</code> records for the <code>@</code> and
+<code>www</code> entries, and point them to Github&rsquo;s IP (<code>204.232.175.78</code>).</li>
+</ul>
+
+
+<h2>Ensuring that Email configuration works</h2>
+
+<p>Did you notice that last step? This is where I messed up my email
+configuration. The <code>MX</code> records in my DNS settings for this domain, were
+pointing to <code>mail.nikhgupta.com</code>, which in turn was pointing to <code>@</code> entry.</p>
+
+<p>Now, that is what is wrong! The <code>@</code> entry was initially pointing to my server&rsquo;s
+IP address, which meant that the incoming mails were being processed by my
+server.</p>
+
+<p>When I changed the <code>@</code> entry to point to Github&rsquo;s server, I made Github
+responsible for managing my mails. Shit! Here is a snapshot for the change,
+I made:</p>
+
+<p><img class="center" src="/images/nikhgupta-dns-a-records-digitalocean.png"></p>
+
+<p>Anyways, now, that I am aware of what is wrong, it is a simple fix. I made the
+<code>MX</code> records to point to <code>mail.nikhgupta.com</code> (this was the default), but also
+made <code>mail</code> A-record to point to my server&rsquo;s IP address (by adding an <code>A</code>
+record).</p>
+
+<p>Below are snapshots for my <code>A</code> and <code>MX</code> records, in their current state:</p>
+
+<p><img class="center" src="/images/nikhgupta-dns-a-records.png">
+<img class="center" src="/images/nikhgupta-dns-mx-records.png"></p>
+
+<p>Finally, since I am using DigitalOcean server, I also needed to point the same
+A-record to the server&rsquo;s IP using the management console provided by
+DigitalOcean.</p>
+
+<p>Now, I only had to wait to let the DNS propogate, and my emails were right back
+to where they belonged. :)</p>
+
+<p><strong>Update (05.11.2013)</strong>: It seems that I also needed to point out <code>MX</code> record
+inside DigitalOcean&rsquo;s DNS settings to <code>mail.nikhgupta.com.</code> to make this all
+work.</p>
 ]]></content>
   </entry>
   
