@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: code, | Nikhil Gupta]]></title>
-  <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
+  <title><![CDATA[Category: activeadmin | Nikhil Gupta]]></title>
+  <link href="http://nikhgupta.com/blog/categories/activeadmin/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
   <updated>2014-03-12T09:51:56+05:30</updated>
   <id>http://nikhgupta.com/</id>
