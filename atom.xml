@@ -4,7 +4,7 @@
   <title><![CDATA[Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2014-03-12T09:53:27+05:30</updated>
+  <updated>2014-03-21T22:27:54+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -12,6 +12,126 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Things you may not know about FactoryGirl]]></title>
+    <link href="http://nikhgupta.com/code/rails/things-you-may-not-know-about-factorygirl/"/>
+    <updated>2014-03-21T21:57:00+05:30</updated>
+    <id>http://nikhgupta.com/code/rails/things-you-may-not-know-about-factorygirl</id>
+    <content type="html"><![CDATA[<p>OK, I have been doing a lot (and I mean, a lot) of work on Rails, recently.
+I have always loved the simple expressive syntax of Ruby, anyway, so that does
+not bother me.</p>
+
+<p>Now, in one of the projects, I have been using <a href="http://github.com/gregbell/active_admin">ActiveAdmin</a>, and
+other awesome gems like <a href="https://github.com/thoughtbot/factory_girl">FactoryGirl</a>, <a href="https://github.com/rspec/rspec-rails">RSpec</a>,
+<a href="https://github.com/cucumber/cucumber">Cucumber</a>, etc. And, every now and then, I come across a concept or
+feature about these gems that I was not aware about earlier. I wanted to quickly
+jot down all these things, in a single place (for future reference). Now, many
+of these things might not be new to you, but are to me and are of importance for
+me. I am wondering if I should have used a different title for this post, now.</p>
+
+<!-- more -->
+
+
+<h3>Sequences</h3>
+
+<p>I knew about this feature (obviously). It is simple: if you need an attribute to
+change everytime a new factory is built or created &ndash; use a sequence.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">sequence</span><span class="p">(</span><span class="ss">:email</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">n</span><span class="o">|</span> <span class="s2">&quot;email</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">@factory.com&quot;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above sequence will generate different emails each time the factory is
+called upon, and thus, helps us in passing validations on unique attributes.</p>
+
+<h3>Dependent Attributes</h3>
+
+<p>This is really cool. The value of one of the attributes can depend upon the
+value of another attribute in our factory. Combined with on-the-fly attribute
+declaration, we have a really powerful way to create/build factories:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">factory</span> <span class="ss">:user</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">username</span> <span class="s2">&quot;username&quot;</span>
+</span><span class='line'>  <span class="n">url</span> <span class="p">{</span> <span class="n">username</span> <span class="p">?</span> <span class="s2">&quot;http://facebook.com/</span><span class="si">#{</span><span class="n">username</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">:</span> <span class="kp">nil</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">verified</span> <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, when we build the <code>user</code> factory, we get a <code>username</code> and a corresponding
+<code>url</code> for our User. But, we can pass a <code>username: nil</code> option to our factory,
+and both our <code>username</code> and <code>url</code> fields will be set to <code>nil</code> :)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">build</span> <span class="ss">:user</span>
+</span><span class='line'><span class="c1">#=&gt; #&lt;User id: nil, username: &quot;username&quot;, url: &quot;http://facebook.com/username&quot;, verified: true&gt;</span>
+</span><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">build</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">username</span><span class="p">:</span> <span class="kp">nil</span>
+</span><span class='line'><span class="c1">#=&gt; #&lt;User id: nil, username: nil, url: nil, verified: true&gt;</span>
+</span><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">build</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">username</span><span class="p">:</span> <span class="kp">nil</span><span class="p">,</span> <span class="ss">verified</span><span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'><span class="c1">#=&gt; #&lt;User id: nil, username: nil, url: nil, verified: false&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Callbacks and Transient Attributes</h3>
+
+<p>We can, even, define some virtual features on our factory. For example, we can
+define a <code>with_&lt;feature&gt;</code> transient attribute for our factory, which decides if
+a particular feature will be available in our factory or not. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">factory</span> <span class="ss">:user</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">ignore</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">with_profile</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">after</span> <span class="ss">:create</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="p">,</span> <span class="n">evaluator</span><span class="o">|</span>
+</span><span class='line'>    <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">create</span> <span class="ss">:profile</span><span class="p">,</span> <span class="ss">user</span><span class="p">:</span> <span class="n">user</span> <span class="k">if</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">with_profile</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will ensure that a <code>user</code> factory is created with an associated profile
+when <code>with_profile: true</code> is passed as an option. Otherwise, a profile for that
+user will not be created.</p>
+
+<h3>Traits</h3>
+
+<p>Traits define a group of attributes on the concerned factory which form a part
+of a particular behaviour. Now, I never had much use of this particular feature,
+but I can see this feature is really really useful.</p>
+
+<p>I won&rsquo;t go into much details of this feature, as it has been described pretty
+well in the documentation (yes, I am aware, docs are pretty awesome, and this
+post might be really useless).</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Custom Filters using Ransacker in ActiveAdmin Interfaces]]></title>
@@ -2460,129 +2580,6 @@ command, instead):</p>
 <p>If you want to <a href="http://nikhgupta.com/code/setting-up-anonymous-proxy-with-squid/">setup Anonymous Proxy with Squid</a>
 in order to increase privacy and anonymity, make sure you check
 that link ;)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Introduction to Puppet]]></title>
-    <link href="http://nikhgupta.com/code/installing-puppet-on-master-and-client/"/>
-    <updated>2011-12-23T00:00:00+05:30</updated>
-    <id>http://nikhgupta.com/code/installing-puppet-on-master-and-client</id>
-    <content type="html"><![CDATA[<p>This post details the steps/instructions to install the puppet and also,
-connect the client to the master.</p>
-
-<p><strong>These instructions are for my own record keeping purposes.</strong></p>
-
-<!-- more -->
-
-
-<ul>
-<li>On <strong>Master</strong> and <strong>Client</strong>:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># update our ubuntu</span>
-</span><span class='line'>sudo apt-get update
-</span><span class='line'>
-</span><span class='line'><span class="c"># install ruby and ruby-dev</span>
-</span><span class='line'>sudo apt-get install irb libopenssl-ruby libreadline-ruby ruby ruby-dev
-</span><span class='line'>
-</span><span class='line'><span class="c"># install and update rubygems</span>
-</span><span class='line'><span class="nb">cd</span> /usr/local/src
-</span><span class='line'>sudo wget http://production.cf.rubygems.org/rubygems/rubygems-1.5.2.tgz
-</span><span class='line'>sudo tar -xzf rubygems-1.5.2.tgz
-</span><span class='line'><span class="nb">cd </span>rubygems-1.5.2
-</span><span class='line'>sudo ruby setup.rb
-</span><span class='line'>sudo update-alternatives --install /usr/bin/gem gem /usr/bin/gem1.8 1
-</span><span class='line'>sudo gem update --system
-</span><span class='line'>
-</span><span class='line'><span class="c"># install puppet</span>
-</span><span class='line'>gem install puppet --no-ri --no-rdoc
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li><p>Make sure that the client and the master can ping each other on network, or
-better yet setup SSH access from/to master.</p></li>
-<li><p>On <strong>Master</strong>:</p></li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># download puppet configuration</span>
-</span><span class='line'><span class="nb">cd</span> /etc
-</span><span class='line'>sudo wget http://bitfieldconsulting.com/files/powering-up-with-puppet.tar.gz
-</span><span class='line'>sudo tar -xzf powering-up-with-puppet.tar.gz
-</span><span class='line'>
-</span><span class='line'><span class="c"># start puppet daemon, along with users</span>
-</span><span class='line'>sudo puppet master --mkusers --verbose --no-daemonize
-</span><span class='line'><span class="c"># file ownership fix, if required</span>
-</span><span class='line'>chown -R puppet:puppet /var/lib/puppet
-</span><span class='line'>
-</span><span class='line'><span class="c"># start puppet master</span>
-</span><span class='line'>sudo puppet master
-</span><span class='line'>
-</span><span class='line'><span class="c"># check puppet</span>
-</span><span class='line'>sudo puppet agent --test --server<span class="o">=</span><span class="sb">`</span>hostname<span class="sb">`</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>On <strong>Client</strong>:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># connect with mast to get certificate</span>
-</span><span class='line'>puppet agent --server<span class="o">=</span>&amp;lt;puppetmaster&amp;gt; --waitforcert 60 --test
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>On <strong>Master</strong>:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># check the cert requests and grant cert to client</span>
-</span><span class='line'>sudo puppetca list
-</span><span class='line'>sudo puppetca sign &amp;lt;puppetclient&amp;gt;
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

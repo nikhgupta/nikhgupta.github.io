@@ -4,7 +4,7 @@
   <title><![CDATA[Category: code | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2014-03-12T09:53:27+05:30</updated>
+  <updated>2014-03-21T22:27:54+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -12,6 +12,114 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Things you may not know about FactoryGirl]]></title>
+    <link href="http://nikhgupta.com/code/rails/things-you-may-not-know-about-factorygirl/"/>
+    <updated>2014-03-21T21:57:00+05:30</updated>
+    <id>http://nikhgupta.com/code/rails/things-you-may-not-know-about-factorygirl</id>
+    <content type="html"><![CDATA[<p>OK, I have been doing a lot (and I mean, a lot) of work on Rails, recently.
+I have always loved the simple expressive syntax of Ruby, anyway, so that does
+not bother me.</p>
+
+<p>Now, in one of the projects, I have been using <a href="http://github.com/gregbell/active_admin">ActiveAdmin</a>, and
+other awesome gems like <a href="https://github.com/thoughtbot/factory_girl">FactoryGirl</a>, <a href="https://github.com/rspec/rspec-rails">RSpec</a>,
+<a href="https://github.com/cucumber/cucumber">Cucumber</a>, etc. And, every now and then, I come across a concept or
+feature about these gems that I was not aware about earlier. I wanted to quickly
+jot down all these things, in a single place (for future reference). Now, many
+of these things might not be new to you, but are to me and are of importance for
+me. I am wondering if I should have used a different title for this post, now.</p>
+
+<!-- more -->
+
+
+<h3>Sequences</h3>
+
+<p>I knew about this feature (obviously). It is simple: if you need an attribute to
+change everytime a new factory is built or created &ndash; use a sequence.</p>
+
+<p><code>ruby
+sequence(:email) {|n| "email#{n}@factory.com" }
+</code></p>
+
+<p>The above sequence will generate different emails each time the factory is
+called upon, and thus, helps us in passing validations on unique attributes.</p>
+
+<h3>Dependent Attributes</h3>
+
+<p>This is really cool. The value of one of the attributes can depend upon the
+value of another attribute in our factory. Combined with on-the-fly attribute
+declaration, we have a really powerful way to create/build factories:</p>
+
+<p><code>ruby
+factory :user do
+  username "username"
+  url { username ? "http://facebook.com/#{username}" : nil }
+  verified true
+end
+</code></p>
+
+<p>Now, when we build the <code>user</code> factory, we get a <code>username</code> and a corresponding
+<code>url</code> for our User. But, we can pass a <code>username: nil</code> option to our factory,
+and both our <code>username</code> and <code>url</code> fields will be set to <code>nil</code> :)</p>
+
+<p>```ruby
+user = FactoryGirl.build :user</p>
+
+<h1>=> #<User id: nil, username: "username", url: "http://facebook.com/username", verified: true></h1>
+
+<p>user = FactoryGirl.build :user, username: nil</p>
+
+<h1>=> #<User id: nil, username: nil, url: nil, verified: true></h1>
+
+<p>user = FactoryGirl.build :user, username: nil, verified: false</p>
+
+<h1>=> #<User id: nil, username: nil, url: nil, verified: false></h1>
+
+<p>```</p>
+
+<h3>Callbacks and Transient Attributes</h3>
+
+<p>We can, even, define some virtual features on our factory. For example, we can
+define a <code>with_&lt;feature&gt;</code> transient attribute for our factory, which decides if
+a particular feature will be available in our factory or not. For example:</p>
+
+<p>```ruby
+factory :user do
+  ignore do</p>
+
+<pre><code>with_profile false
+</code></pre>
+
+<p>  end</p>
+
+<p>  # &hellip;
+  # &hellip;</p>
+
+<p>  after :create do |user, evaluator|</p>
+
+<pre><code>FactoryGirl.create :profile, user: user if evaluator.with_profile
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>This will ensure that a <code>user</code> factory is created with an associated profile
+when <code>with_profile: true</code> is passed as an option. Otherwise, a profile for that
+user will not be created.</p>
+
+<h3>Traits</h3>
+
+<p>Traits define a group of attributes on the concerned factory which form a part
+of a particular behaviour. Now, I never had much use of this particular feature,
+but I can see this feature is really really useful.</p>
+
+<p>I won&rsquo;t go into much details of this feature, as it has been described pretty
+well in the documentation (yes, I am aware, docs are pretty awesome, and this
+post might be really useless).</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Custom Filters using Ransacker in ActiveAdmin Interfaces]]></title>
@@ -502,94 +610,6 @@ Happy.new.year
 encode = lambda str: sum(ord(c) for c in str)
 encode("Happy new year to you!")
 </code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Custom Domains on Github Pages without fucking up your Emails]]></title>
-    <link href="http://nikhgupta.com/code/custom-domains-on-github-pages-without-fucking-up-your-emails/"/>
-    <updated>2013-10-27T16:18:00+05:30</updated>
-    <id>http://nikhgupta.com/code/custom-domains-on-github-pages-without-fucking-up-your-emails</id>
-    <content type="html"><![CDATA[<p>As stated in my post titled <a href="/personal/back-with-a-bang/">Back with a Bang!</a>
-(that title, still, amuses me), I have moved from
-<a href="http://wordpress.org">WordPress</a> to using <a href="http://octopress.org">Octopress</a> on
-Github pages. I was happy with my new blogging configuration, and I think, I am
-on schedule with my post updates, till date. However, in making the switch,
-I messed up my email configuration while setting up custom domain for this blog.
-And, I was not even aware my emails were bouncing off, silently.</p>
-
-<!-- more -->
-
-
-<p>The <code>nikhgupta.com</code> domain is registered on <a href="http://namecheap.com">Namecheap</a>
-(which has been my reliable domain manager, since the very start), and is hosted
-on <a href="http://digitalocean.com">DigitalOcean</a> (which is an amazin' host and my
-recommendation, these days). I am using <a href="http://zpanelcp.com">ZPanel</a>, since
-cPanel is not a necessity for me (I would, rather, install the bare minimum on
-my servers).</p>
-
-<p>I must say that this silent bouncing of my emails was my own idiocy, and
-therefore, I am writing this post to help anyone who may have gone through the
-same.</p>
-
-<h2>Custom Domain on Github Pages</h2>
-
-<p>This has, already, been discussed on <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-pages">this Github Help page</a>,
-and therefore, I will not go in details. For summary:</p>
-
-<ul>
-<li>Create a repository on GitHub with the name of <code>username.github.com</code>.</li>
-<li>Next, clone the Octopress (or Jekyll) repository, and make changes, as
-required. My source for the website is in <code>source</code> branch, which is pushed to
-the same branch on Github, while my website (real HTML pages) are pushed to
-the <code>master</code> branch on Github. This is all managed by Octopress, by default.</li>
-<li>Once we push the site (or run <code>bundle exec rake gen_deploy</code> if using
-Octopress), our site will be viewable at <code>http://username.github.com</code>.</li>
-<li>Next, we add a file named <code>CNAME</code> to our <code>source</code> directory. This file is
-a simple text file that just contains one line, the domain name you wish to
-use. In my case, <code>nikhgupta.com</code>.</li>
-<li>Change the DNS settings for your domain to point to GitHub’s servers. Since,
-I was using the root domain name, I had to create <code>A</code> records for the <code>@</code> and
-<code>www</code> entries, and point them to Github&rsquo;s IP (<code>204.232.175.78</code>).</li>
-</ul>
-
-
-<h2>Ensuring that Email configuration works</h2>
-
-<p>Did you notice that last step? This is where I messed up my email
-configuration. The <code>MX</code> records in my DNS settings for this domain, were
-pointing to <code>mail.nikhgupta.com</code>, which in turn was pointing to <code>@</code> entry.</p>
-
-<p>Now, that is what is wrong! The <code>@</code> entry was initially pointing to my server&rsquo;s
-IP address, which meant that the incoming mails were being processed by my
-server.</p>
-
-<p>When I changed the <code>@</code> entry to point to Github&rsquo;s server, I made Github
-responsible for managing my mails. Shit! Here is a snapshot for the change,
-I made:</p>
-
-<p><img class="center" src="/images/nikhgupta-dns-a-records-digitalocean.png"></p>
-
-<p>Anyways, now, that I am aware of what is wrong, it is a simple fix. I made the
-<code>MX</code> records to point to <code>mail.nikhgupta.com</code> (this was the default), but also
-made <code>mail</code> A-record to point to my server&rsquo;s IP address (by adding an <code>A</code>
-record).</p>
-
-<p>Below are snapshots for my <code>A</code> and <code>MX</code> records, in their current state:</p>
-
-<p><img class="center" src="/images/nikhgupta-dns-a-records.png">
-<img class="center" src="/images/nikhgupta-dns-mx-records.png"></p>
-
-<p>Finally, since I am using DigitalOcean server, I also needed to point the same
-A-record to the server&rsquo;s IP using the management console provided by
-DigitalOcean.</p>
-
-<p>Now, I only had to wait to let the DNS propogate, and my emails were right back
-to where they belonged. :)</p>
-
-<p><strong>Update (05.11.2013)</strong>: It seems that I also needed to point out <code>MX</code> record
-inside DigitalOcean&rsquo;s DNS settings to <code>mail.nikhgupta.com.</code> to make this all
-work.</p>
 ]]></content>
   </entry>
   
