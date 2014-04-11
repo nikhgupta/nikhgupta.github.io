@@ -4,7 +4,7 @@
   <title><![CDATA[Category: code | Nikhil Gupta]]></title>
   <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
   <link href="http://nikhgupta.com/"/>
-  <updated>2014-03-21T22:27:54+05:30</updated>
+  <updated>2014-04-11T08:28:34+05:30</updated>
   <id>http://nikhgupta.com/</id>
   <author>
     <name><![CDATA[Nikhil Gupta]]></name>
@@ -12,6 +12,130 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[a rubyist's attempt on working with python - setup and first notes]]></title>
+    <link href="http://nikhgupta.com/code/a-rubyists-attempt-on-working-with-python-setup-and-first-notes/"/>
+    <updated>2014-04-11T07:42:00+05:30</updated>
+    <id>http://nikhgupta.com/code/a-rubyists-attempt-on-working-with-python-setup-and-first-notes</id>
+    <content type="html"><![CDATA[<p>I never really needed to look for another language to learn once I was acquinted
+with ruby some years back. I love it, and I really do. It provides clean code
+which does what it reads &ndash; it feels like the language was written for me, which
+was infact the idea behind ruby &ndash; a language made for developers.</p>
+
+<p>But, anyways, I am giving Python another try for with hopes that it will be
+fruitful for me to learn the language. It has been, I think, 2-3 years since
+I last tried the language for some time, briefly. I have learned a lot in that
+duration in the Ruby world. And, I am hoping, if nothing else, this attempt at
+Python will make me a better rubyist. This post describes my notes on setting up
+a development environment for Python on OSX 10.8 (Mountain Lion), and some
+initial learning intakes.</p>
+
+<!-- more -->
+
+
+<h2>Installation</h2>
+
+<p>I preferred not to use the Python distribution that comes with OSX for my dev
+needs, which most Pythonista will agree with. The reason is simple &ndash; I do not
+want the system based Python to get corrupted while my dev percussions, and is
+the same reason why I use <code>rbenv</code> for Ruby development.</p>
+
+<p>So, I looked at some tutorials regarding this, and found that the good old
+<code>homebrew</code> that I love has again come up with a rescue. Moreover, it provides me
+with <code>pip</code> and <code>setuptools</code>, which is really great.</p>
+
+<p>```bash</p>
+
+<h1>Installs Python 2.x</h1>
+
+<p>brew install python &mdash;with-brewed-openssl</p>
+
+<h1>Links some of the Python Dev. utilities to /Applications directory.</h1>
+
+<p>brew linkapps
+```</p>
+
+<p>Alright, so next we need a version control system, for which <code>mercurial</code> is
+happily recommended in many tutorials, but I love my VCS and I am not going to
+part away from it &ndash; I am loyal to it &ndash; <code>Git</code>.</p>
+
+<p>Finally, lets install <code>virtualenv</code> which creates virtual isolated environments
+for our Python projects, kinda like <code>rvm</code> in Ruby world.</p>
+
+<p><code>bash
+pip install virtualenv
+pip install virtualenvwrapper
+</code></p>
+
+<p>Next, I do not want to run <code>pip</code> command against the system python and overwrite
+or update a needed library. So, I will tell <code>pip</code> to only instally anything, if
+we are in a <code>virtualenv</code> based environment. Add the following two lines to your
+<code>~/.bashrc</code>, or <code>zsh</code> configuration file (or, whatever else you use):</p>
+
+<p>```bash
+if [[ -s /usr/local/bin/virtualenvwrapper.sh ]]; then</p>
+
+<pre><code>source /usr/local/bin/virtualenvwrapper.sh
+</code></pre>
+
+<p>fi</p>
+
+<h1>pip should only run if there is a virtualenv currently activated</h1>
+
+<p>export PIP_REQUIRE_VIRTUALENV=true</p>
+
+<h1>cache pip-installed packages to avoid re-downloading</h1>
+
+<p>export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache</p>
+
+<h1>virtualenv wrapper support</h1>
+
+<p>export WORKON_HOME=~/Code/python/VirtualEnvs</p>
+
+<h1>make pip use the virtualenv dir</h1>
+
+<p>export PIP_VIRTUALENV_BASE=$WORKON_HOME
+```</p>
+
+<p>Now, trying to install a package without a valid <code>virtualenv</code> will give an error
+that says:</p>
+
+<p><code>bash
+~ ➲ pip install markdown
+Could not find an activated virtualenv (required).
+</code></p>
+
+<p>If you want to use <code>pip</code> for the system based Python, you can add a function
+like this in your bash/zsh configuration file:</p>
+
+<p><code>bash
+syspip(){
+   PIP_REQUIRE_VIRTUALENV="" pip "$@"
+}
+</code></p>
+
+<p>Create a new virtualenv, using:</p>
+
+<p><code>bash
+virtualenv test_project
+cd test_project
+. bin/activate
+</code></p>
+
+<h2>The Editor</h2>
+
+<p>Although, there is a really good <code>PyCharm</code> editor available for Python, I will
+still try and stay with my editor of choice: <code>Vim</code>, which is really
+magnificient. However, in the upcoming days, I can install and add various
+python based features for my vim editor.</p>
+
+<h2>Epilogue</h2>
+
+<p>I have decided to write a separate blog post on what I find inside Python. Will
+soon write up about it.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Things you may not know about FactoryGirl]]></title>
@@ -548,68 +672,6 @@ end
 ```</p>
 
 <p>This makes me a happy panda :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[wish yourself a happy new year]]></title>
-    <link href="http://nikhgupta.com/code/wish-yourself-a-happy-new-year/"/>
-    <updated>2014-01-01T01:19:00+05:30</updated>
-    <id>http://nikhgupta.com/code/wish-yourself-a-happy-new-year</id>
-    <content type="html"><![CDATA[<blockquote><p>Well, before you do that, I will do it from my side: <code>Happy new year to you!</code></p></blockquote>
-
-<p>So, I was just working on somethings, and found this nice little code snippet
-that was totally appropriate for this event.</p>
-
-<!-- more -->
-
-
-<h2>Ruby</h2>
-
-<p>If you are a fan of the ruby (like me), define a function with the following
-definition (try, using <code>irb</code> for this purpose):</p>
-
-<p><code>ruby
-def encode(str); str.chars.map(&amp;:ord).inject(:+); end
-</code></p>
-
-<p>The above function does the following:</p>
-
-<ul>
-<li>accept a string as an input</li>
-<li>break it into its constituent characters</li>
-<li>convert these characters to their ascii integer value</li>
-<li>sum up all the integer values and return that sum</li>
-</ul>
-
-
-<p>Nothin' great about that function, right?<br/>
-Now, try this in your <code>irb</code> session:</p>
-
-<p><code>ruby
-encode "Happy new year to you!"
-</code></p>
-
-<p>You will see that the above function is quite intelligent in itself.</p>
-
-<blockquote><p>That little function is empowered with an artificial intelligence by its code,
-without any complex mechanisms :)</p></blockquote>
-
-<p>Oh, and here is an alternative:</p>
-
-<p><code>ruby
-Happy = Time
-Happy.new.year
-</code></p>
-
-<h2>Python</h2>
-
-<p>If you are a python fan, instead, try this:</p>
-
-<p><code>python
-encode = lambda str: sum(ord(c) for c in str)
-encode("Happy new year to you!")
-</code></p>
 ]]></content>
   </entry>
   
