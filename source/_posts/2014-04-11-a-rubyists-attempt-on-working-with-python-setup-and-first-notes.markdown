@@ -58,11 +58,18 @@ we are in a `virtualenv` based environment. Add the following two lines to your
 `~/.bashrc`, or `zsh` configuration file (or, whatever else you use):
 
 ```bash
+if [[ -s /usr/local/bin/virtualenvwrapper.sh ]]; then
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
+
 # pip should only run if there is a virtualenv currently activated
-export PIP_RESPECT_VIRTUALENV=true
 export PIP_REQUIRE_VIRTUALENV=true
 # cache pip-installed packages to avoid re-downloading
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
+# virtualenv wrapper support
+export WORKON_HOME=~/Code/python/VirtualEnvs
+# make pip use the virtualenv dir
+export PIP_VIRTUALENV_BASE=$WORKON_HOME
 ```
 
 Now, trying to install a package without a valid `virtualenv` will give an error
