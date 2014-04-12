@@ -1,0 +1,2622 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Nikhil Gupta]]></title>
+  <link href="http://nikhgupta.com/atom.xml" rel="self"/>
+  <link href="http://nikhgupta.com/"/>
+  <updated>2014-04-12T18:16:56+05:30</updated>
+  <id>http://nikhgupta.com/</id>
+  <author>
+    <name><![CDATA[Nikhil Gupta]]></name>
+    <email><![CDATA[me@nikhgupta.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[a rubyist's attempt on working with python - setup and first notes]]></title>
+    <link href="http://nikhgupta.com/code/a-rubyists-attempt-on-working-with-python-setup-and-first-notes/"/>
+    <updated>2014-04-11T07:42:00+05:30</updated>
+    <id>http://nikhgupta.com/code/a-rubyists-attempt-on-working-with-python-setup-and-first-notes</id>
+    <content type="html"><![CDATA[<p>I never really needed to look for another language to learn once I was acquinted
+with ruby some years back. I love it, and I really do. It provides clean code
+which does what it reads &ndash; it feels like the language was written for me, which
+was infact the idea behind ruby &ndash; a language made for developers.</p>
+
+<p>But, anyways, I am giving Python another try for with hopes that it will be
+fruitful for me to learn the language. It has been, I think, 2-3 years since
+I last tried the language for some time, briefly. I have learned a lot in that
+duration in the Ruby world. And, I am hoping, if nothing else, this attempt at
+Python will make me a better rubyist. This post describes my notes on setting up
+a development environment for Python on OSX 10.8 (Mountain Lion), and some
+initial learning intakes.</p>
+
+<!-- more -->
+
+
+<h2>Installation</h2>
+
+<p>I preferred not to use the Python distribution that comes with OSX for my dev
+needs, which most Pythonista will agree with. The reason is simple &ndash; I do not
+want the system based Python to get corrupted while my dev percussions, and is
+the same reason why I use <code>rbenv</code> for Ruby development.</p>
+
+<p>So, I looked at some tutorials regarding this, and found that the good old
+<code>homebrew</code> that I love has again come up with a rescue. Moreover, it provides me
+with <code>pip</code> and <code>setuptools</code>, which is really great.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Installs Python 2.x</span>
+</span><span class='line'>brew install python --with-brewed-openssl
+</span><span class='line'><span class="c"># Links some of the Python Dev. utilities to /Applications directory.</span>
+</span><span class='line'>brew linkapps
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Alright, so next we need a version control system, for which <code>mercurial</code> is
+happily recommended in many tutorials, but I love my VCS and I am not going to
+part away from it &ndash; I am loyal to it &ndash; <code>Git</code>.</p>
+
+<p>Finally, lets install <code>virtualenv</code> which creates virtual isolated environments
+for our Python projects, kinda like <code>rvm</code> in Ruby world.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>pip install virtualenv
+</span><span class='line'>pip install virtualenvwrapper
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, I do not want to run <code>pip</code> command against the system python and overwrite
+or update a needed library. So, I will tell <code>pip</code> to only instally anything, if
+we are in a <code>virtualenv</code> based environment. Add the following two lines to your
+<code>~/.bashrc</code>, or <code>zsh</code> configuration file (or, whatever else you use):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">if</span> <span class="o">[[</span> -s /usr/local/bin/virtualenvwrapper.sh <span class="o">]]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">    </span><span class="nb">source</span> /usr/local/bin/virtualenvwrapper.sh
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># pip should only run if there is a virtualenv currently activated</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">PIP_REQUIRE_VIRTUALENV</span><span class="o">=</span><span class="nb">true</span>
+</span><span class='line'><span class="c"># cache pip-installed packages to avoid re-downloading</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">PIP_DOWNLOAD_CACHE</span><span class="o">=</span><span class="nv">$HOME</span>/.pip/cache
+</span><span class='line'><span class="c"># virtualenv wrapper support</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">WORKON_HOME</span><span class="o">=</span>~/Code/python/VirtualEnvs
+</span><span class='line'><span class="c"># make pip use the virtualenv dir</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">PIP_VIRTUALENV_BASE</span><span class="o">=</span><span class="nv">$WORKON_HOME</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, trying to install a package without a valid <code>virtualenv</code> will give an error
+that says:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>~ ➲ pip install markdown
+</span><span class='line'>Could not find an activated virtualenv <span class="o">(</span>required<span class="o">)</span>.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you want to use <code>pip</code> for the system based Python, you can add a function
+like this in your bash/zsh configuration file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>syspip<span class="o">(){</span>
+</span><span class='line'>   <span class="nv">PIP_REQUIRE_VIRTUALENV</span><span class="o">=</span><span class="s2">&quot;&quot;</span> pip <span class="s2">&quot;$@&quot;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Create a new virtualenv, using:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>virtualenv test_project
+</span><span class='line'><span class="nb">cd </span>test_project
+</span><span class='line'>. bin/activate
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>The Editor</h2>
+
+<p>Although, there is a really good <code>PyCharm</code> editor available for Python, I will
+still try and stay with my editor of choice: <code>Vim</code>, which is really
+magnificient. However, in the upcoming days, I can install and add various
+python based features for my vim editor.</p>
+
+<h2>Epilogue</h2>
+
+<p>I have decided to write a separate blog post on what I find inside Python. Will
+soon write up about it.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Things you may not know about FactoryGirl]]></title>
+    <link href="http://nikhgupta.com/code/rails/things-you-may-not-know-about-factorygirl/"/>
+    <updated>2014-03-21T21:57:00+05:30</updated>
+    <id>http://nikhgupta.com/code/rails/things-you-may-not-know-about-factorygirl</id>
+    <content type="html"><![CDATA[<p>OK, I have been doing a lot (and I mean, a lot) of work on Rails, recently.
+I have always loved the simple expressive syntax of Ruby, anyway, so that does
+not bother me.</p>
+
+<p>Now, in one of the projects, I have been using <a href="http://github.com/gregbell/active_admin">ActiveAdmin</a>, and
+other awesome gems like <a href="https://github.com/thoughtbot/factory_girl">FactoryGirl</a>, <a href="https://github.com/rspec/rspec-rails">RSpec</a>,
+<a href="https://github.com/cucumber/cucumber">Cucumber</a>, etc. And, every now and then, I come across a concept or
+feature about these gems that I was not aware about earlier. I wanted to quickly
+jot down all these things, in a single place (for future reference). Now, many
+of these things might not be new to you, but are to me and are of importance for
+me. I am wondering if I should have used a different title for this post, now.</p>
+
+<!-- more -->
+
+
+<h3>Sequences</h3>
+
+<p>I knew about this feature (obviously). It is simple: if you need an attribute to
+change everytime a new factory is built or created &ndash; use a sequence.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">sequence</span><span class="p">(</span><span class="ss">:email</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">n</span><span class="o">|</span> <span class="s2">&quot;email</span><span class="si">#{</span><span class="n">n</span><span class="si">}</span><span class="s2">@factory.com&quot;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above sequence will generate different emails each time the factory is
+called upon, and thus, helps us in passing validations on unique attributes.</p>
+
+<h3>Dependent Attributes</h3>
+
+<p>This is really cool. The value of one of the attributes can depend upon the
+value of another attribute in our factory. Combined with on-the-fly attribute
+declaration, we have a really powerful way to create/build factories:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">factory</span> <span class="ss">:user</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">username</span> <span class="s2">&quot;username&quot;</span>
+</span><span class='line'>  <span class="n">url</span> <span class="p">{</span> <span class="n">username</span> <span class="p">?</span> <span class="s2">&quot;http://facebook.com/</span><span class="si">#{</span><span class="n">username</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">:</span> <span class="kp">nil</span> <span class="p">}</span>
+</span><span class='line'>  <span class="n">verified</span> <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, when we build the <code>user</code> factory, we get a <code>username</code> and a corresponding
+<code>url</code> for our User. But, we can pass a <code>username: nil</code> option to our factory,
+and both our <code>username</code> and <code>url</code> fields will be set to <code>nil</code> :)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">build</span> <span class="ss">:user</span>
+</span><span class='line'><span class="c1">#=&gt; #&lt;User id: nil, username: &quot;username&quot;, url: &quot;http://facebook.com/username&quot;, verified: true&gt;</span>
+</span><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">build</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">username</span><span class="p">:</span> <span class="kp">nil</span>
+</span><span class='line'><span class="c1">#=&gt; #&lt;User id: nil, username: nil, url: nil, verified: true&gt;</span>
+</span><span class='line'><span class="n">user</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">build</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">username</span><span class="p">:</span> <span class="kp">nil</span><span class="p">,</span> <span class="ss">verified</span><span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'><span class="c1">#=&gt; #&lt;User id: nil, username: nil, url: nil, verified: false&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Callbacks and Transient Attributes</h3>
+
+<p>We can, even, define some virtual features on our factory. For example, we can
+define a <code>with_&lt;feature&gt;</code> transient attribute for our factory, which decides if
+a particular feature will be available in our factory or not. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">factory</span> <span class="ss">:user</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">ignore</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">with_profile</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">after</span> <span class="ss">:create</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="p">,</span> <span class="n">evaluator</span><span class="o">|</span>
+</span><span class='line'>    <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">create</span> <span class="ss">:profile</span><span class="p">,</span> <span class="ss">user</span><span class="p">:</span> <span class="n">user</span> <span class="k">if</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">with_profile</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will ensure that a <code>user</code> factory is created with an associated profile
+when <code>with_profile: true</code> is passed as an option. Otherwise, a profile for that
+user will not be created.</p>
+
+<h3>Traits</h3>
+
+<p>Traits define a group of attributes on the concerned factory which form a part
+of a particular behaviour. Now, I never had much use of this particular feature,
+but I can see this feature is really really useful.</p>
+
+<p>I won&rsquo;t go into much details of this feature, as it has been described pretty
+well in the documentation (yes, I am aware, docs are pretty awesome, and this
+post might be really useless).</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Custom Filters using Ransacker in ActiveAdmin Interfaces]]></title>
+    <link href="http://nikhgupta.com/code/activeadmin/custom-filters-using-ransacker-in-activeadmin-interfaces/"/>
+    <updated>2014-03-12T08:47:00+05:30</updated>
+    <id>http://nikhgupta.com/code/activeadmin/custom-filters-using-ransacker-in-activeadmin-interfaces</id>
+    <content type="html"><![CDATA[<p>Oh, so, you have tried implementing custom filters in your shiny
+<a href="active-admin">ActiveAdmin</a> interface, and probably, have already started
+despising the time you have wasted in searching for an answer? Yeah, it happened
+to me, as well.</p>
+
+<p>Anyways, this post contains my short notes on using <code>ransacker</code> to create
+powerful search patterns in my <a href="active-admin">ActiveAdmin</a> interfaces.
+Definitely, <code>ransacker</code> is really powerful. You only need to convert the
+incoming search filter (e.g. text or ids or anything else) to an equivalent
+attribute in the database, and you are done :)</p>
+
+<!-- more -->
+
+
+<p>Lets, imagine that we have an <a href="active-admin">ActiveAdmin</a> dashboard, with
+a <code>User</code> resource. Our app distinguishes users based on some mysterious logic
+as: <code>Active Users</code>, <code>Inactive Users</code>, and <code>New Users</code>. Perfect. But, now,
+somehow, I need to filter my users as per this categorization (within AA). And,
+this is where normal filtering methods stop working for me. Imagine that the
+code present in the <code>User</code> model is somewhere along these lines:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># categorize a given user as: :new, :active or :inactive</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">categorize</span>
+</span><span class='line'>    <span class="c1"># .. mysterious code..</span>
+</span><span class='line'>    <span class="c1"># .. returns one of the symbols: :new, :active or :inactive.</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Step 1: Define the search filter and inputs.</h3>
+
+<p>In order to filter our users based on the above categorization, we first need to
+define our filter in AA. This is fairly easy:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/admin/user.rb</span>
+</span><span class='line'><span class="n">filter</span> <span class="ss">:by_categorization_in</span><span class="p">,</span> <span class="ss">label</span><span class="p">:</span> <span class="s2">&quot;Categorization&quot;</span><span class="p">,</span> <span class="ss">as</span><span class="p">:</span> <span class="ss">:select</span><span class="p">,</span> <span class="ss">collection</span><span class="p">:</span> <span class="sx">%w[ New Active Inactive ]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Yeah, that&rsquo;s it :)</p>
+
+<p>But, the filter will not work, as of now, and if you try to visit your <code>users</code>
+resource, it will spit out an error that says (something like):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">undefined</span> <span class="nb">method</span> <span class="sb">`by_categorization_in&#39; for #&lt;Ransack::Search:0x007fe2365288a0&gt;&#39;`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Obviously, we are yet to define how the filtering will take place.</p>
+
+<h3>Step 2: Define the filtering method, a.k.a. ransacker</h3>
+
+<p>Alright, so the error says that the given filtering method could not be found,
+and therefore, we will start with its implementation. <a href="ransack">Ransack</a> is the
+search library used by AA, and it provides a <code>ransacker</code> method that we can use
+in our models to define custom search methods. Since, we defined our filter as
+<code>by_categorization_in</code>, our ransacker method should be named as: <code>by_categorization</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/user.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># categorize a given user as: :new, :active or :inactive</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">categorize</span>
+</span><span class='line'>    <span class="c1"># .. mysterious code..</span>
+</span><span class='line'>    <span class="c1"># .. returns one of the symbols: :new, :active or :inactive.</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># define our custom search method</span>
+</span><span class='line'>  <span class="n">ransacker</span> <span class="ss">:by_categorization</span><span class="p">,</span> <span class="nb">proc</span><span class="p">{</span> <span class="o">|</span><span class="n">v</span><span class="o">|</span>
+</span><span class='line'>    <span class="c1"># some code..</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">do</span> <span class="o">|</span><span class="n">parent</span><span class="o">|</span>
+</span><span class='line'>    <span class="c1"># some other code..</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Step 3: Define our filtering algorithm</h3>
+
+<p>So, finally, we define how the filter will actually work. This is fairly easy
+step, as well. Notice the <code>proc</code> in the <code>ransacker</code> method above? Also, the
+<code>parent</code> variable? Yeah, we need to use them to define which users will be
+filtered and which will be displayed.</p>
+
+<p>In the given <code>proc</code>, the variable <code>v</code> is nothing special, and simply, contains
+the search term we are filtering upon. In our case, this will be one of the
+<code>New</code>, <code>Active</code> or <code>Inactive</code> words. The purpose of the <code>proc</code> being to map this
+variable to an equivalent attribute in the user&rsquo;s table. Therefore, we can do
+something like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/user.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># categorize a given user as: :new, :active or :inactive</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">categorize</span>
+</span><span class='line'>    <span class="c1"># .. mysterious code..</span>
+</span><span class='line'>    <span class="c1"># .. returns one of the symbols: :new, :active or :inactive.</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># a class method that returns the users belonging to a given category.</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">in_category</span><span class="p">(</span><span class="n">category</span> <span class="o">=</span> <span class="ss">:new</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># .. could have been some really mysterious code, again..</span>
+</span><span class='line'>    <span class="c1"># .. but, then, I am nobody :( ..</span>
+</span><span class='line'>    <span class="n">all</span><span class="o">.</span><span class="n">select</span><span class="p">{</span><span class="o">|</span><span class="n">user</span><span class="o">|</span> <span class="n">user</span><span class="o">.</span><span class="n">categorize</span> <span class="o">==</span> <span class="n">category</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">underscore</span><span class="o">.</span><span class="n">to_sym</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># define our custom search method</span>
+</span><span class='line'>  <span class="n">ransacker</span> <span class="ss">:by_categorization</span><span class="p">,</span> <span class="nb">proc</span><span class="p">{</span> <span class="o">|</span><span class="n">v</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">data</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">in_category</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:id</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">present?</span> <span class="p">?</span> <span class="n">data</span> <span class="p">:</span> <span class="kp">nil</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">do</span> <span class="o">|</span><span class="n">parent</span><span class="o">|</span>
+</span><span class='line'>    <span class="c1"># some other code..</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I know that the above way to find out which user ids belong to a particular
+category is really inefficient, but this is an example. Alright, so we made the
+<code>proc</code> return some user IDs belonging to the category we were interested in.</p>
+
+<p>Next is the <code>parent</code> variable, which probably is some weird ruby object, and to
+be honest I am not entirely sure what all capabilities it provides (though, it
+seems that I can use associations, fetch records for the given model, etc. using
+this object). But, what we are really interested is in the <code>parent.table</code>
+variable, which is an instance of the <code>Arel::Table</code> class, representing our
+<code>users</code> table in the database. The purpose of this block is to obtain an
+attribute from this table (a.k.a., an <code>Arel::Attributes::Attribute</code>), and match
+the values returned by the <code>proc</code> above with the values for this attribute
+across the whole <code>users</code> table. Values returned from the <code>proc</code> matching the
+given attribute for any record in the database table (i.e. our <code>users</code> table)
+will be returned and the rest entries/users will be filtered.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/user.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># categorize a given user as: :new, :active or :inactive</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">categorize</span>
+</span><span class='line'>    <span class="c1"># .. mysterious code..</span>
+</span><span class='line'>    <span class="c1"># .. returns one of the symbols: :new, :active or :inactive.</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># a class method that returns the users belonging to a given category.</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">in_category</span><span class="p">(</span><span class="n">category</span> <span class="o">=</span> <span class="ss">:new</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># .. could have been some really mysterious code, again..</span>
+</span><span class='line'>    <span class="c1"># .. but, then, I am nobody :( ..</span>
+</span><span class='line'>    <span class="n">all</span><span class="o">.</span><span class="n">select</span><span class="p">{</span><span class="o">|</span><span class="n">user</span><span class="o">|</span> <span class="n">user</span><span class="o">.</span><span class="n">categorize</span> <span class="o">==</span> <span class="n">category</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">underscore</span><span class="o">.</span><span class="n">to_sym</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># define our custom search method</span>
+</span><span class='line'>  <span class="n">ransacker</span> <span class="ss">:by_categorization</span><span class="p">,</span> <span class="nb">proc</span><span class="p">{</span> <span class="o">|</span><span class="n">v</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">data</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">in_category</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:id</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">present?</span> <span class="p">?</span> <span class="n">data</span> <span class="p">:</span> <span class="kp">nil</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">do</span> <span class="o">|</span><span class="n">parent</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">parent</span><span class="o">.</span><span class="n">table</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Done! The above should provide us with everything that we need to filter out our
+users based on their categorization. Happy ransacking :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[401 unoauthorized with OmniAuth Twitter and Pow domains]]></title>
+    <link href="http://nikhgupta.com/rails/401-unoauthorized-with-omniauth-twitter-and-pow-domains/"/>
+    <updated>2014-02-08T06:06:00+05:30</updated>
+    <id>http://nikhgupta.com/rails/401-unoauthorized-with-omniauth-twitter-and-pow-domains</id>
+    <content type="html"><![CDATA[<p>As stated a few posts back, I have switched to using <a href="http://pow.cx">Pow</a> for
+managing my hosts configuration.</p>
+
+<p>Recently, I was using <code>omniauth-twitter</code> to authenticate a client for my Rails
+application. When trying to access the application&rsquo;s oauth url for twitter, i.e.
+<code>/auth/twitter</code> via the pow based domain I was getting a <code>401 unauthorized</code>
+error, while accessing it via the Webrick&rsquo;s <code>http://localhost:3000</code> worked fine.</p>
+
+<p>I was scratching my heads over the reason, when I noticed that I was using
+Environment variables in my provider definition, and I wondered probably Pow
+does not have access to these variables? I use <code>dotenv</code> and was pretty sure
+webrick had access to these Environment variables.</p>
+
+<p>So, I googled for a while and found that Pow actually does not have access to
+<code>dotenv</code> based variables. Instead, it does allow setting them via a <code>.powenv</code>
+file. Therefore, I ran the following commands to configure all this from my
+Rails&#8217; root path:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s1">&#39;export TWITTER_KEY=&lt;MY-TWITTER-KEY&gt;&#39;</span> &gt;&gt; .powenv
+</span><span class='line'><span class="nb">echo</span> <span class="s1">&#39;export TWITTER_SECRET=&lt;MY-TWITTER-SECRET&gt;&#39;</span> &gt;&gt; .powenv
+</span><span class='line'>touch tmp/restart.txt
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And, voila! I can now access my oauth workflow, simply.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[making ngrok work with pow and apache (exposing localhost domains to the internet)]]></title>
+    <link href="http://nikhgupta.com/workflow/making-ngrok-work-with-pow-and-apache-exposing-localhost-domains-to-the-internet/"/>
+    <updated>2014-02-07T02:56:00+05:30</updated>
+    <id>http://nikhgupta.com/workflow/making-ngrok-work-with-pow-and-apache-exposing-localhost-domains-to-the-internet</id>
+    <content type="html"><![CDATA[<p>OK. I am really happy with my recent endeavour to try out <a href="http://pow.cx">Pow</a>
+and making it work alongside Apache. What this means is that, on my macbook pro,
+I can simply run <code>powder link</code> inside a rack-based application, and then, use
+<code>http://&lt;appname&gt;.dev</code> to connect to this application. For legacy (non-rack)
+based application, I can simply create a directory in a specificied location,
+and that directory will be served by Apache at: <code>http://&lt;dirname&gt;.lab</code>. Details
+for this implementation/workflow can be found in <a href="http://nikhgupta.com/code/serving-legacy-php-applications-using-apache-alongside-pow/">this post</a>.</p>
+
+<p>Now, this works really nicely. But, I wanted a way to access these sites easily
+on the public internet, lets say, to showcase the current work to a client, etc.
+This is where <a href="http://ngrok.com">ngrok</a> comes in. It allows us to establish
+a tunnel that forwards a port on our machine and make it available on the public
+internet. This post walks through the steps I took to make it play nicely and
+really smoothly with Apache and Pow.</p>
+
+<!-- more -->
+
+
+<h2>Installing <code>ngrok</code></h2>
+
+<p>Installing <code>ngrok</code> is pretty easy. We need to download a zip file, unzip it and
+move the executable inside it to a directory in our <code>$PATH</code>. Assuming that
+<code>/usr/local/bin</code> is in our <code>$PATH</code>, we can do something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span> /tmp
+</span><span class='line'>wget https://dl.ngrok.com/darwin_amd64/ngrok.zip
+</span><span class='line'>unzip ngrok.zip
+</span><span class='line'>chmod +x ngrok
+</span><span class='line'>cp ngrok /usr/local/bin
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, we need to verify that <code>ngrok</code> is working by running: <code>ngrok help</code>. Once,
+we have it working, we need to <a href="https://ngrok.com/signup">register</a> us on
+<code>ngrok</code> website, and authorize us with <code>ngrok</code> as stated in the
+<a href="http://ngrok.com/dashboard">dashboard</a>.</p>
+
+<p>Now, <code>ngrok</code> is ready to serve our localhost on the public internet. Running:
+<code>ngrok 80</code> should provide us with a unique URL, which we can access to view our
+localhost site, i.e. <code>http://localhost/</code>.</p>
+
+<h2>Pow domains?</h2>
+
+<p>I wanted to view my Pow based domains over the internet, and this is fairly easy
+to do. With our <a href="http://nikhgupta.com/code/serving-legacy-php-applications-using-apache-alongside-pow/">current Pow setup</a>, it is still easier.</p>
+
+<blockquote><p>If you have reached this post while searching to make ngrok work with apache
+or pow, please read that article, before you proceed further. Instructions in
+this post assume that Pow and Apache are setup in a particular manner, and may
+not work in your case.</p></blockquote>
+
+<p>Alright, we need to reinstall Pow to let it know what mischief we are upto.
+We can run the following commands to uninstall Pow, add an environment variable
+to our Pow configuration file, and then, reinstall Pow. This particular
+environment variable tells Pow to resolve DNS for <code>*.ngrok.com</code> on our local
+machine, but not serve them.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl get.pow.cx/uninstall.sh | sh
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;export POW_EXT_DOMAINS=ngrok.com&quot;</span> &gt;&gt; ~/.powconfig
+</span><span class='line'>curl get.pow.cx | sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That is all we need to make Pow serve our local Pow site, e.g. <code>myapp.dev</code> on
+the internet, provided this application is being forwarded on <code>myapp.ngrok.com</code>
+hostname. In order to achieve this, we can run <code>ngrok</code>, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ngrok --subdomain<span class="o">=</span>myapp myapp.dev:88
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that, as per our current Pow configuration, Pow is running on port 88, and
+that is what we need to specify here. Great. So, we can now access our local
+<code>myapp.dev</code> Pow based site on the internet by visiting <code>http://myapp.ngrok.com</code>.</p>
+
+<h2>Apache domains?</h2>
+
+<p><code>ngrok</code> allows us to expose our Apache <code>VirtualHost</code> domains over
+the internet by adding the public hostname of the application as a <code>ServerAlias</code>
+inside the appropriate <code>VirtualHost</code> directive.</p>
+
+<p>In my case, I am using the following <code>VirtualHost</code> directive (which allows me
+to simply create a directory named <code>myapp</code> inside the path specified by the
+<code>VirtualDocumentRoot</code>, and access it on <code>http://myapp.lab</code>):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nt">&lt;VirtualHost</span> <span class="s">*:80</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nb">ServerName</span> lab
+</span><span class='line'>    <span class="nb">ServerAlias</span> *.lab
+</span><span class='line'>    <span class="nb">VirtualDocumentRoot</span> <span class="s2">&quot;/Users/nikhgupta/Code/legacy-apps/%1&quot;</span>
+</span><span class='line'><span class="nt">&lt;/VirtualHost&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We want <code>ngrok</code> to serve all <code>*.lab</code> local sites on the internet. Therefore, we
+add a <code>ServerAlias</code> with the value <code>*.lab.ngrok.com</code> to this <code>VirtualHost</code>
+directive.</p>
+
+<p>This works because, when a request to <code>*.lab.ngrok.com</code> is made on the internet,
+<code>ngrok</code> will forward it to our machine, which will read the hostname to be
+<code>*.lab.ngrok.com</code>, which is where Apache kicks in and tries to serve it, using
+the above directive. Nice, and simple :)</p>
+
+<p>So, our directive should look like this, now:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nt">&lt;VirtualHost</span> <span class="s">*:80</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nb">ServerName</span> lab
+</span><span class='line'>    <span class="nb">ServerAlias</span> *.lab *.lab.ngrok.com
+</span><span class='line'>    <span class="nb">VirtualDocumentRoot</span> <span class="s2">&quot;/Users/nikhgupta/Code/legacy-apps/%1&quot;</span>
+</span><span class='line'><span class="nt">&lt;/VirtualHost&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To make this all work, we need <code>ngrok</code> to serve the site correctly. Assuming
+that we want to access <code>myapp.lab</code>, we will need to issue a command like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ngrok --subdomain<span class="o">=</span>myapp.lab myapp.lab:80
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Voila, we can now access our Apache <code>VirtualHost</code> domains on the internet, as
+well.</p>
+
+<h2>Epilogue</h2>
+
+<p>To sum it up, with the above changes, and the following sites that work on our
+local machine:</p>
+
+<ol>
+<li><code>my-pow-app.dev</code>:    pow based application</li>
+<li><code>my-apache-app.lab</code>: apache based application</li>
+</ol>
+
+
+<p>We can issue the following two commands (in separate tabs):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># access `my-pow-app.dev` via: http://my-pow-app.ngrok.com</span>
+</span><span class='line'>ngrok --subdomain<span class="o">=</span>my-pow-app my-pow-app.dev:88
+</span><span class='line'>
+</span><span class='line'><span class="c"># access `my-apache-app.lab` via: http://my-apache-app.lab.ngrok.com</span>
+</span><span class='line'>ngrok --subdomain<span class="o">=</span>my-apache-app.lab my-apache-app.lab:80
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Further Improvement to Workflow</h2>
+
+<p>I created this handly little shell snippet to easily serve up a local domain on
+the internet using <code>ngrok</code> (and, optionally, with HTTP Basic Authentication):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>expose<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="nv">website</span><span class="o">=</span><span class="nv">$1</span>
+</span><span class='line'>    <span class="nv">subdomain</span><span class="o">=</span><span class="nv">$2</span>
+</span><span class='line'>    <span class="nv">username</span><span class="o">=</span><span class="nv">$3</span>
+</span><span class='line'>    <span class="nv">password</span><span class="o">=</span><span class="nv">$4</span>
+</span><span class='line'>    <span class="o">[</span> -n <span class="nv">$website</span> <span class="o">]</span> <span class="o">||</span> <span class="o">(</span><span class="nb">echo</span> <span class="s2">&quot;I need a local website to tunnel to.&quot;</span> <span class="o">&amp;&amp;</span> <span class="nb">exit</span><span class="o">)</span>
+</span><span class='line'>    <span class="o">[</span> -n <span class="nv">$subdomain</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nv">subdomain</span><span class="o">=</span><span class="s2">&quot;--subdomain=${subdomain}&quot;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">[[</span> -n <span class="nv">$username</span>  <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="o">[[</span> -n <span class="nv">$password</span> <span class="o">]]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">        </span><span class="nv">httpauth</span><span class="o">=</span><span class="s2">&quot;-httpauth=${username}:${password}&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'><span class="k">        </span><span class="nb">echo</span> <span class="s2">&quot;Not using secure tunnel since auth params were not provided.&quot;</span>
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'><span class="k">    </span>ngrok <span class="nv">$subdomain</span> <span class="nv">$httpauth</span> <span class="nv">$website</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I am pretty sure that the above function can be further improved, but it works.
+It empowers me to issue a simplified command to serve any local domain.</p>
+
+<p>To best realize the power of this little snippet, we need to add the following one-line
+functions (after the above function) in our shell configuration:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>expose-dev<span class="o">()</span> <span class="o">{</span> expose <span class="nv">$1</span>.dev:88 <span class="nv">$1</span> <span class="nv">$2</span> <span class="nv">$3</span>; <span class="o">}</span>
+</span><span class='line'>expose-lab<span class="o">()</span> <span class="o">{</span> expose <span class="nv">$1</span>.lab:80 <span class="nv">$1</span>.lab <span class="nv">$2</span> <span class="nv">$3</span>; <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, to serve up a Pow based site, e.g. <code>myapp.dev</code>, we can simply run:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>expose-dev myapp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And, to serve up an Apache based site, e.g. <code>myapp.lab</code>, we can simply run:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>expose-lab myapp
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Not only that, we can, also, add HTTP Basic Authentication while serving up
+a local site, by simply passing two more parameters for username and password,
+like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>expose-lab myapp username password
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, when we visit <code>http://myapp.lab.ngrok.com</code>, we will be greeted with a HTTP
+Basic Authentication before we are allowed accessed to our local site.</p>
+
+<p><strong>Nice and really useful :)</strong></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[serving legacy php applications using Apache alongside Pow]]></title>
+    <link href="http://nikhgupta.com/code/serving-legacy-php-applications-using-apache-alongside-pow/"/>
+    <updated>2014-02-03T06:49:00+05:30</updated>
+    <id>http://nikhgupta.com/code/serving-legacy-php-applications-using-apache-alongside-pow</id>
+    <content type="html"><![CDATA[<p>I have started using <a href="http://pow.cx">Pow</a> lately, which I have avoided for
+a long time, without any explicit reasoning. Now that I have actually tried it,
+I can definitely say that using Pow is really a breeze, and is really powerful
+at the same time. Before this, I used to run Phusion Passenger for my needs, and
+while that was a lot more powerful, it was a lot more fuss for my naive needs.</p>
+
+<p>Now, Pow is really great for Rack based applications, but does not work well
+enough with other applications, e.g. the ones using PHP. What makes it worse is
+that the default Pow configuration takes over the port 80, and thereby, my
+Apache server will never be hit. Great.</p>
+
+<p>I, quickly, googled some stuff and found a way to make Apache and Pow play
+nicely with each other, and at the same time remove the need for <code>dnsmasq</code>,
+which I am, currently, using to resolve arbitrary top-level domains. This post
+contains my notes on this topic.</p>
+
+<!-- more -->
+
+
+<h2>Uninstall Pow</h2>
+
+<p>The first step we need to perform is to uninstall Pow, if it is already
+installed. That way, we make sure that nothing interferes with our setup.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl get.pow.cx/uninstall.sh | sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Add Configuration for Pow</h2>
+
+<p>We will tell Pow to use the port 3100, instead of taking over port 80, and let
+the poor Apache be. Furthermore, I will tell Pow to resolve a number of TLDs to
+<code>127.0.0.1</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s1">&#39;export POW_DST_PORT=88&#39;</span> &gt;&gt; ~/.powconfig
+</span><span class='line'><span class="nb">echo</span> <span class="s1">&#39;export POW_DOMAINS=dev,pow,lab,test&#39;</span> &gt;&gt; ~/.powconfig
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>From the above list of TLDs, we want <code>dev</code>, and <code>pow</code> to serve applications
+using Pow, while <code>lab</code> and <code>test</code> will be serving Apache based applications
+using VirtualHost directives.</p>
+
+<h2>Adding Apache VirtualHosts</h2>
+
+<p>First, we will tell Apache to pass any requests for <code>dev</code>, and <code>pow</code> TLDs to
+Pow using reverse proxy:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nt">&lt;VirtualHost</span> <span class="s">*:80</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nb">ServerName</span> pow
+</span><span class='line'>    <span class="nb">ServerAlias</span> *.dev *.pow *.xip.io
+</span><span class='line'>
+</span><span class='line'>    <span class="nb">ProxyPass</span> / http://localhost:20559/
+</span><span class='line'>    <span class="nb">ProxyPassReverse</span> / http://localhost:20559/
+</span><span class='line'>    <span class="nb">ProxyPreserveHost</span> <span class="k">On</span>
+</span><span class='line'><span class="nt">&lt;/VirtualHost&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Having done that, we tell Apache to serve up the remaining TLDs from
+a particular directory:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nt">&lt;VirtualHost</span> <span class="s">*:80</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nb">ServerName</span> lab
+</span><span class='line'>    <span class="nb">ServerAlias</span> *.lab *.test
+</span><span class='line'>    <span class="nb">VirtualDocumentRoot</span> <span class="s2">&quot;/Users/nikhgupta/Code/legacy-apps/%1&quot;</span>
+</span><span class='line'><span class="nt">&lt;/VirtualHost&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, make sure that the above directives are being served up by Apache by
+including them in your <code>httpd.conf</code> somewhere, somehow.</p>
+
+<h2>Restart Apache</h2>
+
+<p>Apache will use the above VirtualHost directives upon restart/reload:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apachectl restart
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Install Pow</h2>
+
+<p>All that remains is to install Pow:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl get.pow.cx | sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Install Powder</h2>
+
+<p>Oh, yes, this is my favorite. Simply, install Powder to further simplify your
+life.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>gem install powder
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>Ecstatic</em> :)</p>
+
+<h2>Results?</h2>
+
+<p>For starters, I can serve up any rack based application by simply running
+<code>powder list</code> in that directory, and then access it using <code>appname.dev</code> or
+<code>appname.pow</code>. And, this also works for static websites as well e.g.
+<a href="http://jekyllrb.com">Jekyll</a> (note that, this requires that the current
+directory has a <code>public</code> sub directory which contains an <code>index.html</code> file.)</p>
+
+<p>Moreover, my old Apache configurations run without any implications. And,
+therefore, I can keep on working on applications that are served using PHP.</p>
+
+<p>Effectively, I can run a ruby/rails based application in a single step by
+running <code>powder link</code>, and a php application in zero steps by simply placing it
+at the correct location.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[wrapping long lines in ruby for display in source files]]></title>
+    <link href="http://nikhgupta.com/code/wrapping-long-lines-in-ruby-for-display-in-source-files/"/>
+    <updated>2014-01-31T02:42:00+05:30</updated>
+    <id>http://nikhgupta.com/code/wrapping-long-lines-in-ruby-for-display-in-source-files</id>
+    <content type="html"><![CDATA[<p>While working on a gem, I needed to generate ruby classes on the fly. Yeah,
+I know this should never be the case, unless I needed around 600+ classes (I was
+converting schema.org schemas to ruby classes).</p>
+
+<p>Now, this required me to add descriptive text inside these classes, but the text
+was very long and I hated how the text overflowed the screen. I use vim, which
+promptly highlights the 80-char column marker on my source files, and I wanted
+this text to stick to that. Effectively, I wanted something like the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">MyModule</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">MyClass</span>
+</span><span class='line'>    <span class="n">describes</span> <span class="s2">&quot;A really long text that respects the 80-char column marker and</span>
+</span><span class='line'><span class="s2">    wraps nicely when it exceeds this length.&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<p>I knew that Rails provided a nearly similar method with the name <code>word_wrap</code>,
+and I tweaked it a bit to this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">String</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">wrap</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="n">width</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:width</span><span class="p">,</span> <span class="mi">76</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">strip</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">line</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="n">width</span> <span class="p">?</span> <span class="n">line</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/(.{1,</span><span class="si">#{</span><span class="n">width</span><span class="si">}</span><span class="sr">})(\s+|$)/</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">1</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="p">:</span> <span class="n">line</span>
+</span><span class='line'>    <span class="k">end</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:strip</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">indent</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="n">spaces</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="n">options</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:spaces</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/^/</span><span class="p">,</span> <span class="n">spaces</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/^\s*$/</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">indent_with_wrap</span> <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="n">spaces</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:spaces</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">width</span>  <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="ss">:width</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">width</span>  <span class="o">=</span> <span class="n">width</span> <span class="o">&gt;</span> <span class="n">spaces</span> <span class="p">?</span> <span class="n">width</span> <span class="o">-</span> <span class="n">spaces</span> <span class="p">:</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="ss">width</span><span class="p">:</span> <span class="n">width</span><span class="p">)</span><span class="o">.</span><span class="n">indent</span><span class="p">(</span><span class="ss">spaces</span><span class="p">:</span> <span class="n">spaces</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The last method, i.e. <code>indent_with_wrap</code> is what I am interested in, really.
+Now, this might not be the best implementation for what I want, but it works and
+is self-explanatory to me.</p>
+
+<p>So, now, I can create my ERB template like this to get the desired results:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">module</span> <span class="o">&lt;</span><span class="sx">%= module_name %&gt;</span>
+</span><span class='line'><span class="sx">  class &lt;%=</span> <span class="n">class_name</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">    &lt;%= &quot;describes </span><span class="si">#{</span><span class="n">description</span><span class="si">}</span><span class="sx">&quot;.indent_with_wrap spaces: 4, width: 80 %&gt;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This makes me a happy panda :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The overdue silence]]></title>
+    <link href="http://nikhgupta.com/personal/diary/the-overdue-silence/"/>
+    <updated>2014-01-01T13:18:00+05:30</updated>
+    <id>http://nikhgupta.com/personal/diary/the-overdue-silence</id>
+    <content type="html"><![CDATA[<blockquote><p>It&rsquo;s wonderful. This new year. The <code>2014</code>.<br/>
+Everything seems different &ndash; not in their appearance or behaviour or
+properties, but it feels like things have a new soul, or like an invisible
+painting has been performed on them to give them a more living feeling.</p></blockquote>
+
+<p>I know. I know. New year, sometimes, have such an effect on individuals, and
+I am no different. I am a person who appreciates art, and the new year just
+happens to bring so much of it. So, let me first wish a new year to you and to
+me, with a wish that this year will give us the ever-elusive satisfaction every
+one wants in their life, that this year will bring us closer to our dreams &ndash; the
+precious!</p>
+
+<!-- more -->
+
+
+<h2>The Apology</h2>
+
+<p>Via this blog post, I wanted to put an excuse to my blog for not being able to
+post for the last two months, and I am still wondering on one. All I can say is
+that:</p>
+
+<blockquote><p>We, the mere humans, are lazy.<br/>
+We, the mere humans, can never stick to our promises, no matter how special.</p></blockquote>
+
+<p>To be honest, I got involved with a ruby gem that tried to convert text markup
+from one language to another, e.g. from <a href="markdown">Markdown</a> to
+<a href="textile">Textile</a> markup, or maybe from <a href="org-mode">Org Mode</a> to
+<a href="markdown">Markdown</a>, and so on. Oh, and not only that, I was in the process of
+picking up a partner for a few startups I had in my mind, and was building up on
+them.</p>
+
+<p>Later, when I was about missing my newly-refreshed blog, things in my
+personal life took some turn &ndash; my dad suffered from heart strokes &ndash; two of them
+&ndash; in a matter of days. Life sucks for such things.</p>
+
+<p>Moreover, I am really fighting with myself to put an end to my 9-5 job. I have
+been wanting to end it since an year, now, and finally, I have decided to do
+this. Yeah, I went over this decision, slept over it and what not. A 9-5
+government job that has no relation to what I love, what I am passionate about
+simply does not make any sense to me or to anyone who knows my affair with
+programming and computers, anymore.</p>
+
+<p>Having settled the reasons, all I can say is that I plan on posting regularly,
+though I won&rsquo;t make a promise, but I will post when possible.</p>
+
+<h2>Resolutions</h2>
+
+<p>I hate resolutions. They bind me for the things I do not want to do. Now, you
+would ask:</p>
+
+<blockquote><p><strong>Why only things that you do not want to do?</strong></p>
+
+<blockquote><p><em>Because, if I really wanted to do something, I won&rsquo;t wait for the new year to
+happen.</em></p></blockquote>
+
+<p><strong>Alright, but even then, resolutions are good, right?</strong></p>
+
+<blockquote><p><em>No! They are evil. They tell me to do something against my freewill. And,
+hence, I already know, I won&rsquo;t listen to them after sometime, anyways.</em></p></blockquote>
+
+<p><strong>Okay, so you don&rsquo;t plan on changing yourself, for the good?</strong></p>
+
+<blockquote><p>Who said, I don&rsquo;t want to do that. You must first tell me what&rsquo;s wrong with
+me, for this conversation to work out.</p></blockquote></blockquote>
+
+<h2>The First Month</h2>
+
+<p>Oh, yes, I have a few simple plans for this month, which include:</p>
+
+<ul>
+<li>posting a timeline of the major events from my life on this blog.</li>
+<li>start work on one of the startup ideas I had in my mind.</li>
+<li>resign from my 9-5 job and leave the government to work on its own.</li>
+<li>pack up and go live in a place with a better climate by the end of the month.</li>
+<li>photography visits nearly every week</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[wish yourself a happy new year]]></title>
+    <link href="http://nikhgupta.com/code/wish-yourself-a-happy-new-year/"/>
+    <updated>2014-01-01T01:19:00+05:30</updated>
+    <id>http://nikhgupta.com/code/wish-yourself-a-happy-new-year</id>
+    <content type="html"><![CDATA[<blockquote><p>Well, before you do that, I will do it from my side: <code>Happy new year to you!</code></p></blockquote>
+
+<p>So, I was just working on somethings, and found this nice little code snippet
+that was totally appropriate for this event.</p>
+
+<!-- more -->
+
+
+<h2>Ruby</h2>
+
+<p>If you are a fan of the ruby (like me), define a function with the following
+definition (try, using <code>irb</code> for this purpose):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="n">str</span><span class="p">);</span> <span class="n">str</span><span class="o">.</span><span class="n">chars</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:ord</span><span class="p">)</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="ss">:+</span><span class="p">);</span> <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above function does the following:</p>
+
+<ul>
+<li>accept a string as an input</li>
+<li>break it into its constituent characters</li>
+<li>convert these characters to their ascii integer value</li>
+<li>sum up all the integer values and return that sum</li>
+</ul>
+
+
+<p>Nothin&#8217; great about that function, right?<br/>
+Now, try this in your <code>irb</code> session:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">encode</span> <span class="s2">&quot;Happy new year to you!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You will see that the above function is quite intelligent in itself.</p>
+
+<blockquote><p>That little function is empowered with an artificial intelligence by its code,
+without any complex mechanisms :)</p></blockquote>
+
+<p>Oh, and here is an alternative:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Happy</span> <span class="o">=</span> <span class="no">Time</span>
+</span><span class='line'><span class="no">Happy</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">year</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Python</h2>
+
+<p>If you are a python fan, instead, try this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">encode</span> <span class="o">=</span> <span class="k">lambda</span> <span class="nb">str</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">)</span>
+</span><span class='line'><span class="n">encode</span><span class="p">(</span><span class="s">&quot;Happy new year to you!&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Custom Domains on Github Pages without fucking up your Emails]]></title>
+    <link href="http://nikhgupta.com/code/custom-domains-on-github-pages-without-fucking-up-your-emails/"/>
+    <updated>2013-10-27T16:18:00+05:30</updated>
+    <id>http://nikhgupta.com/code/custom-domains-on-github-pages-without-fucking-up-your-emails</id>
+    <content type="html"><![CDATA[<p>As stated in my post titled <a href="http://nikhgupta.com/personal/back-with-a-bang/">Back with a Bang!</a>
+(that title, still, amuses me), I have moved from
+<a href="http://wordpress.org">WordPress</a> to using <a href="http://octopress.org">Octopress</a> on
+Github pages. I was happy with my new blogging configuration, and I think, I am
+on schedule with my post updates, till date. However, in making the switch,
+I messed up my email configuration while setting up custom domain for this blog.
+And, I was not even aware my emails were bouncing off, silently.</p>
+
+<!-- more -->
+
+
+<p>The <code>nikhgupta.com</code> domain is registered on <a href="http://namecheap.com">Namecheap</a>
+(which has been my reliable domain manager, since the very start), and is hosted
+on <a href="http://digitalocean.com">DigitalOcean</a> (which is an amazin&#8217; host and my
+recommendation, these days). I am using <a href="http://zpanelcp.com">ZPanel</a>, since
+cPanel is not a necessity for me (I would, rather, install the bare minimum on
+my servers).</p>
+
+<p>I must say that this silent bouncing of my emails was my own idiocy, and
+therefore, I am writing this post to help anyone who may have gone through the
+same.</p>
+
+<h2>Custom Domain on Github Pages</h2>
+
+<p>This has, already, been discussed on <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-pages">this Github Help page</a>,
+and therefore, I will not go in details. For summary:</p>
+
+<ul>
+<li>Create a repository on GitHub with the name of <code>username.github.com</code>.</li>
+<li>Next, clone the Octopress (or Jekyll) repository, and make changes, as
+required. My source for the website is in <code>source</code> branch, which is pushed to
+the same branch on Github, while my website (real HTML pages) are pushed to
+the <code>master</code> branch on Github. This is all managed by Octopress, by default.</li>
+<li>Once we push the site (or run <code>bundle exec rake gen_deploy</code> if using
+Octopress), our site will be viewable at <code>http://username.github.com</code>.</li>
+<li>Next, we add a file named <code>CNAME</code> to our <code>source</code> directory. This file is
+a simple text file that just contains one line, the domain name you wish to
+use. In my case, <code>nikhgupta.com</code>.</li>
+<li>Change the DNS settings for your domain to point to GitHub’s servers. Since,
+I was using the root domain name, I had to create <code>A</code> records for the <code>@</code> and
+<code>www</code> entries, and point them to Github&rsquo;s IP (<code>204.232.175.78</code>).</li>
+</ul>
+
+
+<h2>Ensuring that Email configuration works</h2>
+
+<p>Did you notice that last step? This is where I messed up my email
+configuration. The <code>MX</code> records in my DNS settings for this domain, were
+pointing to <code>mail.nikhgupta.com</code>, which in turn was pointing to <code>@</code> entry.</p>
+
+<p>Now, that is what is wrong! The <code>@</code> entry was initially pointing to my server&rsquo;s
+IP address, which meant that the incoming mails were being processed by my
+server.</p>
+
+<p>When I changed the <code>@</code> entry to point to Github&rsquo;s server, I made Github
+responsible for managing my mails. Shit! Here is a snapshot for the change,
+I made:</p>
+
+<p><img class="center" src="http://nikhgupta.com/images/nikhgupta-dns-a-records-digitalocean.png"></p>
+
+<p>Anyways, now, that I am aware of what is wrong, it is a simple fix. I made the
+<code>MX</code> records to point to <code>mail.nikhgupta.com</code> (this was the default), but also
+made <code>mail</code> A-record to point to my server&rsquo;s IP address (by adding an <code>A</code>
+record).</p>
+
+<p>Below are snapshots for my <code>A</code> and <code>MX</code> records, in their current state:</p>
+
+<p><img class="center" src="http://nikhgupta.com/images/nikhgupta-dns-a-records.png">
+<img class="center" src="http://nikhgupta.com/images/nikhgupta-dns-mx-records.png"></p>
+
+<p>Finally, since I am using DigitalOcean server, I also needed to point the same
+A-record to the server&rsquo;s IP using the management console provided by
+DigitalOcean.</p>
+
+<p>Now, I only had to wait to let the DNS propogate, and my emails were right back
+to where they belonged. :)</p>
+
+<p><strong>Update (05.11.2013)</strong>: It seems that I also needed to point out <code>MX</code> record
+inside DigitalOcean&rsquo;s DNS settings to <code>mail.nikhgupta.com.</code> to make this all
+work.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Finally. A self-hosted Gitlab instance!]]></title>
+    <link href="http://nikhgupta.com/code/finally-a-self-hosted-gitlab-instance/"/>
+    <updated>2013-10-26T13:26:00+05:30</updated>
+    <id>http://nikhgupta.com/code/finally-a-self-hosted-gitlab-instance</id>
+    <content type="html"><![CDATA[<p>Alright. I seem to be pretty happy today. I think any stupid developer, like me,
+would be in the given circumstances. If you are aware about the existance of
+a very nifty witchcraft named <a href="http://github.com">Github</a>, then, I am sure you
+will be equally happy for me.</p>
+
+<p><strong>Github is magic</strong>. <em>A protective one.</em></p>
+
+<p>For those unaware, Github is a code hosting platform. It allows me to write my
+code and then, keep it safe and versioned in their platform. That way, my code
+is always there for me. I can share code with other developers, as well as
+<em>fork</em> their work and modify it, locally. And, so on. The cool thing is that the
+service is really amazing and free for open-source projects.</p>
+
+<!-- more -->
+
+
+<p>However, there are times when a person needs some privacy, even with the code,
+he writes. Especially, with the code, he writes. I, often, used Github&rsquo;s private
+repositories for this purpose. But, with a recent project, I was aiming to
+create around 100 different private repositories, which was a bit unmanageable
+with Github. I know, I know. I must not need that much private repositories.
+But, what can I do about it if the project specification itself demand for the
+same.</p>
+
+<p>Therefore, I began looking at private repository hosts, and
+<a href="http://bitbucket.org">BitBucket</a> seemed to be off, for some reasons. Finally,
+I settled on using <a href="http://gitlab.org">GitlabHQ</a> for my purposes. It offered
+everything Github had to offer, and more. More in the sense, that I can host
+things privately on my own server. Perfect.</p>
+
+<p>And, since I was already using <a href="http://digitalocean.com">DigitalOcean</a> for
+hosting my server, and was using Ubuntu 12.10 as my operating system, it became
+really easy to install Gitlab on my server. Followed <a href="https://www.digitalocean.com/community/articles/how-to-set-up-gitlab-as-your-very-own-private-github-clone">this
+tutorial</a>
+from DigitialOcean&rsquo;s community tutorials, and I was up and running with my own
+private repository server.</p>
+
+<p>I was, further, planning to install <a href="http://gitlab.org/gitlab-ci">Gitlab CI</a> on
+my server, but that seemed to be an overkill, since I do not think I will need
+continuous integration for my private projects, and for public projects, we have
+another awesome witchcraft named <a href="http://travis-ci.org">Travis CI</a>.</p>
+
+<p>O&#8217;course, you can test drive this on <a href="http://git.wickeddevelopers.com">Git @WickedDevelopers</a>.  <br/>
+Happy, code browsing!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[managing your scripts should not be that hard]]></title>
+    <link href="http://nikhgupta.com/personal/code/managing-your-scripts-should-not-be-that-hard/"/>
+    <updated>2013-10-23T01:46:00+05:30</updated>
+    <id>http://nikhgupta.com/personal/code/managing-your-scripts-should-not-be-that-hard</id>
+    <content type="html"><![CDATA[<p>I am, often, found creating simple scripts to automate one or the other part of
+my life. Most of the times, I would use a combination of project managers, task
+managers, automation tools, and so on to do the tedious work for me. But, at the
+other times, it is simply so much more easier to give my inner geek a kick in
+the butt and start writing some code which will explicitely be used by me to
+handle such one off tasks.</p>
+
+<!-- more -->
+
+
+<h2>The Problem</h2>
+
+<p>But, here comes the irony, no matter what I try, I end up either misplacing
+these little snippets of code, or otherwise it becomes so much tedious to
+collect and keep them in an organized manner. Not to mention, the really
+annoying part of creating aliases to these nice snippets and then, forgetting
+what aliases you, currently, have. Oh, did I mention, I have to keep them online
+in a Git repository, so that they are always versioned and sharing them is easy?
+And, what if I am booting a new server or working on some other one-time
+machine, it would kill me to do a clone of this repository, and then run them
+via their full paths, and what if the script does not work on this new machine,
+or what if I had to leave meanwhile?</p>
+
+<p>Let me have a quick answer: it is not the 1990s, where the above issues
+classified as a GNU license, and nor it is the 2000&rsquo;s, when I did not know how
+to create an app dedicated for my own purposes.</p>
+
+<h2>The Solution</h2>
+
+<p>The solution? It&rsquo;s easy. Search for an existing solution or roll out our own.
+Unfortunately, I was unable to find an existing solution (or, atleast, I will
+pretend the same), and therefore will be rolling out my own, with the following
+features:</p>
+
+<ul>
+<li>Has a client side gem that can be used to list a user&rsquo;s scripts, and allow him
+to copy them in a folder on his machine, and assign aliases to these scripts
+on the go.</li>
+<li>The gem should be able to search for scripts based on some keywords.</li>
+<li>User should be able to have CRUD rights over their scripts. They should be
+able to share these scripts, as well as export them. They should be able to
+reference another script inside the script they are creating.</li>
+<li>All the scripts would be created use Github Gists, and hence, be versioned.</li>
+<li>The application should provide an interface to write (and, probably, test) the
+scripts on the server, itself. Provide a dedicated backend to the user?</li>
+<li>The users should be able to run the scripts on their server via the app
+interface, once they have the SSH authentication established? This is not as
+straight-forward, since the app server will be the one connecting to the
+user&rsquo;s server and hence, it is not safe.</li>
+<li>Scripts should have a unique programming structure, which identifies their
+requirements and alike, and notifies the user about the same.</li>
+<li>Logging should be done on cloud for output of the scripts.</li>
+<li>Scripts should be marked as safe based on their MD5 hash, kinda like thor
+does for its installed scripts.</li>
+<li>Scripts should be intelligent in telling the user when the runtime is not
+available, e.g. the user tries to run a ruby script on a server with no-ruby
+installed.</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Back with a Bang!]]></title>
+    <link href="http://nikhgupta.com/personal/back-with-a-bang/"/>
+    <updated>2013-10-22T06:21:00+05:30</updated>
+    <id>http://nikhgupta.com/personal/back-with-a-bang</id>
+    <content type="html"><![CDATA[<p>Oh, yes! I am, definitely, back &ndash; with a bang! Before, an interpretion is made
+on the word, you ought to know about <code>!#</code>: <a href="http://en.wikipedia.org/wiki/Shebang_(Unix">Shebang</a>.</p>
+
+<p>First, let me talk about <strong>Writing</strong> &ndash; a habit that I have cultivated over time,
+and a strong case can be made for the fact that it is one of the rarest
+recreational stuff that I do and preach to my friends. It can be really helpful,
+and at the same time, can take you to an n-dimensional hyperspace, where you can
+imagine nearly anything you want to believe or create. Not only that, for me,
+writing is a process to jot down those pesky little thoughts (hundreds of them)
+that roam inside my mind like ants near a sugar cube. I, usually, keep
+a personal diary where I am able to write these things down, but then, I am
+craving for some social interaction (online, to be precise) and maintaining
+a steady blog can really help with that.</p>
+
+<!-- more -->
+
+
+<p>Anyways, I write here. And, I write rarely as per the reasons stated above. But,
+I am thinking to make a switch &ndash; give it a try. I won&rsquo;t be writing anything
+personal, but atleast, I will be trying to make a steady attempt at posting once
+per day &ndash; on coding, particularly.</p>
+
+<p>Coming back to the <em>bang</em>, anyone who knows will agree that I live in code.
+<strong>Shebang</strong> is probably the first thing that crosses my mind when I wake up, and
+definitely, the last when I sleep. But, these days, I am leaning towarding
+combining the two. That can either be done via <a href="http://en.wikipedia.org/wiki/Literate_programming">Literate Programming</a>
+(when coding), or otherwise, writing about code (when writing).</p>
+
+<p>In order to accomplish the above goals, I have setup a new blog at the current
+address &ndash; with only a few posts from the past. I am using <a href="http://octopress.org">Octopress</a>,
+and yes, I chose it over <a href="http://wordpress.org">WordPress</a>, again.</p>
+
+<p>Reasons for switching are really simple:</p>
+
+<ul>
+<li>Comfort of using <a href="http://www.vim.org">Vim</a> or
+<a href="http://www.gnu.org/software/emacs/">Emacs</a> to write my posts. In particular,
+<a href="http://orgmode.org">Emacs&#8217; Org mode</a> is a godsend for writing your thoughts.
+I have been using it since last 2 months or so, and I am pretty confident with
+it, now.</li>
+<li>Posts are versioned and securely stored inside a Github repository.</li>
+<li>Site is served via Github pages, which in turn means, safer hosting. I am
+always experimenting with my hosting server, and often time, I am able to blow
+it up. Hosting my site on Github ensures that it is free from such
+manipulations and always served nicely.</li>
+<li>It, just, feels more appropriate. :)</li>
+</ul>
+
+
+<p>So, I used the <a href="https://github.com/shashankmehta/greyshade">GreyShade</a> theme
+from <a href="http://shashankmehta.in">Shashank Mehta</a>, a fellow IIT guy (yeah, I have
+served my time at IIT Delhi, too :P) and, gave it a simple spin to roll out with
+the current version. I must say, he has done a really good work with the
+Octopress theme and definitely, deserves a kudos!</p>
+
+<p>Now, the site is all up and running and I, quickly, want to jot down a few tasks
+that I am committed for this month:</p>
+
+<ul>
+<li>Migrate old posts from various sources to the current blog.</li>
+<li>Redirect old blog&rsquo;s links to the current blog.</li>
+<li>Improve upon the current website design.
+
+<ul>
+<li>The header hover should occur when hovering over the picture and not when
+hovering over the header, itself. This is a bit difficult in pure CSS3,
+since that defies the <code>cascading</code> rule of CSS, and instead, tries to modify
+the parent from the child.</li>
+</ul>
+</li>
+<li>Write a post daily on the current website, preferably, about coding in ruby.</li>
+<li>Setup org mode in Emacs, so that I can write my blog posts using it.</li>
+<li>Create a few basic public APIs:
+
+<ul>
+<li>an API that lists words matching a given pattern.</li>
+<li>a WhoIs API that also, lists available domains matching a given pattern.</li>
+</ul>
+</li>
+<li>Create a few basic applications using RoR:
+
+<ul>
+<li>a domain searching application, somewhat like <a href="http://domai.nr">domai.nr</a></li>
+<li>an application that makes it easy to run scripts on servers (have detailed
+specifications listed in a separate personal diary)</li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Meet the Amazing Hubot]]></title>
+    <link href="http://nikhgupta.com/meet-the-amazing-hubot/"/>
+    <updated>2013-04-01T00:00:00+05:30</updated>
+    <id>http://nikhgupta.com/meet-the-amazing-hubot</id>
+    <content type="html"><![CDATA[<p>Recently, I came across <a href="http://hubot.github.com">Hubot</a> &ndash; the amazing bot
+from <a href="http://github.com">Github</a>, which lets me do nearly anything while
+talking to it. Some of the examples being querying my site for availability,
+tracking down how many visitors I had in last 24 hours, updating my twitter
+status, grabbing tasks from my basecamp projects, and so on.</p>
+
+<p>Currently, I am using Hubot on <a href="http://hipchat.com">HipChat</a> and GTalk, but as
+my team frequently uses Skype, I will be enabling a Skype adapter for it,
+pretty soon (the Skype adapter, in particular, can not be installed on
+<a href="http://heroku.com">Heroku</a>). The Hubot instance runs as <em>Edwin Jarvis</em>, as
+I always wanted to have something close to the esteemed J.A.R.V.I.S. from the
+movie Iron-Man.</p>
+
+<!-- more -->
+
+
+<h1>Installing Hubot</h1>
+
+<p>Here is a brief overview for anyone wanting to get started with Hubot:</p>
+
+<ul>
+<li>Install <a href="http://nodejs.org">Node.js</a></li>
+<li>Clone the hubot repository from github, locally:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone http://github.com/github/hubot jarvis
+</span><span class='line'><span class="nb">cd </span>jarvis
+</span><span class='line'>npm install
+</span><span class='line'>bin/hubot
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This should start the Hubot in your Shell. If, instead, this gives an error
+saying <code>redis</code> was not found or something similar, make sure to remove
+<code>redis-brain.coffee</code> from <code>hubot-scripts.json</code> file, and try running again!</p>
+
+<h1>Using Multiple Adapters</h1>
+
+<p>Ok, so running Hubot locally is good &ndash; we can see what it does, we can test
+out our code/scripts, etc., but the real power of hubot lies in running it
+over a chat server, so that it acts like ChatOps &ndash; you can virtually do
+anything online by simply talking to the Hubot (think: deploying your code).</p>
+
+<p>Since, <a href="http://hipchat.com">Hipchat</a> now provides a free plan for upto
+5 users, it stands ideally as a Chat server for our needs (we are a small
+team). Additionally, GTalk serves as a quick access to our bot, since it is
+always open via either the GMail browser tab, or via some chat client.
+However, there is a sligh problem. Hubot doesn&rsquo;t currently support multiple
+adapters, i.e. we can&rsquo;t tell hubot to run on both Hipchat and Gtalk,
+simultaneously, while using the same source code. But, why use the same
+source? Why not make another hubot to run on GTalk? Well, I use a lot of
+scripts &ndash; some are custom &ndash; and it is a pain to update two sources to make the
+two hubots use the same set of scripts. Therefore, I implemented the following
+procedure to let the two hubots use the same source:</p>
+
+<ul>
+<li>First, create new dedicated accounts for our hubot on both Hipchat and
+Gtalk.</li>
+<li>Add <code>hubot-hipchat</code> and <code>hubot-gtalk</code> as dependencies in <code>package.json</code>.
+It should look like:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="s2">&quot;dependencies&quot;</span><span class="err">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;hubot-hipchat&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;= 2.4.5&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nt">&quot;hubot-gtalk&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;= 0.0.1&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="err">...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Edit <code>Procfile</code> so that it uses adapter name and user from the environment
+variables that we will create for the heroku instance of each bot:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>web: bin/hubot -a <span class="nv">$HUBOT_ADAPTER_NAME</span> -n <span class="nv">$HUBOT_ADAPTER_USER</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Create a git repository for our bot, so that we can track our bot&rsquo;s code:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git init
+</span><span class='line'>git add .
+</span><span class='line'>git commit -am <span class="s2">&quot;Initial Commit&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>Download and install <a href="http://toolbelt.heroku.com">Heroku Toolbelt</a>, since
+we will be deploying our bots to Heroku.</p></li>
+<li><p>Let us, first deploy our bot on GTalk, since it is a bit easy. Start by
+creating a Heroku application for our GTalk bot:</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku create
+</span><span class='line'>heroku rename <span class="s1">&#39;some-random-name-for-our-gtalk-bot&#39;</span>
+</span><span class='line'>git remote rename heroku gtalk
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>We will be using <code>redis</code> as our bot&rsquo;s brain. So, install <code>redis</code> on our
+heroku instance (which is free, by the way):</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku addons:add redistogo:nano
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Push the bot to heroku:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git push gtalk master
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Set our environment variables for the GTalk bot:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku config:add <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_ADAPTER_NAME</span><span class="o">=</span><span class="s2">&quot;gtalk&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_ADAPTER_USER</span><span class="o">=</span><span class="s2">&quot;&lt;bot name&gt;&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_GTALK_USERNAME</span><span class="o">=</span><span class="s2">&quot;&lt;bot gmail complete address&gt;&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_GTALK_PASSWORD</span><span class="o">=</span><span class="s2">&quot;&lt;bot gmail password&gt;&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_GTALK_WHITELIST_DOMAINS</span><span class="o">=</span><span class="s2">&quot;&lt;your company domain name&gt;&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Run our heroku process:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku ps:scale <span class="nv">web</span><span class="o">=</span>1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>Your Gtalk bot is now live.</p></li>
+<li><p>Let us, now, run this on HipChat. Start again, by creating a Heroku
+application for our Hipchat bot:</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku create
+</span><span class='line'>heroku rename <span class="s1">&#39;some-random-name-for-our-hipchat-bot&#39;</span>
+</span><span class='line'>git remote rename heroku hipchat
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Install <code>redis</code>:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku addons:add redistogo:nano
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Push the bot to heroku:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git push hipchat master
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Set our environment variables for the HipChat bot. Settings marked with
+<code>@@</code> can be obtained by visiting your bot&rsquo;s <a href="https://www.hipchat.com/account/xmpp">XMPP/Jabber account
+settings</a>, after logging in HipChat
+with your bot&rsquo;s account:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku config:add --app<span class="o">=</span><span class="s2">&quot;&lt;name-for-our-hipchat-bot&gt;&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_ADAPTER_NAME</span><span class="o">=</span><span class="s2">&quot;hipchat&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_ADAPTER_USER</span><span class="o">=</span><span class="s2">&quot;&lt;@@room name&gt;&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HEROKU_URL</span><span class="o">=</span><span class="s2">&quot;http://&lt;name-for-our-hipchat-bot&gt;.herokuapp.com&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_HIPCHAT_JID</span><span class="o">=</span><span class="s2">&quot;&lt;@@username&gt;@chat.hipchat.com&quot;</span> <span class="se">\</span>
+</span><span class='line'>  <span class="nv">HUBOT_HIPCHAT_PASSWORD</span><span class="o">=</span><span class="s2">&quot;&lt;hipchat.com password for your bot&gt;&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Run our heroku process:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>heroku ps:scale <span class="nv">web</span><span class="o">=</span>1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Your HipChat bot should now be live. Try logging in as a normal hipchat
+user, and talking to the bot (hint: <code>@jarvis help</code>, where my bot&rsquo;s mention
+name was <code>@jarvis</code>)</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vim as PHP IDE: Ctags, and Code Browsing]]></title>
+    <link href="http://nikhgupta.com/code/using-vim-php-ide-exuberant-ctags-code-browsing/"/>
+    <updated>2012-04-01T00:00:00+05:30</updated>
+    <id>http://nikhgupta.com/code/using-vim-php-ide-exuberant-ctags-code-browsing</id>
+    <content type="html"><![CDATA[<p>So, past few weeks, I have been really fascinated with the all powerful Vim.
+And, I often wonder why: I took so much time switching to it? Probably, the
+steep learning curve! It has to be.</p>
+
+<p>Anyways, so I have really really progressed with Vim this time, as compared to
+my earlier trials. I am quite efficient with Vim now &ndash; even writing this blog
+post on it. I know how to move quickly, make efficient uses of search and
+replace, using Vim scripts etc. I have really really found plugins like
+Gundo, Fugitive, Tagbar, Syntastic, Snipmate, NerdTree, and Powerline to be
+useful and not to mention plugins like Vim-Rails which make my day-to-day
+tasks easier with a particular language. Oh, and did I mention the incredible
+<code>!</code> and <code>@</code> operators? They just rock!</p>
+
+<p>But, well. This post is about using Ctags with Vim to make Vim feel more like
+an IDE and readily use Source Code Browsing within frameworks, large code
+projects, etc. Here, in this post, I have specified my configuration/process
+for using Ctags with MacVim for a CakePHP based project.</p>
+
+<!-- more -->
+
+
+<h3>The Process</h3>
+
+<p>Well, I would try to create my Ctags on the fly, using Git hooks. This lets me
+simply checkout, merge or commit to a branch and my tags would be generated
+for the code in question. Moreover, these Ctags generated files are stored
+inside <code>.git</code> directory, which keeps our repositories clean (no need to add
+a file to <code>.gitignore</code>). Also, I would prefer a centralized place where I can
+manage any script I use to create these Ctags, and hence, if after about an
+year I think I need a change in the way script is working, or if say I want to
+add support for or remove support for a language, I should be able to do it
+from a single place and affect all my git repositories using these Ctags
+hooks.</p>
+
+<p>For this to work, i.e. for Vim to pick up our Ctags (that will be created in
+<code>.git/tags</code> file) we need to have <code>Fugitive</code> installed (which I will really
+really recommend anyways). This will make Vim look for Ctags in a <code>.git/tags</code>
+and <code>.git/&lt;lang&gt;.tags</code> file in our repository, irrespective of the current
+working directory.</p>
+
+<p>Let   s set up a default set of hooks that Git will use as a template when
+creating or cloning a repository (requires Git 1.7.1 or newer):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git config --global init.templatedir <span class="s1">&#39;~/.git_template&#39;</span>
+</span><span class='line'>mkdir -p ~/.git_template/hooks
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I, usually, put all my Git related stuff in <code>~/Code/__dotfiles/git/</code> and
+hence, the above template directory lands up as
+<code>~/Code/__dotfiles/git/template/</code> with all the hooks, in my
+<a href="http://github.com/nikhgupta/dotfiles">.dotfiles</a> repository.</p>
+
+<p>Now onto the first hook, which isn&rsquo;t actually a hook at all, but rather
+a script the other hooks will call. Place in <code>~/.git_template/hooks/ctags</code> and
+mark as executable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'>rm -f .git/tags ctags --tag-relative -Rf.git/tags <span class="se">\</span>
+</span><span class='line'>  --exclude<span class="o">=</span>.git --languages<span class="o">=</span>-javascript,sql
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Although, make sure that the <code>ctags</code> version is the GNU one, and the above
+script runs without showing any errors. If installing via <code>Homebrew</code> make sure
+that the <code>which ctags</code> command shows the correct <code>ctags</code> executable path.</p>
+
+<p>Making this a separate script makes it easy to invoke <code>.git/hooks/ctags</code> for
+a one-off re-index (or <code>git config --global alias.ctags '!.git/hooks/ctags'</code>,
+then <code>git ctags</code>), as well as easy to edit for that special case repository
+that needs a different set of options to ctags. For example, I might want to
+re-enable indexing for JavaScript or SQL files, which I&rsquo;ve disabled here
+because I&rsquo;ve found both to be of limited value and noisy in the warning
+department.  And, in these edge cases, all I need is to modify the
+corresponding <code>.git/hooks/ctags</code> script in that git repository. Neat and
+clean.</p>
+
+<p>We still need to create the actual hooks that the Git will copy to all
+repositories that are (re)initialized using the <code>git init</code> command.  All the
+files in the <code>~/.git_template/hooks</code> folder needs to be marked as executables.
+You should use the following content for: <code>post-commit</code>, <code>post-merge</code>, and
+<code>post-checkout</code> hooks (which simply calls the <code>ctags</code> hook, we create above):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'>.git/hooks/ctags &gt;/dev/null 2&gt;&amp;1 &amp;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Additionally, if you feel tags should also be generated on using <code>git rebase</code>,
+add the following code to <code>post-rewrite</code> hook:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="k">case</span> <span class="s2">&quot;$1&quot;</span> in
+</span><span class='line'>  rebase<span class="o">)</span> <span class="nb">exec</span> .git/hooks/post-merge ;;
+</span><span class='line'><span class="k">esac</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once, the above is done, all we need to do is to issue a <code>git init</code> command to
+create Ctags for an already existing repository. All new git repositories will
+automatically include these hooks and hence, will create the Ctags file on the
+fly. Pure Automation. ;)</p>
+
+<h3>Global Projects</h3>
+
+<p>There are some projects that I always want available for source code browsing
+like the Rails source code itself. For such projects, I would generally run
+a one-off shell script that does this work for me, and store the generated
+tags file in a directory such as <code>~/.tags/</code> with a suitable name. O&#8217;course it
+does not make sense to version this directory.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/usr/bin/env sh</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">RubyVersion</span><span class="o">=</span><span class="s2">&quot;1.9.3-p194&quot;</span>
+</span><span class='line'><span class="nv">LaravelPath</span><span class="o">=</span><span class="s2">&quot;${HOME}/Code/projects/lab/laravel&quot;</span>
+</span><span class='line'>
+</span><span class='line'>mkdir -p <span class="s2">&quot;${HOME}/.ctags&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># RVM: Ruby version 1.9.3-p194</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;${RubyVersion}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">  </span>mkdir -p <span class="s2">&quot;${HOME}/.ctags/ruby/${RubyVersion}&quot;</span>
+</span><span class='line'>  <span class="nv">TAG_FILE</span><span class="o">=</span><span class="s2">&quot;${HOME}/.ctags/ruby/${RubyVersion}/tags&quot;</span>
+</span><span class='line'>  rm -f <span class="s2">&quot;${TAG_FILE}&quot;</span>
+</span><span class='line'>  <span class="k">for </span>rubydir in <span class="sb">`</span>find <span class="s2">&quot;${HOME}/.rvm/gems&quot;</span> -type d -depth 1 -iname <span class="s2">&quot;*${RubyVersion}*&quot;</span><span class="sb">`</span>; <span class="k">do</span>
+</span><span class='line'><span class="k">    if</span> <span class="o">[</span> -d <span class="s2">&quot;${rubydir}/gems&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">      </span><span class="nb">echo</span> <span class="s2">&quot;Looking inside: ${rubydir}/gems&quot;</span>
+</span><span class='line'>      ctags --recurse --tag-relative <span class="se">\</span>
+</span><span class='line'>        --languages<span class="o">=</span>-javascript,sql <span class="se">\</span>
+</span><span class='line'>        --exclude<span class="o">=</span>.git <span class="se">\</span>
+</span><span class='line'>        --sort<span class="o">=</span>yes --append <span class="se">\</span>
+</span><span class='line'>        -f <span class="s2">&quot;${TAG_FILE}&quot;</span> <span class="se">\</span>
+</span><span class='line'>        <span class="nv">$rubydir</span>/gems/*
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'><span class="k">  done</span>
+</span><span class='line'><span class="k">  </span><span class="nb">echo</span>
+</span><span class='line'><span class="nb">  echo</span> <span class="s2">&quot;------ generated ctags for: ${RubyVersion} ------&quot;</span>
+</span><span class='line'>  cat <span class="s2">&quot;${TAG_FILE}&quot;</span> | wc
+</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;---------------------------------------------&quot;</span>
+</span><span class='line'>  <span class="nb">echo</span>
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Laravel</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;${LaravelPath}&quot;</span> -a -d <span class="s2">&quot;${LaravelPath}&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">  </span>mkdir -p <span class="s2">&quot;${HOME}/.ctags/php/laravel&quot;</span>
+</span><span class='line'>  <span class="nv">TAG_FILE</span><span class="o">=</span><span class="s2">&quot;${HOME}/.ctags/php/laravel/tags&quot;</span>
+</span><span class='line'>  rm -f <span class="s2">&quot;${TAG_FILE}&quot;</span>
+</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;Looking inside: ${LaravelPath}&quot;</span>
+</span><span class='line'>  ctags --recurse --tag-relative <span class="se">\</span>
+</span><span class='line'>    --languages<span class="o">=</span>-javascript,sql <span class="se">\</span>
+</span><span class='line'>    --exclude<span class="o">=</span>.git <span class="se">\</span>
+</span><span class='line'>    --sort<span class="o">=</span>yes --append <span class="se">\</span>
+</span><span class='line'>    --PHP-kinds<span class="o">=</span>+cf <span class="se">\</span>
+</span><span class='line'>    --regex-PHP<span class="o">=</span><span class="s1">&#39;/abstract class ([^ ]*)/\1/c/&#39;</span> <span class="se">\</span>
+</span><span class='line'>    --regex-PHP<span class="o">=</span><span class="s1">&#39;/interface ([^ ]*)/\1/c/&#39;</span> <span class="se">\</span>
+</span><span class='line'>    --regex-PHP<span class="o">=</span><span class="s1">&#39;/(public |static |abstract |protected |private )+function ([^ (]*)/\2/f/&#39;</span> <span class="se">\</span>
+</span><span class='line'>    -f <span class="s2">&quot;${TAG_FILE}&quot;</span> <span class="se">\</span>
+</span><span class='line'>    <span class="nv">$LaravelPath</span>
+</span><span class='line'>  <span class="nb">echo</span>
+</span><span class='line'><span class="nb">  echo</span> <span class="s2">&quot;-------- generated ctags for: Laravel -------&quot;</span>
+</span><span class='line'>  cat <span class="s2">&quot;${TAG_FILE}&quot;</span> | wc
+</span><span class='line'>  <span class="nb">echo</span> <span class="s2">&quot;---------------------------------------------&quot;</span>
+</span><span class='line'>  <span class="nb">echo</span>
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Finally, I set the following inside my <code>~/.vimrc</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='vim'><span class='line'><span class="k">set</span> <span class="k">tags</span><span class="p">=</span>.<span class="sr">/tags;/</span>
+</span><span class='line'>augroup TagFileType
+</span><span class='line'>  autocmd<span class="p">!</span>
+</span><span class='line'>  autocmd <span class="nb">FileType</span> * <span class="k">setl</span> <span class="k">tags</span><span class="p">&lt;</span>
+</span><span class='line'>  autocmd <span class="nb">FileType</span> * exe <span class="s1">&#39;setl tags+=~/.ctags/&#39;</span> . &amp;<span class="k">filetype</span> . <span class="s1">&#39;/*/tags&#39;</span>
+</span><span class='line'>augroup END
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This basically tells vim to only load ctags for the current filetype, i.e. for
+a <code>ruby</code> buffer, vim will load all ctags files inside <code>~/.ctags/ruby</code>
+directory, and no ctags file inside <code>~/.ctags/php</code></p>
+
+<h3>Epilogue</h3>
+
+<p>(Now, that I have completed writing the post and I read it again, it seems
+that this post feels like a rewrite <a href="http://tbaggery.com/2011/08/08/effortless-ctags-with-git.html">a post by tPope</a>. Well,
+I was originally thinking of a different way to create these Ctags, but as
+I went deeper and deeper, I realized that what
+<a href="https://github.com/tpope">tPope</a> describes is so natural and easy, that
+I have to ditch whatever it is &ndash; what I was doing now. And, do not forget,
+I am less than a month old with Vim and I am talking Ctags with Vim.  I am
+allowed to reherse my steps :P )</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vim: Gundo and Tabular plugins]]></title>
+    <link href="http://nikhgupta.com/code/vim-awesomeness-gundo-and-tabular-plugins/"/>
+    <updated>2012-03-28T00:00:00+05:30</updated>
+    <id>http://nikhgupta.com/code/vim-awesomeness-gundo-and-tabular-plugins</id>
+    <content type="html"><![CDATA[<p>Recently, I switched to MacVim in order to give VIM another shot. Since, then,
+Vim has kept on amazing me with its feature set.</p>
+
+<p>Learning from Vimcasts.org, I get to know the Gundo and Tabular plugins. This
+post is a short excerpt of what they do and how they help me in my day to day
+editing.</p>
+
+<!-- more -->
+
+
+<h3>Gundo</h3>
+
+<p>Traditional editors have a concept of undo-redo which is fairly simple &ndash; you
+can do something &ndash; undo it and redo it, i.e. you can traverse on path <code>ABEFG</code></p>
+
+<p>VIM allows me to traverse the changes in a chronological manner, as well. That
+is to say, I can even go to edits not in the same timeline, i.e. I am able to
+traverse <code>ABCDEFG</code> as they happened.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>      / `---------- C ---- D
+</span><span class='line'>A--- B -- |
+</span><span class='line'>      \,----------------------- E ----- F ------- G
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can use the <code>:earlier Nm</code> command to go back a few minutes (and even
+seconds, hours, days). We can use <code>:GundoToggle</code> to view a quick Ascii tree of
+our changes and compare the two edits in the vim timeline for undos</p>
+
+<h3>Tabular</h3>
+
+<p>I can simply align my code using <code>:Tabularize /{pattern}</code>. For example, to
+align assignments I can use something like <code>:Tab /=</code> and, if I prefer to keep
+the spaces attached to the code on the left, I can use something like <code>:Tab
+/=\zs</code> The effects will be as below:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># no tabularize</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">1322</span>
+</span><span class='line'><span class="n">abc</span> <span class="o">=</span> <span class="mi">1323</span>
+</span><span class='line'><span class="n">abcde</span> <span class="o">=</span> <span class="mi">1324</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># :Tab /=</span>
+</span><span class='line'><span class="n">a</span>     <span class="o">=</span> <span class="mi">1322</span>
+</span><span class='line'><span class="n">abc</span>   <span class="o">=</span> <span class="mi">1323</span>
+</span><span class='line'><span class="n">abcde</span> <span class="o">=</span> <span class="mi">1324</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># :Tab /=\zs</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span>     <span class="mi">1322</span>
+</span><span class='line'><span class="n">abc</span> <span class="o">=</span>   <span class="mi">1323</span>
+</span><span class='line'><span class="n">abcde</span> <span class="o">=</span> <span class="mi">1324</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[5minutes.to Beta Video]]></title>
+    <link href="http://nikhgupta.com/code/5minutes-to-beta-video/"/>
+    <updated>2012-03-28T00:00:00+05:30</updated>
+    <id>http://nikhgupta.com/code/5minutes-to-beta-video</id>
+    <content type="html"><![CDATA[<p>Recently, I have been involved with the <a href="http://5minutes.to/">5minutes.to</a>
+application. This application helps you get up and ready with your next website
+in 5 minutes or less including email addresses, templates and what not.</p>
+
+<p>In this post, I have posted an introductory video we made for
+<a href="http://beta.5minutes.to/">5minutes.to</a>, and by all means we love it :)</p>
+
+<!-- more -->
+
+
+
+
+<p><iframe
+src="http://player.vimeo.com/video/39292344?title=0&amp;byline=0&amp;portrait=0"
+frameborder="0" width="100%" height="500px"></iframe></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Bootstrapping my Rails application]]></title>
+    <link href="http://nikhgupta.com/code/bootstrapping-my-rails-application/"/>
+    <updated>2012-03-20T00:00:00+05:30</updated>
+    <id>http://nikhgupta.com/code/bootstrapping-my-rails-application</id>
+    <content type="html"><![CDATA[<p>This post details my starting steps with a new <a href="http://rubyonrails.org">Rails</a>
+project, and is only kept here to remind me of various tasks that I,
+generally, like to do at this time. Many of these steps might be redundant or
+even, obsolete by the time you lay yours eyes on this post :)</p>
+
+<!-- more -->
+
+
+<h5>Install Rails</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails new my_app -T -d mysql -j jquery
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Initialize a git repository</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd </span>my_app
+</span><span class='line'>git flow init -d <span class="c"># initialize git work-flow</span>
+</span><span class='line'>git add .
+</span><span class='line'>git commit -am <span class="s2">&quot;Installed Rails&quot;</span>
+</span><span class='line'>git flow feature start prepare_base
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Create a RVM configuration file</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rvm use 1.9.3@rails --rvmrc
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Add some starting gems to Gemfile</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;haml&#39;</span>
+</span><span class='line'><span class="c1"># gem &#39;kaminari&#39;</span>
+</span><span class='line'><span class="c1"># gem &#39;devise&#39;</span>
+</span><span class='line'><span class="c1"># gem &#39;capistrano&#39;</span>
+</span><span class='line'><span class="c1"># gem &#39;unicorn&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">group</span> <span class="ss">:test</span><span class="p">,</span> <span class="ss">:development</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;turn&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;haml-rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rspec-rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;cucumber-rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;factory_girl_rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;capybara&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;capybara-webkit&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;database_cleaner&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-rspec&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;guard-cucumber&#39;</span>
+</span><span class='line'>  <span class="c1"># gem &#39;guard-unicorn&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;ruby_gntp&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;launchy&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Run Bundle Install</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bundle install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Add database settings in config/database.yml</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake db:create:all
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Change Home Page</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails generate controller home index
+</span><span class='line'>rm -rf public/index.html
+</span><span class='line'>find . -type f -iname <span class="s2">&quot;*.erb&quot;</span> -delete <span class="c"># remove all erb files since we are using haml</span>
+</span><span class='line'><span class="c"># add &#39;root :to =&gt; &quot;Home#index&quot;&#39; in config/routes.rb</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Lets, make some generations, huh.</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails generate rspec:install
+</span><span class='line'>rails generate cucumber:install --capybara
+</span><span class='line'>guard init rspec <span class="o">&amp;&amp;</span> guard init cucumber
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Make some changes to the <code>features/support/env.rb</code> file:</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;cucumber/rails&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/rails&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/cucumber&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/session&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s2">&quot;factory_girl/step_definitions&quot;</span>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">default_selector</span>  <span class="o">=</span> <span class="ss">:css</span>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">javascript_driver</span> <span class="o">=</span> <span class="ss">:webkit</span>
+</span><span class='line'><span class="ss">ActionController</span><span class="p">:</span><span class="ss">:Base</span><span class="o">.</span><span class="n">allow_rescue</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'><span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">strategy</span> <span class="o">=</span> <span class="ss">:transaction</span>
+</span><span class='line'><span class="ss">Cucumber</span><span class="p">:</span><span class="ss">:Rails</span><span class="o">::</span><span class="no">Database</span><span class="o">.</span><span class="n">javascript_strategy</span> <span class="o">=</span> <span class="ss">:truncation</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Lets, add some Cucumber Tests (<code>features/test.feature</code> file):</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">Feature</span><span class="p">:</span> <span class="no">Testing</span> <span class="no">Configuration</span>
+</span><span class='line'>  <span class="no">In</span> <span class="n">order</span> <span class="n">to</span> <span class="n">have</span> <span class="n">a</span> <span class="n">base</span> <span class="k">for</span> <span class="n">my</span> <span class="kp">new</span> <span class="n">application</span>
+</span><span class='line'>  <span class="no">As</span> <span class="n">a</span> <span class="n">developer</span>
+</span><span class='line'>  <span class="n">I</span> <span class="n">want</span> <span class="n">to</span> <span class="nb">test</span> <span class="n">the</span> <span class="n">configuration</span> <span class="n">settings</span> <span class="k">for</span> <span class="n">this</span> <span class="n">application</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="ss">Scenario</span><span class="p">:</span> <span class="no">Test</span> <span class="no">Home</span> <span class="no">Page</span>
+</span><span class='line'>    <span class="no">Given</span> <span class="n">I</span> <span class="n">am</span> <span class="n">on</span> <span class="n">the</span> <span class="n">home</span> <span class="n">page</span>
+</span><span class='line'>    <span class="no">Then</span>  <span class="n">I</span> <span class="n">should</span> <span class="n">see</span> <span class="s2">&quot;Home#index&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>And, the corresponding steps in <code>features/step_definitions/test_steps.rb</code> file:</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Given</span> <span class="sr">/^I am on the home page$/</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">visit</span> <span class="s2">&quot;/&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Then</span> <span class="sr">/^I should see &quot;([^&quot;]*)&quot;$/</span> <span class="k">do</span> <span class="o">|</span><span class="n">text</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_content</span> <span class="n">text</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Open a iTerm2 tab each for the following processes:</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># default tab</span>
+</span><span class='line'>guard
+</span><span class='line'>tail -fn0 log/test.log
+</span><span class='line'>rails console
+</span><span class='line'>tail -fn0 log/development.log
+</span><span class='line'>rails server
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>Merge our feature into development</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git commit -am <span class="s2">&quot;finished with preparing base&quot;</span>
+</span><span class='line'>git flow feature finish prepare_base
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Getting Started with Ruby and Rails..]]></title>
+    <link href="http://nikhgupta.com/code/thoughts-getting-started-with-ruby-rails/"/>
+    <updated>2012-03-19T00:00:00+05:30</updated>
+    <id>http://nikhgupta.com/code/thoughts-getting-started-with-ruby-rails</id>
+    <content type="html"><![CDATA[<p>Okay, so past an year I have been trying to switch into RubyOnRails for
+various reasons &ndash; and yes, they are numerous. I wanted to work less with the
+<em>how-tos</em> and instead, wanna work more with <em>what-i-want-next</em> when I develop
+applications for myself. I wanted to make use of those gorgeous little gems
+that will fit in so nicely with my Ruby code &ndash; I wanted to develop business
+logic instead of behavior (think devise, paperclip, clearance, and so on) and
+then, I, also, wanted to make use of some of the awesome assistants the rail
+community has for their everyday tasks (think capistrano, cucumber, and so
+on).</p>
+
+<!-- more -->
+
+
+<p>Now, I do understand that the language (or I should say Syntax) is easy to
+learn and gorgeously, so.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="c1"># Think PHP:</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$my_variable</span><span class="p">))</span> <span class="nx">do_this</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># v/s Ruby:</span>
+</span><span class='line'><span class="n">do_this</span> <span class="k">if</span> <span class="n">my_variable</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But, then again, learning RubyOnRails has been a tough job. Primarily, due to
+the steep learning curve on <em>how-to-get-started-with-ruby-on-rails</em> frontier.</p>
+
+<p>Fortunately, for me, I have been a <code>shell</code> guy &ndash; I, absolutely, adore shell
+and rely on it for much of the repetitive tasks, everyday &ndash; kinda to the
+extent that, iTerm.app is the most frequently used application on my Mac, just
+like every other developer, who understands the sheer power shell puts in our
+hand ;) (Not to mention, <code>git</code> is involved in almost all my projects)</p>
+
+<p>So, I went on and installed RVM and loaded it with Rubies and Gems and what
+not, and I have been using this setup from quite a long time &ndash; just not enough
+to actually start building some awesome application.</p>
+
+<p>This was partly due to the fact that, whenever I needed to make some
+application for a client, I would go in and start building it with CakePHP
+rather. Probably, the simple reason being I wanted to get on with creating the
+application, instead of learning a framework which will create the
+application, afterwards. I did not <em>really</em> wanted to invest the time into
+RubyOnRails.</p>
+
+<p>But, alas! we are humans &ndash; and, that makes us unsatisfied with whatever little
+satisfaction, we might have, by chance. And, I wanted to dwell inside
+RubyOnRails world, yet, again. But, this time, I really wanted to go all out
+and give it a good fight and either win or lose, but have an outcome at once.</p>
+
+<p>I know, most of us would never go in the step-by-step-of-learnings-steps and
+jump to things we don&rsquo;t quite understand &ndash; which is nice, but may often, force
+you to give up on things &ndash; which is what used to happen with me. So, this
+time, I decided to go slow &ndash; learnings things one step at a time &ndash; and follow
+screencasts and tutorials, with all my heart.</p>
+
+<p>Oh, and did I tell you? It was just not enough! I wanted to know if I can use
+Vim to be more productive? And, hence I got myself a shiny new MacVim.app to
+learn along with (and, I must say its been around 3 weeks and I am more than
+happy with what I can do with Vim).</p>
+
+<p>Well, coming back to RubyOnRails, I started with the famous <code>_why</code> tutorial at:
+tryruby.org and man! that definitely, did help me a lot (as an example,
+earlier I was never aware why some methods had an exclamation in ruby at the
+end). So, the first step would be to <em>really</em> know things work in Ruby. And,
+TryRuby.org helps with that when you are starting out in Ruby.</p>
+
+<p>Next, I started watching a few screencasts on getting started with RubyOnRails
+(note that, I wanted to learn things from the basic &ndash; just so that, I am sure
+I have my basics all covered up &ndash; also, note that I have already gone through:
+<a href="http://ruby.railstutorial.org/ruby-on-rails-tutorial-book">Michael Hartl&rsquo;s awesome RubyOnRails
+book</a>), and
+finally, I was really inspired by <a href="http://net.tutsplus.com/tutorials/ruby/the-intro-to-rails-screencast-i-wish-i-had/">this particular
+tutorial</a>
+which really explained things a lot, and not to mention the <a href="http://railsforzombies.org">Rails for
+Zombies</a> session.</p>
+
+<p>Within a short time, I was up and running with an application I could use to
+tweak and learn all-things-rails! However, this is not simply what I wanted.
+I wanted to learn new ways &ndash; the tools &ndash; wanted to learn BDD, easy
+deployments, and things alike.</p>
+
+<p>So, I next started learning how to use capybara for my BDD needs. BDD is
+awesome &ndash; since I can simply write what I wanted and every time I could just
+look up what test is failing and write the code for it &ndash; it keeps me on track
+with what needs to be done next, and while doing so definitely, takes away the
+pain associated with manually testing the application. I guess, the Rails
+Introduction tutorial I mentioned above, also, deals with setting up Capybara
+with RSpec for testing purposes.</p>
+
+<p>Soon, I found out using Cucumber will further help me be more expressive, and
+concise while being forgiving on my clients. So, I started finding out how to
+integrate Capybara with Cucumber and <a href="http://net.tutsplus.com/tutorials/ruby/ruby-for-newbies-testing-web-apps-with-capybara-and-cucumber/">this
+screencast</a>
+really helped me along with Google searches.</p>
+
+<p>So, now I had Cucumber working along with Capybara, but yet I have always
+loved the work done by <a href="http://thoughtbot.com/community/">ThoughtBot Studio</a>
+and wanted to utilize Factory Girl in my tests &ndash; so, I started searching and
+I guess <a href="http://collectiveidea.com/blog/archives/2010/09/09/practical-cucumber-factory-girl-steps/">this is the
+post</a>
+that really helped me with getting Factory Girl fixtures to work with my
+Cucumber features.</p>
+
+<p>At the end, I would say:</p>
+
+<blockquote><p>I am very new to RubyOnRails world, and wanted to simply pen down my
+thoughts about this awesome community at around 6 AM while I am all
+exhausted. I would keep updating this post with my thoughts on how I am
+learning things in the RubyOnRails world.</p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Anonymous Proxy with Squid]]></title>
+    <link href="http://nikhgupta.com/code/setting-up-anonymous-proxy-with-squid/"/>
+    <updated>2012-02-12T00:00:00+05:30</updated>
+    <id>http://nikhgupta.com/code/setting-up-anonymous-proxy-with-squid</id>
+    <content type="html"><![CDATA[<p>Recently, I <a href="http://nikhgupta.com/code/installing-squid-proxy-server-on-centos-5-vps/">set up a Squid Proxy Server</a>,
+however, when I tried to check my IP address, I found that it
+was easy for such a service to detect that I am using a proxy server. But,
+I really wanted  anonymity and privacy when I use internet for my peculiar
+uses, and hence, I tried to setup an anonymous proxy with squid, which nearly
+makes my real IP address untraceable. This post lays down the steps, I used
+for setting up this Squid Proxy Server.</p>
+
+<!-- more -->
+
+
+<p>Lets, first ensure that the cache is not active on certain file types and
+certain domains. You must copy the following lines where you find the
+<code>hierarchy_stoplist</code> directive in the Squid Configuration file or at the very
+bottom of it)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># deny cache</span>
+</span><span class='line'>hierarchy_stoplist cgi-bin ?
+</span><span class='line'>acl QUERY urlpath_regex cgi-bin <span class="se">\?</span> <span class="se">\.</span>css
+</span><span class='line'>no_cache deny QUERY
+</span><span class='line'>acl NOT_TO_CACHE dstdomain <span class="s2">&quot;/etc/squid/list/not-to-cache.conf&quot;</span>
+</span><span class='line'>no_cache deny NOT_TO_CACHE
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will disable cache on any page that uses cgi scripts or has a query
+parameter or is a css file. Furthermore, we can add domains to
+<code>/etc/squid/list/not-to-cache.conf</code> file &ndash; one domain per line &ndash; which will
+not be cached by Squid afterwards.</p>
+
+<p>Next, add up all the IPs which will be exposed to the outer world (the
+following line must go in <code>/etc/squid/squid.conf</code> file at the very bottom):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>acl ip1 myip XXX.XXX.XXX.XXX
+</span><span class='line'>tcp_outgoing_address XXX.XXX.XXX.XXX ip1
+</span><span class='line'>acl ip2 myip XXX.XXX.XXX.YYY
+</span><span class='line'>tcp_outgoing_address XXX.XXX.XXX.YYY ip2
+</span><span class='line'>acl ip3 myip XXX.XXX.XXX.ZZZ
+</span><span class='line'>tcp_outgoing_address XXX.XXX.XXX.ZZZ ip3
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above will allow us to use any of the above IP address in our browser as a proxy and the corresponding <code>tcp_outgoing_address</code> will be displayed to the world.</p>
+
+<p>Next, add the following rules to very bottom of the Squid Configuration file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># ANONYMOUS PROXY</span>
+</span><span class='line'>forwarded_for off
+</span><span class='line'>request_header_access Allow allow all
+</span><span class='line'>request_header_access Authorization allow all
+</span><span class='line'>request_header_access WWW-Authenticate allow all
+</span><span class='line'>request_header_access Proxy-Authorization allow all
+</span><span class='line'>request_header_access Proxy-Authenticate allow all
+</span><span class='line'>request_header_access Cache-Control allow all
+</span><span class='line'>request_header_access Content-Encoding allow all
+</span><span class='line'>request_header_access Content-Length allow all
+</span><span class='line'>request_header_access Content-Type allow all
+</span><span class='line'>request_header_access Date allow all
+</span><span class='line'>request_header_access Expires allow all
+</span><span class='line'>request_header_access Host allow all
+</span><span class='line'>request_header_access If-Modified-Since allow all
+</span><span class='line'>request_header_access Last-Modified allow all
+</span><span class='line'>request_header_access Location allow all
+</span><span class='line'>request_header_access Pragma allow all
+</span><span class='line'>request_header_access Accept allow all
+</span><span class='line'>request_header_access Accept-Charset allow all
+</span><span class='line'>request_header_access Accept-Encoding allow all
+</span><span class='line'>request_header_access Accept-Language allow all
+</span><span class='line'>request_header_access Content-Language allow all
+</span><span class='line'>request_header_access Mime-Version allow all
+</span><span class='line'>request_header_access Retry-After allow all
+</span><span class='line'>request_header_access Title allow all
+</span><span class='line'>request_header_access Connection allow all
+</span><span class='line'>request_header_access Proxy-Connection allow all
+</span><span class='line'>request_header_access User-Agent allow all
+</span><span class='line'>request_header_access Cookie allow all
+</span><span class='line'>request_header_access All deny all
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once, this is all done &ndash; check the configuration and restart Squid:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>chkconfig --level 2345 squid on
+</span><span class='line'>/etc/init.d/squid restart
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+</feed>

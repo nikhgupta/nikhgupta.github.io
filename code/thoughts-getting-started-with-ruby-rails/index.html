@@ -1,0 +1,315 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Getting Started with Ruby and Rails.. - Nikhil Gupta</title>
+	<meta name="author" content="Nikhil Gupta">
+
+	
+	<meta name="description" content="my thoughts on ruby and rails community">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Nikhil Gupta" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://nikhgupta.com/code/thoughts-getting-started-with-ruby-rails/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Alegreya:400,700|Mouse+Memoirs' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-21306915-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+  <div class="container">
+    <div class="left-col">
+      <div class="intrude-less">
+      <header id="header" class="inner"><div class="profilepic"> </div>
+<hgroup>
+  <h1><a href="/">Nikhil Gupta</a></h1>
+  
+    <h2>God is divine. And, so is code.</h2>
+  
+</hgroup>
+
+<!-- <div id="awesome"></div> -->
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+  <div class="social">
+    
+    <a class="email" href="mailto:me@nikhgupta.com" title="Email">Email</a>
+    
+    
+    
+    
+    <a class="twitter" href="http://twitter.com/nikhgupta" title="Twitter">Twitter</a>
+    
+    
+    <a class="github" href="https://github.com/nikhgupta" title="GitHub">GitHub</a>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    
+  </div>
+</nav>
+
+<div id="authorinfo">
+  <h1>An entrepreneur, developer, photographer and a perfectionist.</h1>
+  <br/>
+  <h3>&quot;I am from Jaipur, India. I am a part of the Springboards Programme, 2012, whence I love to code little devils in Ruby.&quot;</h3>
+</div>
+</header>
+      </div>
+    </div>
+    <div class="mid-col">
+      
+        
+      
+      <div class="mid-col-container">
+        <div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<h1 class="title" itemprop="name">Getting Started With Ruby and Rails..</h1>
+	<div class="entry-content" itemprop="articleBody"><p>Okay, so past an year I have been trying to switch into RubyOnRails for
+various reasons &ndash; and yes, they are numerous. I wanted to work less with the
+<em>how-tos</em> and instead, wanna work more with <em>what-i-want-next</em> when I develop
+applications for myself. I wanted to make use of those gorgeous little gems
+that will fit in so nicely with my Ruby code &ndash; I wanted to develop business
+logic instead of behavior (think devise, paperclip, clearance, and so on) and
+then, I, also, wanted to make use of some of the awesome assistants the rail
+community has for their everyday tasks (think capistrano, cucumber, and so
+on).</p>
+
+<!-- more -->
+
+
+<p>Now, I do understand that the language (or I should say Syntax) is easy to
+learn and gorgeously, so.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="c1"># Think PHP:</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$my_variable</span><span class="p">))</span> <span class="nx">do_this</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># v/s Ruby:</span>
+</span><span class='line'><span class="n">do_this</span> <span class="k">if</span> <span class="n">my_variable</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But, then again, learning RubyOnRails has been a tough job. Primarily, due to
+the steep learning curve on <em>how-to-get-started-with-ruby-on-rails</em> frontier.</p>
+
+<p>Fortunately, for me, I have been a <code>shell</code> guy &ndash; I, absolutely, adore shell
+and rely on it for much of the repetitive tasks, everyday &ndash; kinda to the
+extent that, iTerm.app is the most frequently used application on my Mac, just
+like every other developer, who understands the sheer power shell puts in our
+hand ;) (Not to mention, <code>git</code> is involved in almost all my projects)</p>
+
+<p>So, I went on and installed RVM and loaded it with Rubies and Gems and what
+not, and I have been using this setup from quite a long time &ndash; just not enough
+to actually start building some awesome application.</p>
+
+<p>This was partly due to the fact that, whenever I needed to make some
+application for a client, I would go in and start building it with CakePHP
+rather. Probably, the simple reason being I wanted to get on with creating the
+application, instead of learning a framework which will create the
+application, afterwards. I did not <em>really</em> wanted to invest the time into
+RubyOnRails.</p>
+
+<p>But, alas! we are humans &ndash; and, that makes us unsatisfied with whatever little
+satisfaction, we might have, by chance. And, I wanted to dwell inside
+RubyOnRails world, yet, again. But, this time, I really wanted to go all out
+and give it a good fight and either win or lose, but have an outcome at once.</p>
+
+<p>I know, most of us would never go in the step-by-step-of-learnings-steps and
+jump to things we don&rsquo;t quite understand &ndash; which is nice, but may often, force
+you to give up on things &ndash; which is what used to happen with me. So, this
+time, I decided to go slow &ndash; learnings things one step at a time &ndash; and follow
+screencasts and tutorials, with all my heart.</p>
+
+<p>Oh, and did I tell you? It was just not enough! I wanted to know if I can use
+Vim to be more productive? And, hence I got myself a shiny new MacVim.app to
+learn along with (and, I must say its been around 3 weeks and I am more than
+happy with what I can do with Vim).</p>
+
+<p>Well, coming back to RubyOnRails, I started with the famous <code>_why</code> tutorial at:
+tryruby.org and man! that definitely, did help me a lot (as an example,
+earlier I was never aware why some methods had an exclamation in ruby at the
+end). So, the first step would be to <em>really</em> know things work in Ruby. And,
+TryRuby.org helps with that when you are starting out in Ruby.</p>
+
+<p>Next, I started watching a few screencasts on getting started with RubyOnRails
+(note that, I wanted to learn things from the basic &ndash; just so that, I am sure
+I have my basics all covered up &ndash; also, note that I have already gone through:
+<a href="http://ruby.railstutorial.org/ruby-on-rails-tutorial-book">Michael Hartl&rsquo;s awesome RubyOnRails
+book</a>), and
+finally, I was really inspired by <a href="http://net.tutsplus.com/tutorials/ruby/the-intro-to-rails-screencast-i-wish-i-had/">this particular
+tutorial</a>
+which really explained things a lot, and not to mention the <a href="http://railsforzombies.org">Rails for
+Zombies</a> session.</p>
+
+<p>Within a short time, I was up and running with an application I could use to
+tweak and learn all-things-rails! However, this is not simply what I wanted.
+I wanted to learn new ways &ndash; the tools &ndash; wanted to learn BDD, easy
+deployments, and things alike.</p>
+
+<p>So, I next started learning how to use capybara for my BDD needs. BDD is
+awesome &ndash; since I can simply write what I wanted and every time I could just
+look up what test is failing and write the code for it &ndash; it keeps me on track
+with what needs to be done next, and while doing so definitely, takes away the
+pain associated with manually testing the application. I guess, the Rails
+Introduction tutorial I mentioned above, also, deals with setting up Capybara
+with RSpec for testing purposes.</p>
+
+<p>Soon, I found out using Cucumber will further help me be more expressive, and
+concise while being forgiving on my clients. So, I started finding out how to
+integrate Capybara with Cucumber and <a href="http://net.tutsplus.com/tutorials/ruby/ruby-for-newbies-testing-web-apps-with-capybara-and-cucumber/">this
+screencast</a>
+really helped me along with Google searches.</p>
+
+<p>So, now I had Cucumber working along with Capybara, but yet I have always
+loved the work done by <a href="http://thoughtbot.com/community/">ThoughtBot Studio</a>
+and wanted to utilize Factory Girl in my tests &ndash; so, I started searching and
+I guess <a href="http://collectiveidea.com/blog/archives/2010/09/09/practical-cucumber-factory-girl-steps/">this is the
+post</a>
+that really helped me with getting Factory Girl fixtures to work with my
+Cucumber features.</p>
+
+<p>At the end, I would say:</p>
+
+<blockquote><p>I am very new to RubyOnRails world, and wanted to simply pen down my
+thoughts about this awesome community at around 6 AM while I am all
+exhausted. I would keep updating this post with my thoughts on how I am
+learning things in the RubyOnRails world.</p></blockquote>
+</div>
+
+
+  <div class="author" style="text-align:right">- by Nikhil Gupta</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+
+</div>
+      </div>
+      <footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - Nikhil Gupta -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+      
+
+<script type="text/javascript">
+      var disqus_shortname = 'nikhgupta';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://nikhgupta.com/code/thoughts-getting-started-with-ruby-rails/';
+        var disqus_url = 'http://nikhgupta.com/code/thoughts-getting-started-with-ruby-rails/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+    </div>
+  </div>
+</body>
+</html>

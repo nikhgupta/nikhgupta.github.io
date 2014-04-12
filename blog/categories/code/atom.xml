@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: code | Nikhil Gupta]]></title>
+  <link href="http://nikhgupta.com/blog/categories/code/atom.xml" rel="self"/>
+  <link href="http://nikhgupta.com/"/>
+  <updated>2014-04-12T18:16:56+05:30</updated>
+  <id>http://nikhgupta.com/</id>
+  <author>
+    <name><![CDATA[Nikhil Gupta]]></name>
+    <email><![CDATA[me@nikhgupta.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[a rubyist's attempt on working with python - setup and first notes]]></title>
+    <link href="http://nikhgupta.com/code/a-rubyists-attempt-on-working-with-python-setup-and-first-notes/"/>
+    <updated>2014-04-11T07:42:00+05:30</updated>
+    <id>http://nikhgupta.com/code/a-rubyists-attempt-on-working-with-python-setup-and-first-notes</id>
+    <content type="html"><![CDATA[<p>I never really needed to look for another language to learn once I was acquinted
+with ruby some years back. I love it, and I really do. It provides clean code
+which does what it reads &ndash; it feels like the language was written for me, which
+was infact the idea behind ruby &ndash; a language made for developers.</p>
+
+<p>But, anyways, I am giving Python another try for with hopes that it will be
+fruitful for me to learn the language. It has been, I think, 2-3 years since
+I last tried the language for some time, briefly. I have learned a lot in that
+duration in the Ruby world. And, I am hoping, if nothing else, this attempt at
+Python will make me a better rubyist. This post describes my notes on setting up
+a development environment for Python on OSX 10.8 (Mountain Lion), and some
+initial learning intakes.</p>
+
+<!-- more -->
+
+
+<h2>Installation</h2>
+
+<p>I preferred not to use the Python distribution that comes with OSX for my dev
+needs, which most Pythonista will agree with. The reason is simple &ndash; I do not
+want the system based Python to get corrupted while my dev percussions, and is
+the same reason why I use <code>rbenv</code> for Ruby development.</p>
+
+<p>So, I looked at some tutorials regarding this, and found that the good old
+<code>homebrew</code> that I love has again come up with a rescue. Moreover, it provides me
+with <code>pip</code> and <code>setuptools</code>, which is really great.</p>
+
+<p>```bash</p>
+
+<h1>Installs Python 2.x</h1>
+
+<p>brew install python &mdash;with-brewed-openssl</p>
+
+<h1>Links some of the Python Dev. utilities to /Applications directory.</h1>
+
+<p>brew linkapps
+```</p>
+
+<p>Alright, so next we need a version control system, for which <code>mercurial</code> is
+happily recommended in many tutorials, but I love my VCS and I am not going to
+part away from it &ndash; I am loyal to it &ndash; <code>Git</code>.</p>
+
+<p>Finally, lets install <code>virtualenv</code> which creates virtual isolated environments
+for our Python projects, kinda like <code>rvm</code> in Ruby world.</p>
+
+<p><code>bash
+pip install virtualenv
+pip install virtualenvwrapper
+</code></p>
+
+<p>Next, I do not want to run <code>pip</code> command against the system python and overwrite
+or update a needed library. So, I will tell <code>pip</code> to only instally anything, if
+we are in a <code>virtualenv</code> based environment. Add the following two lines to your
+<code>~/.bashrc</code>, or <code>zsh</code> configuration file (or, whatever else you use):</p>
+
+<p>```bash
+if [[ -s /usr/local/bin/virtualenvwrapper.sh ]]; then</p>
+
+<pre><code>source /usr/local/bin/virtualenvwrapper.sh
+</code></pre>
+
+<p>fi</p>
+
+<h1>pip should only run if there is a virtualenv currently activated</h1>
+
+<p>export PIP_REQUIRE_VIRTUALENV=true</p>
+
+<h1>cache pip-installed packages to avoid re-downloading</h1>
+
+<p>export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache</p>
+
+<h1>virtualenv wrapper support</h1>
+
+<p>export WORKON_HOME=~/Code/python/VirtualEnvs</p>
+
+<h1>make pip use the virtualenv dir</h1>
+
+<p>export PIP_VIRTUALENV_BASE=$WORKON_HOME
+```</p>
+
+<p>Now, trying to install a package without a valid <code>virtualenv</code> will give an error
+that says:</p>
+
+<p><code>bash
+~ ➲ pip install markdown
+Could not find an activated virtualenv (required).
+</code></p>
+
+<p>If you want to use <code>pip</code> for the system based Python, you can add a function
+like this in your bash/zsh configuration file:</p>
+
+<p><code>bash
+syspip(){
+   PIP_REQUIRE_VIRTUALENV="" pip "$@"
+}
+</code></p>
+
+<p>Create a new virtualenv, using:</p>
+
+<p><code>bash
+virtualenv test_project
+cd test_project
+. bin/activate
+</code></p>
+
+<h2>The Editor</h2>
+
+<p>Although, there is a really good <code>PyCharm</code> editor available for Python, I will
+still try and stay with my editor of choice: <code>Vim</code>, which is really
+magnificient. However, in the upcoming days, I can install and add various
+python based features for my vim editor.</p>
+
+<h2>Epilogue</h2>
+
+<p>I have decided to write a separate blog post on what I find inside Python. Will
+soon write up about it.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Things you may not know about FactoryGirl]]></title>
+    <link href="http://nikhgupta.com/code/rails/things-you-may-not-know-about-factorygirl/"/>
+    <updated>2014-03-21T21:57:00+05:30</updated>
+    <id>http://nikhgupta.com/code/rails/things-you-may-not-know-about-factorygirl</id>
+    <content type="html"><![CDATA[<p>OK, I have been doing a lot (and I mean, a lot) of work on Rails, recently.
+I have always loved the simple expressive syntax of Ruby, anyway, so that does
+not bother me.</p>
+
+<p>Now, in one of the projects, I have been using <a href="http://github.com/gregbell/active_admin">ActiveAdmin</a>, and
+other awesome gems like <a href="https://github.com/thoughtbot/factory_girl">FactoryGirl</a>, <a href="https://github.com/rspec/rspec-rails">RSpec</a>,
+<a href="https://github.com/cucumber/cucumber">Cucumber</a>, etc. And, every now and then, I come across a concept or
+feature about these gems that I was not aware about earlier. I wanted to quickly
+jot down all these things, in a single place (for future reference). Now, many
+of these things might not be new to you, but are to me and are of importance for
+me. I am wondering if I should have used a different title for this post, now.</p>
+
+<!-- more -->
+
+
+<h3>Sequences</h3>
+
+<p>I knew about this feature (obviously). It is simple: if you need an attribute to
+change everytime a new factory is built or created &ndash; use a sequence.</p>
+
+<p><code>ruby
+sequence(:email) {|n| "email#{n}@factory.com" }
+</code></p>
+
+<p>The above sequence will generate different emails each time the factory is
+called upon, and thus, helps us in passing validations on unique attributes.</p>
+
+<h3>Dependent Attributes</h3>
+
+<p>This is really cool. The value of one of the attributes can depend upon the
+value of another attribute in our factory. Combined with on-the-fly attribute
+declaration, we have a really powerful way to create/build factories:</p>
+
+<p><code>ruby
+factory :user do
+  username "username"
+  url { username ? "http://facebook.com/#{username}" : nil }
+  verified true
+end
+</code></p>
+
+<p>Now, when we build the <code>user</code> factory, we get a <code>username</code> and a corresponding
+<code>url</code> for our User. But, we can pass a <code>username: nil</code> option to our factory,
+and both our <code>username</code> and <code>url</code> fields will be set to <code>nil</code> :)</p>
+
+<p>```ruby
+user = FactoryGirl.build :user</p>
+
+<h1>=> #<User id: nil, username: "username", url: "http://facebook.com/username", verified: true></h1>
+
+<p>user = FactoryGirl.build :user, username: nil</p>
+
+<h1>=> #<User id: nil, username: nil, url: nil, verified: true></h1>
+
+<p>user = FactoryGirl.build :user, username: nil, verified: false</p>
+
+<h1>=> #<User id: nil, username: nil, url: nil, verified: false></h1>
+
+<p>```</p>
+
+<h3>Callbacks and Transient Attributes</h3>
+
+<p>We can, even, define some virtual features on our factory. For example, we can
+define a <code>with_&lt;feature&gt;</code> transient attribute for our factory, which decides if
+a particular feature will be available in our factory or not. For example:</p>
+
+<p>```ruby
+factory :user do
+  ignore do</p>
+
+<pre><code>with_profile false
+</code></pre>
+
+<p>  end</p>
+
+<p>  # &hellip;
+  # &hellip;</p>
+
+<p>  after :create do |user, evaluator|</p>
+
+<pre><code>FactoryGirl.create :profile, user: user if evaluator.with_profile
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>This will ensure that a <code>user</code> factory is created with an associated profile
+when <code>with_profile: true</code> is passed as an option. Otherwise, a profile for that
+user will not be created.</p>
+
+<h3>Traits</h3>
+
+<p>Traits define a group of attributes on the concerned factory which form a part
+of a particular behaviour. Now, I never had much use of this particular feature,
+but I can see this feature is really really useful.</p>
+
+<p>I won&rsquo;t go into much details of this feature, as it has been described pretty
+well in the documentation (yes, I am aware, docs are pretty awesome, and this
+post might be really useless).</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Custom Filters using Ransacker in ActiveAdmin Interfaces]]></title>
+    <link href="http://nikhgupta.com/code/activeadmin/custom-filters-using-ransacker-in-activeadmin-interfaces/"/>
+    <updated>2014-03-12T08:47:00+05:30</updated>
+    <id>http://nikhgupta.com/code/activeadmin/custom-filters-using-ransacker-in-activeadmin-interfaces</id>
+    <content type="html"><![CDATA[<p>Oh, so, you have tried implementing custom filters in your shiny
+<a href="active-admin">ActiveAdmin</a> interface, and probably, have already started
+despising the time you have wasted in searching for an answer? Yeah, it happened
+to me, as well.</p>
+
+<p>Anyways, this post contains my short notes on using <code>ransacker</code> to create
+powerful search patterns in my <a href="active-admin">ActiveAdmin</a> interfaces.
+Definitely, <code>ransacker</code> is really powerful. You only need to convert the
+incoming search filter (e.g. text or ids or anything else) to an equivalent
+attribute in the database, and you are done :)</p>
+
+<!-- more -->
+
+
+<p>Lets, imagine that we have an <a href="active-admin">ActiveAdmin</a> dashboard, with
+a <code>User</code> resource. Our app distinguishes users based on some mysterious logic
+as: <code>Active Users</code>, <code>Inactive Users</code>, and <code>New Users</code>. Perfect. But, now,
+somehow, I need to filter my users as per this categorization (within AA). And,
+this is where normal filtering methods stop working for me. Imagine that the
+code present in the <code>User</code> model is somewhere along these lines:</p>
+
+<p>```ruby
+class User &lt; ActiveRecord::Base</p>
+
+<p>  # categorize a given user as: :new, :active or :inactive
+  def categorize</p>
+
+<pre><code># .. mysterious code..
+# .. returns one of the symbols: :new, :active or :inactive.
+</code></pre>
+
+<p>  end</p>
+
+<p>end
+```</p>
+
+<h3>Step 1: Define the search filter and inputs.</h3>
+
+<p>In order to filter our users based on the above categorization, we first need to
+define our filter in AA. This is fairly easy:</p>
+
+<p>```ruby</p>
+
+<h1>app/admin/user.rb</h1>
+
+<p>filter :by_categorization_in, label: &ldquo;Categorization&rdquo;, as: :select, collection: %w[ New Active Inactive ]
+```</p>
+
+<p>Yeah, that&rsquo;s it :)</p>
+
+<p>But, the filter will not work, as of now, and if you try to visit your <code>users</code>
+resource, it will spit out an error that says (something like):</p>
+
+<p><code>ruby
+undefined method `by_categorization_in' for #&lt;Ransack::Search:0x007fe2365288a0&gt;'`
+</code></p>
+
+<p>Obviously, we are yet to define how the filtering will take place.</p>
+
+<h3>Step 2: Define the filtering method, a.k.a. ransacker</h3>
+
+<p>Alright, so the error says that the given filtering method could not be found,
+and therefore, we will start with its implementation. <a href="ransack">Ransack</a> is the
+search library used by AA, and it provides a <code>ransacker</code> method that we can use
+in our models to define custom search methods. Since, we defined our filter as
+<code>by_categorization_in</code>, our ransacker method should be named as: <code>by_categorization</code>:</p>
+
+<p>```ruby</p>
+
+<h1>app/models/user.rb</h1>
+
+<p>class User &lt; ActiveRecord::Base</p>
+
+<p>  # categorize a given user as: :new, :active or :inactive
+  def categorize</p>
+
+<pre><code># .. mysterious code..
+# .. returns one of the symbols: :new, :active or :inactive.
+</code></pre>
+
+<p>  end</p>
+
+<p>  # define our custom search method
+  ransacker :by_categorization, proc{ |v|</p>
+
+<pre><code># some code..
+</code></pre>
+
+<p>  } do |parent|</p>
+
+<pre><code># some other code..
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<h3>Step 3: Define our filtering algorithm</h3>
+
+<p>So, finally, we define how the filter will actually work. This is fairly easy
+step, as well. Notice the <code>proc</code> in the <code>ransacker</code> method above? Also, the
+<code>parent</code> variable? Yeah, we need to use them to define which users will be
+filtered and which will be displayed.</p>
+
+<p>In the given <code>proc</code>, the variable <code>v</code> is nothing special, and simply, contains
+the search term we are filtering upon. In our case, this will be one of the
+<code>New</code>, <code>Active</code> or <code>Inactive</code> words. The purpose of the <code>proc</code> being to map this
+variable to an equivalent attribute in the user&rsquo;s table. Therefore, we can do
+something like:</p>
+
+<p>```ruby</p>
+
+<h1>app/models/user.rb</h1>
+
+<p>class User &lt; ActiveRecord::Base</p>
+
+<p>  # categorize a given user as: :new, :active or :inactive
+  def categorize</p>
+
+<pre><code># .. mysterious code..
+# .. returns one of the symbols: :new, :active or :inactive.
+</code></pre>
+
+<p>  end</p>
+
+<p>  # a class method that returns the users belonging to a given category.
+  def self.in_category(category = :new)</p>
+
+<pre><code># .. could have been some really mysterious code, again..
+# .. but, then, I am nobody :( ..
+all.select{|user| user.categorize == category.to_s.underscore.to_sym }
+</code></pre>
+
+<p>  end</p>
+
+<p>  # define our custom search method
+  ransacker :by_categorization, proc{ |v|</p>
+
+<pre><code>data = User.in_category(v).map(&amp;:id)
+data = data.present? ? data : nil
+</code></pre>
+
+<p>  } do |parent|</p>
+
+<pre><code># some other code..
+</code></pre>
+
+<p>  end
+end
+<code>``
+I know that the above way to find out which user ids belong to a particular
+category is really inefficient, but this is an example. Alright, so we made the
+</code>proc` return some user IDs belonging to the category we were interested in.</p>
+
+<p>Next is the <code>parent</code> variable, which probably is some weird ruby object, and to
+be honest I am not entirely sure what all capabilities it provides (though, it
+seems that I can use associations, fetch records for the given model, etc. using
+this object). But, what we are really interested is in the <code>parent.table</code>
+variable, which is an instance of the <code>Arel::Table</code> class, representing our
+<code>users</code> table in the database. The purpose of this block is to obtain an
+attribute from this table (a.k.a., an <code>Arel::Attributes::Attribute</code>), and match
+the values returned by the <code>proc</code> above with the values for this attribute
+across the whole <code>users</code> table. Values returned from the <code>proc</code> matching the
+given attribute for any record in the database table (i.e. our <code>users</code> table)
+will be returned and the rest entries/users will be filtered.</p>
+
+<p>```ruby</p>
+
+<h1>app/models/user.rb</h1>
+
+<p>class User &lt; ActiveRecord::Base</p>
+
+<p>  # categorize a given user as: :new, :active or :inactive
+  def categorize</p>
+
+<pre><code># .. mysterious code..
+# .. returns one of the symbols: :new, :active or :inactive.
+</code></pre>
+
+<p>  end</p>
+
+<p>  # a class method that returns the users belonging to a given category.
+  def self.in_category(category = :new)</p>
+
+<pre><code># .. could have been some really mysterious code, again..
+# .. but, then, I am nobody :( ..
+all.select{|user| user.categorize == category.to_s.underscore.to_sym }
+</code></pre>
+
+<p>  end</p>
+
+<p>  # define our custom search method
+  ransacker :by_categorization, proc{ |v|</p>
+
+<pre><code>data = User.in_category(v).map(&amp;:id)
+data = data.present? ? data : nil
+</code></pre>
+
+<p>  } do |parent|</p>
+
+<pre><code>parent.table[:id]
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>Done! The above should provide us with everything that we need to filter out our
+users based on their categorization. Happy ransacking :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[serving legacy php applications using Apache alongside Pow]]></title>
+    <link href="http://nikhgupta.com/code/serving-legacy-php-applications-using-apache-alongside-pow/"/>
+    <updated>2014-02-03T06:49:00+05:30</updated>
+    <id>http://nikhgupta.com/code/serving-legacy-php-applications-using-apache-alongside-pow</id>
+    <content type="html"><![CDATA[<p>I have started using <a href="http://pow.cx">Pow</a> lately, which I have avoided for
+a long time, without any explicit reasoning. Now that I have actually tried it,
+I can definitely say that using Pow is really a breeze, and is really powerful
+at the same time. Before this, I used to run Phusion Passenger for my needs, and
+while that was a lot more powerful, it was a lot more fuss for my naive needs.</p>
+
+<p>Now, Pow is really great for Rack based applications, but does not work well
+enough with other applications, e.g. the ones using PHP. What makes it worse is
+that the default Pow configuration takes over the port 80, and thereby, my
+Apache server will never be hit. Great.</p>
+
+<p>I, quickly, googled some stuff and found a way to make Apache and Pow play
+nicely with each other, and at the same time remove the need for <code>dnsmasq</code>,
+which I am, currently, using to resolve arbitrary top-level domains. This post
+contains my notes on this topic.</p>
+
+<!-- more -->
+
+
+<h2>Uninstall Pow</h2>
+
+<p>The first step we need to perform is to uninstall Pow, if it is already
+installed. That way, we make sure that nothing interferes with our setup.</p>
+
+<p><code>bash
+curl get.pow.cx/uninstall.sh | sh
+</code></p>
+
+<h2>Add Configuration for Pow</h2>
+
+<p>We will tell Pow to use the port 3100, instead of taking over port 80, and let
+the poor Apache be. Furthermore, I will tell Pow to resolve a number of TLDs to
+<code>127.0.0.1</code>.</p>
+
+<p><code>bash
+echo 'export POW_DST_PORT=88' &gt;&gt; ~/.powconfig
+echo 'export POW_DOMAINS=dev,pow,lab,test' &gt;&gt; ~/.powconfig
+</code></p>
+
+<p>From the above list of TLDs, we want <code>dev</code>, and <code>pow</code> to serve applications
+using Pow, while <code>lab</code> and <code>test</code> will be serving Apache based applications
+using VirtualHost directives.</p>
+
+<h2>Adding Apache VirtualHosts</h2>
+
+<p>First, we will tell Apache to pass any requests for <code>dev</code>, and <code>pow</code> TLDs to
+Pow using reverse proxy:</p>
+
+<p>```apache
+<VirtualHost *:80></p>
+
+<pre><code>ServerName pow
+ServerAlias *.dev *.pow *.xip.io
+
+ProxyPass / http://localhost:20559/
+ProxyPassReverse / http://localhost:20559/
+ProxyPreserveHost On
+</code></pre>
+
+<p></VirtualHost>
+```</p>
+
+<p>Having done that, we tell Apache to serve up the remaining TLDs from
+a particular directory:</p>
+
+<p>```apache
+<VirtualHost *:80></p>
+
+<pre><code>ServerName lab
+ServerAlias *.lab *.test
+VirtualDocumentRoot "/Users/nikhgupta/Code/legacy-apps/%1"
+</code></pre>
+
+<p></VirtualHost>
+```</p>
+
+<p>Now, make sure that the above directives are being served up by Apache by
+including them in your <code>httpd.conf</code> somewhere, somehow.</p>
+
+<h2>Restart Apache</h2>
+
+<p>Apache will use the above VirtualHost directives upon restart/reload:</p>
+
+<p><code>bash
+sudo apachectl restart
+</code></p>
+
+<h2>Install Pow</h2>
+
+<p>All that remains is to install Pow:</p>
+
+<p><code>bash
+curl get.pow.cx | sh
+</code></p>
+
+<h2>Install Powder</h2>
+
+<p>Oh, yes, this is my favorite. Simply, install Powder to further simplify your
+life.</p>
+
+<p><code>bash
+gem install powder
+</code></p>
+
+<p><em>Ecstatic</em> :)</p>
+
+<h2>Results?</h2>
+
+<p>For starters, I can serve up any rack based application by simply running
+<code>powder list</code> in that directory, and then access it using <code>appname.dev</code> or
+<code>appname.pow</code>. And, this also works for static websites as well e.g.
+<a href="http://jekyllrb.com">Jekyll</a> (note that, this requires that the current
+directory has a <code>public</code> sub directory which contains an <code>index.html</code> file.)</p>
+
+<p>Moreover, my old Apache configurations run without any implications. And,
+therefore, I can keep on working on applications that are served using PHP.</p>
+
+<p>Effectively, I can run a ruby/rails based application in a single step by
+running <code>powder link</code>, and a php application in zero steps by simply placing it
+at the correct location.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[wrapping long lines in ruby for display in source files]]></title>
+    <link href="http://nikhgupta.com/code/wrapping-long-lines-in-ruby-for-display-in-source-files/"/>
+    <updated>2014-01-31T02:42:00+05:30</updated>
+    <id>http://nikhgupta.com/code/wrapping-long-lines-in-ruby-for-display-in-source-files</id>
+    <content type="html"><![CDATA[<p>While working on a gem, I needed to generate ruby classes on the fly. Yeah,
+I know this should never be the case, unless I needed around 600+ classes (I was
+converting schema.org schemas to ruby classes).</p>
+
+<p>Now, this required me to add descriptive text inside these classes, but the text
+was very long and I hated how the text overflowed the screen. I use vim, which
+promptly highlights the 80-char column marker on my source files, and I wanted
+this text to stick to that. Effectively, I wanted something like the following:</p>
+
+<p>```ruby
+module MyModule
+  class MyClass</p>
+
+<pre><code>describes "A really long text that respects the 80-char column marker and
+wraps nicely when it exceeds this length."
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<!-- more -->
+
+
+<p>I knew that Rails provided a nearly similar method with the name <code>word_wrap</code>,
+and I tweaked it a bit to this:</p>
+
+<p>```ruby
+class String
+  def wrap options = {}</p>
+
+<pre><code>width = options.fetch(:width, 76)
+self.strip.split("\n").collect do |line|
+  line.length &gt; width ? line.gsub(/(.{1,#{width}})(\s+|$)/, "\\1\n") : line
+end.map(&amp;:strip).join("\n")
+</code></pre>
+
+<p>  end</p>
+
+<p>  def indent options = {}</p>
+
+<pre><code>spaces = " " * options.fetch(:spaces, 4)
+self.gsub(/^/, spaces).gsub(/^\s*$/, '')
+</code></pre>
+
+<p>  end</p>
+
+<p>  def indent_with_wrap options = {}</p>
+
+<pre><code>spaces = options.fetch(:spaces, 4)
+width  = options.fetch(:width, 80)
+width  = width &gt; spaces ? width - spaces : 1
+self.wrap(width: width).indent(spaces: spaces)
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>The last method, i.e. <code>indent_with_wrap</code> is what I am interested in, really.
+Now, this might not be the best implementation for what I want, but it works and
+is self-explanatory to me.</p>
+
+<p>So, now, I can create my ERB template like this to get the desired results:</p>
+
+<p>```ruby
+module &lt;%= module_name %>
+  class &lt;%= class_name %></p>
+
+<pre><code>&lt;%= "describes #{description}".indent_with_wrap spaces: 4, width: 80 %&gt;
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>This makes me a happy panda :)</p>
+]]></content>
+  </entry>
+  
+</feed>

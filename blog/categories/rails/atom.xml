@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rails | Nikhil Gupta]]></title>
+  <link href="http://nikhgupta.com/blog/categories/rails/atom.xml" rel="self"/>
+  <link href="http://nikhgupta.com/"/>
+  <updated>2014-04-12T18:16:56+05:30</updated>
+  <id>http://nikhgupta.com/</id>
+  <author>
+    <name><![CDATA[Nikhil Gupta]]></name>
+    <email><![CDATA[me@nikhgupta.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Things you may not know about FactoryGirl]]></title>
+    <link href="http://nikhgupta.com/code/rails/things-you-may-not-know-about-factorygirl/"/>
+    <updated>2014-03-21T21:57:00+05:30</updated>
+    <id>http://nikhgupta.com/code/rails/things-you-may-not-know-about-factorygirl</id>
+    <content type="html"><![CDATA[<p>OK, I have been doing a lot (and I mean, a lot) of work on Rails, recently.
+I have always loved the simple expressive syntax of Ruby, anyway, so that does
+not bother me.</p>
+
+<p>Now, in one of the projects, I have been using <a href="http://github.com/gregbell/active_admin">ActiveAdmin</a>, and
+other awesome gems like <a href="https://github.com/thoughtbot/factory_girl">FactoryGirl</a>, <a href="https://github.com/rspec/rspec-rails">RSpec</a>,
+<a href="https://github.com/cucumber/cucumber">Cucumber</a>, etc. And, every now and then, I come across a concept or
+feature about these gems that I was not aware about earlier. I wanted to quickly
+jot down all these things, in a single place (for future reference). Now, many
+of these things might not be new to you, but are to me and are of importance for
+me. I am wondering if I should have used a different title for this post, now.</p>
+
+<!-- more -->
+
+
+<h3>Sequences</h3>
+
+<p>I knew about this feature (obviously). It is simple: if you need an attribute to
+change everytime a new factory is built or created &ndash; use a sequence.</p>
+
+<p><code>ruby
+sequence(:email) {|n| "email#{n}@factory.com" }
+</code></p>
+
+<p>The above sequence will generate different emails each time the factory is
+called upon, and thus, helps us in passing validations on unique attributes.</p>
+
+<h3>Dependent Attributes</h3>
+
+<p>This is really cool. The value of one of the attributes can depend upon the
+value of another attribute in our factory. Combined with on-the-fly attribute
+declaration, we have a really powerful way to create/build factories:</p>
+
+<p><code>ruby
+factory :user do
+  username "username"
+  url { username ? "http://facebook.com/#{username}" : nil }
+  verified true
+end
+</code></p>
+
+<p>Now, when we build the <code>user</code> factory, we get a <code>username</code> and a corresponding
+<code>url</code> for our User. But, we can pass a <code>username: nil</code> option to our factory,
+and both our <code>username</code> and <code>url</code> fields will be set to <code>nil</code> :)</p>
+
+<p>```ruby
+user = FactoryGirl.build :user</p>
+
+<h1>=> #<User id: nil, username: "username", url: "http://facebook.com/username", verified: true></h1>
+
+<p>user = FactoryGirl.build :user, username: nil</p>
+
+<h1>=> #<User id: nil, username: nil, url: nil, verified: true></h1>
+
+<p>user = FactoryGirl.build :user, username: nil, verified: false</p>
+
+<h1>=> #<User id: nil, username: nil, url: nil, verified: false></h1>
+
+<p>```</p>
+
+<h3>Callbacks and Transient Attributes</h3>
+
+<p>We can, even, define some virtual features on our factory. For example, we can
+define a <code>with_&lt;feature&gt;</code> transient attribute for our factory, which decides if
+a particular feature will be available in our factory or not. For example:</p>
+
+<p>```ruby
+factory :user do
+  ignore do</p>
+
+<pre><code>with_profile false
+</code></pre>
+
+<p>  end</p>
+
+<p>  # &hellip;
+  # &hellip;</p>
+
+<p>  after :create do |user, evaluator|</p>
+
+<pre><code>FactoryGirl.create :profile, user: user if evaluator.with_profile
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>This will ensure that a <code>user</code> factory is created with an associated profile
+when <code>with_profile: true</code> is passed as an option. Otherwise, a profile for that
+user will not be created.</p>
+
+<h3>Traits</h3>
+
+<p>Traits define a group of attributes on the concerned factory which form a part
+of a particular behaviour. Now, I never had much use of this particular feature,
+but I can see this feature is really really useful.</p>
+
+<p>I won&rsquo;t go into much details of this feature, as it has been described pretty
+well in the documentation (yes, I am aware, docs are pretty awesome, and this
+post might be really useless).</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[401 unoauthorized with OmniAuth Twitter and Pow domains]]></title>
+    <link href="http://nikhgupta.com/rails/401-unoauthorized-with-omniauth-twitter-and-pow-domains/"/>
+    <updated>2014-02-08T06:06:00+05:30</updated>
+    <id>http://nikhgupta.com/rails/401-unoauthorized-with-omniauth-twitter-and-pow-domains</id>
+    <content type="html"><![CDATA[<p>As stated a few posts back, I have switched to using <a href="http://pow.cx">Pow</a> for
+managing my hosts configuration.</p>
+
+<p>Recently, I was using <code>omniauth-twitter</code> to authenticate a client for my Rails
+application. When trying to access the application&rsquo;s oauth url for twitter, i.e.
+<code>/auth/twitter</code> via the pow based domain I was getting a <code>401 unauthorized</code>
+error, while accessing it via the Webrick&rsquo;s <code>http://localhost:3000</code> worked fine.</p>
+
+<p>I was scratching my heads over the reason, when I noticed that I was using
+Environment variables in my provider definition, and I wondered probably Pow
+does not have access to these variables? I use <code>dotenv</code> and was pretty sure
+webrick had access to these Environment variables.</p>
+
+<p>So, I googled for a while and found that Pow actually does not have access to
+<code>dotenv</code> based variables. Instead, it does allow setting them via a <code>.powenv</code>
+file. Therefore, I ran the following commands to configure all this from my
+Rails' root path:</p>
+
+<p><code>bash
+echo 'export TWITTER_KEY=&lt;MY-TWITTER-KEY&gt;' &gt;&gt; .powenv
+echo 'export TWITTER_SECRET=&lt;MY-TWITTER-SECRET&gt;' &gt;&gt; .powenv
+touch tmp/restart.txt
+</code></p>
+
+<p>And, voila! I can now access my oauth workflow, simply.</p>
+]]></content>
+  </entry>
+  
+</feed>
