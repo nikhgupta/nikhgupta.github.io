@@ -1,0 +1,326 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>a rubyist's attempt on working with python - setup and first notes - Nikhil Gupta</title>
+	<meta name="author" content="Nikhil Gupta">
+
+	
+	<meta name="description" content="A Rubyist's Attempt on Working With Python - Setup and First Notes I never really needed to look for another language to learn once I was acquinted &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Nikhil Gupta" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://nikhgupta.com/code/a-rubyists-attempt-on-working-with-python-setup-and-first-notes/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Alegreya:400,700|Mouse+Memoirs' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-21306915-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+  <div class="container">
+    <div class="left-col">
+      <div class="intrude-less">
+      <header id="header" class="inner"><div class="profilepic"> </div>
+<hgroup>
+  <h1><a href="/">Nikhil Gupta</a></h1>
+  
+    <h2>God is divine. And, so is code.</h2>
+  
+</hgroup>
+
+<!-- <div id="awesome"></div> -->
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+  <div class="social">
+    
+    <a class="email" href="mailto:me@nikhgupta.com" title="Email">Email</a>
+    
+    
+    
+    
+    <a class="twitter" href="http://twitter.com/nikhgupta" title="Twitter">Twitter</a>
+    
+    
+    <a class="github" href="https://github.com/nikhgupta" title="GitHub">GitHub</a>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    
+  </div>
+</nav>
+
+<div id="authorinfo">
+  <h1>An entrepreneur, developer, photographer and a perfectionist.</h1>
+  <br/>
+  <h3>&quot;I am from Jaipur, India. I am a part of the Springboards Programme, 2012, whence I love to code little devils in Ruby.&quot;</h3>
+</div>
+</header>
+      </div>
+    </div>
+    <div class="mid-col">
+      
+        
+      
+      <div class="mid-col-container">
+        <div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<h1 class="title" itemprop="name">A Rubyist's Attempt on Working With Python - Setup and First Notes</h1>
+	<div class="entry-content" itemprop="articleBody"><p>I never really needed to look for another language to learn once I was acquinted
+with ruby some years back. I love it, and I really do. It provides clean code
+which does what it reads &ndash; it feels like the language was written for me, which
+was infact the idea behind ruby &ndash; a language made for developers.</p>
+
+<p>But, anyways, I am giving Python another try for with hopes that it will be
+fruitful for me to learn the language. It has been, I think, 2-3 years since
+I last tried the language for some time, briefly. I have learned a lot in that
+duration in the Ruby world. And, I am hoping, if nothing else, this attempt at
+Python will make me a better rubyist. This post describes my notes on setting up
+a development environment for Python on OSX 10.8 (Mountain Lion), and some
+initial learning intakes.</p>
+
+<!-- more -->
+
+
+<h2>Installation</h2>
+
+<p>I preferred not to use the Python distribution that comes with OSX for my dev
+needs, which most Pythonista will agree with. The reason is simple &ndash; I do not
+want the system based Python to get corrupted while my dev percussions, and is
+the same reason why I use <code>rbenv</code> for Ruby development.</p>
+
+<p>So, I looked at some tutorials regarding this, and found that the good old
+<code>homebrew</code> that I love has again come up with a rescue. Moreover, it provides me
+with <code>pip</code> and <code>setuptools</code>, which is really great.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Installs Python 2.x</span>
+</span><span class='line'>brew install python --with-brewed-openssl
+</span><span class='line'><span class="c"># Links some of the Python Dev. utilities to /Applications directory.</span>
+</span><span class='line'>brew linkapps
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Alright, so next we need a version control system, for which <code>mercurial</code> is
+happily recommended in many tutorials, but I love my VCS and I am not going to
+part away from it &ndash; I am loyal to it &ndash; <code>Git</code>.</p>
+
+<p>Finally, lets install <code>virtualenv</code> which creates virtual isolated environments
+for our Python projects, kinda like <code>rvm</code> in Ruby world.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>pip install virtualenv
+</span><span class='line'>pip install virtualenvwrapper
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, I do not want to run <code>pip</code> command against the system python and overwrite
+or update a needed library. So, I will tell <code>pip</code> to only instally anything, if
+we are in a <code>virtualenv</code> based environment. Add the following two lines to your
+<code>~/.bashrc</code>, or <code>zsh</code> configuration file (or, whatever else you use):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">if</span> <span class="o">[[</span> -s /usr/local/bin/virtualenvwrapper.sh <span class="o">]]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">    </span><span class="nb">source</span> /usr/local/bin/virtualenvwrapper.sh
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># pip should only run if there is a virtualenv currently activated</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">PIP_REQUIRE_VIRTUALENV</span><span class="o">=</span><span class="nb">true</span>
+</span><span class='line'><span class="c"># cache pip-installed packages to avoid re-downloading</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">PIP_DOWNLOAD_CACHE</span><span class="o">=</span><span class="nv">$HOME</span>/.pip/cache
+</span><span class='line'><span class="c"># virtualenv wrapper support</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">WORKON_HOME</span><span class="o">=</span>~/Code/python/VirtualEnvs
+</span><span class='line'><span class="c"># make pip use the virtualenv dir</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">PIP_VIRTUALENV_BASE</span><span class="o">=</span><span class="nv">$WORKON_HOME</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, trying to install a package without a valid <code>virtualenv</code> will give an error
+that says:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>~ ➲ pip install markdown
+</span><span class='line'>Could not find an activated virtualenv <span class="o">(</span>required<span class="o">)</span>.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you want to use <code>pip</code> for the system based Python, you can add a function
+like this in your bash/zsh configuration file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>syspip<span class="o">(){</span>
+</span><span class='line'>   <span class="nv">PIP_REQUIRE_VIRTUALENV</span><span class="o">=</span><span class="s2">&quot;&quot;</span> pip <span class="s2">&quot;$@&quot;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Create a new virtualenv, using:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>virtualenv test_project
+</span><span class='line'><span class="nb">cd </span>test_project
+</span><span class='line'>. bin/activate
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>The Editor</h2>
+
+<p>Although, there is a really good <code>PyCharm</code> editor available for Python, I will
+still try and stay with my editor of choice: <code>Vim</code>, which is really
+magnificient. However, in the upcoming days, I can install and add various
+python based features for my vim editor.</p>
+
+<h2>Epilogue</h2>
+
+<p>I have decided to write a separate blog post on what I find inside Python. Will
+soon write up about it.</p>
+</div>
+
+
+  <div class="author" style="text-align:right">- by Nikhil Gupta</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+
+</div>
+      </div>
+      <footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - Nikhil Gupta -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+      
+
+<script type="text/javascript">
+      var disqus_shortname = 'nikhgupta';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://nikhgupta.com/code/a-rubyists-attempt-on-working-with-python-setup-and-first-notes/';
+        var disqus_url = 'http://nikhgupta.com/code/a-rubyists-attempt-on-working-with-python-setup-and-first-notes/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+    </div>
+  </div>
+</body>
+</html>

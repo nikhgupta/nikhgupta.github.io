@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: workflow | Nikhil Gupta]]></title>
+  <link href="http://nikhgupta.com/blog/categories/workflow/atom.xml" rel="self"/>
+  <link href="http://nikhgupta.com/"/>
+  <updated>2014-04-11T08:28:34+05:30</updated>
+  <id>http://nikhgupta.com/</id>
+  <author>
+    <name><![CDATA[Nikhil Gupta]]></name>
+    <email><![CDATA[me@nikhgupta.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[making ngrok work with pow and apache (exposing localhost domains to the internet)]]></title>
+    <link href="http://nikhgupta.com/workflow/making-ngrok-work-with-pow-and-apache-exposing-localhost-domains-to-the-internet/"/>
+    <updated>2014-02-07T02:56:00+05:30</updated>
+    <id>http://nikhgupta.com/workflow/making-ngrok-work-with-pow-and-apache-exposing-localhost-domains-to-the-internet</id>
+    <content type="html"><![CDATA[<p>OK. I am really happy with my recent endeavour to try out <a href="http://pow.cx">Pow</a>
+and making it work alongside Apache. What this means is that, on my macbook pro,
+I can simply run <code>powder link</code> inside a rack-based application, and then, use
+<code>http://&lt;appname&gt;.dev</code> to connect to this application. For legacy (non-rack)
+based application, I can simply create a directory in a specificied location,
+and that directory will be served by Apache at: <code>http://&lt;dirname&gt;.lab</code>. Details
+for this implementation/workflow can be found in <a href="/code/serving-legacy-php-applications-using-apache-alongside-pow/">this post</a>.</p>
+
+<p>Now, this works really nicely. But, I wanted a way to access these sites easily
+on the public internet, lets say, to showcase the current work to a client, etc.
+This is where <a href="http://ngrok.com">ngrok</a> comes in. It allows us to establish
+a tunnel that forwards a port on our machine and make it available on the public
+internet. This post walks through the steps I took to make it play nicely and
+really smoothly with Apache and Pow.</p>
+
+<!-- more -->
+
+
+<h2>Installing <code>ngrok</code></h2>
+
+<p>Installing <code>ngrok</code> is pretty easy. We need to download a zip file, unzip it and
+move the executable inside it to a directory in our <code>$PATH</code>. Assuming that
+<code>/usr/local/bin</code> is in our <code>$PATH</code>, we can do something like this:</p>
+
+<p><code>bash
+cd /tmp
+wget https://dl.ngrok.com/darwin_amd64/ngrok.zip
+unzip ngrok.zip
+chmod +x ngrok
+cp ngrok /usr/local/bin
+</code></p>
+
+<p>Now, we need to verify that <code>ngrok</code> is working by running: <code>ngrok help</code>. Once,
+we have it working, we need to <a href="https://ngrok.com/signup">register</a> us on
+<code>ngrok</code> website, and authorize us with <code>ngrok</code> as stated in the
+<a href="http://ngrok.com/dashboard">dashboard</a>.</p>
+
+<p>Now, <code>ngrok</code> is ready to serve our localhost on the public internet. Running:
+<code>ngrok 80</code> should provide us with a unique URL, which we can access to view our
+localhost site, i.e. <code>http://localhost/</code>.</p>
+
+<h2>Pow domains?</h2>
+
+<p>I wanted to view my Pow based domains over the internet, and this is fairly easy
+to do. With our <a href="/code/serving-legacy-php-applications-using-apache-alongside-pow/">current Pow setup</a>, it is still easier.</p>
+
+<blockquote><p>If you have reached this post while searching to make ngrok work with apache
+or pow, please read that article, before you proceed further. Instructions in
+this post assume that Pow and Apache are setup in a particular manner, and may
+not work in your case.</p></blockquote>
+
+<p>Alright, we need to reinstall Pow to let it know what mischief we are upto.
+We can run the following commands to uninstall Pow, add an environment variable
+to our Pow configuration file, and then, reinstall Pow. This particular
+environment variable tells Pow to resolve DNS for <code>*.ngrok.com</code> on our local
+machine, but not serve them.</p>
+
+<p><code>bash
+curl get.pow.cx/uninstall.sh | sh
+echo "export POW_EXT_DOMAINS=ngrok.com" &gt;&gt; ~/.powconfig
+curl get.pow.cx | sh
+</code></p>
+
+<p>That is all we need to make Pow serve our local Pow site, e.g. <code>myapp.dev</code> on
+the internet, provided this application is being forwarded on <code>myapp.ngrok.com</code>
+hostname. In order to achieve this, we can run <code>ngrok</code>, like this:</p>
+
+<p><code>bash
+ngrok --subdomain=myapp myapp.dev:88
+</code></p>
+
+<p>Note that, as per our current Pow configuration, Pow is running on port 88, and
+that is what we need to specify here. Great. So, we can now access our local
+<code>myapp.dev</code> Pow based site on the internet by visiting <code>http://myapp.ngrok.com</code>.</p>
+
+<h2>Apache domains?</h2>
+
+<p><code>ngrok</code> allows us to expose our Apache <code>VirtualHost</code> domains over
+the internet by adding the public hostname of the application as a <code>ServerAlias</code>
+inside the appropriate <code>VirtualHost</code> directive.</p>
+
+<p>In my case, I am using the following <code>VirtualHost</code> directive (which allows me
+to simply create a directory named <code>myapp</code> inside the path specified by the
+<code>VirtualDocumentRoot</code>, and access it on <code>http://myapp.lab</code>):</p>
+
+<p>```apache
+<VirtualHost *:80></p>
+
+<pre><code>ServerName lab
+ServerAlias *.lab
+VirtualDocumentRoot "/Users/nikhgupta/Code/legacy-apps/%1"
+</code></pre>
+
+<p></VirtualHost>
+```</p>
+
+<p>We want <code>ngrok</code> to serve all <code>*.lab</code> local sites on the internet. Therefore, we
+add a <code>ServerAlias</code> with the value <code>*.lab.ngrok.com</code> to this <code>VirtualHost</code>
+directive.</p>
+
+<p>This works because, when a request to <code>*.lab.ngrok.com</code> is made on the internet,
+<code>ngrok</code> will forward it to our machine, which will read the hostname to be
+<code>*.lab.ngrok.com</code>, which is where Apache kicks in and tries to serve it, using
+the above directive. Nice, and simple :)</p>
+
+<p>So, our directive should look like this, now:</p>
+
+<p>```apache
+<VirtualHost *:80></p>
+
+<pre><code>ServerName lab
+ServerAlias *.lab *.lab.ngrok.com
+VirtualDocumentRoot "/Users/nikhgupta/Code/legacy-apps/%1"
+</code></pre>
+
+<p></VirtualHost>
+```</p>
+
+<p>To make this all work, we need <code>ngrok</code> to serve the site correctly. Assuming
+that we want to access <code>myapp.lab</code>, we will need to issue a command like this:</p>
+
+<p><code>bash
+ngrok --subdomain=myapp.lab myapp.lab:80
+</code></p>
+
+<p>Voila, we can now access our Apache <code>VirtualHost</code> domains on the internet, as
+well.</p>
+
+<h2>Epilogue</h2>
+
+<p>To sum it up, with the above changes, and the following sites that work on our
+local machine:</p>
+
+<ol>
+<li><code>my-pow-app.dev</code>:    pow based application</li>
+<li><code>my-apache-app.lab</code>: apache based application</li>
+</ol>
+
+
+<p>We can issue the following two commands (in separate tabs):</p>
+
+<p>```bash</p>
+
+<h1>access <code>my-pow-app.dev</code> via: <a href="http://my-pow-app.ngrok.com">http://my-pow-app.ngrok.com</a></h1>
+
+<p>ngrok &mdash;subdomain=my-pow-app my-pow-app.dev:88</p>
+
+<h1>access <code>my-apache-app.lab</code> via: <a href="http://my-apache-app.lab.ngrok.com">http://my-apache-app.lab.ngrok.com</a></h1>
+
+<p>ngrok &mdash;subdomain=my-apache-app.lab my-apache-app.lab:80
+```</p>
+
+<h2>Further Improvement to Workflow</h2>
+
+<p>I created this handly little shell snippet to easily serve up a local domain on
+the internet using <code>ngrok</code> (and, optionally, with HTTP Basic Authentication):</p>
+
+<p>```bash
+expose() {</p>
+
+<pre><code>website=$1
+subdomain=$2
+username=$3
+password=$4
+[ -n $website ] || (echo "I need a local website to tunnel to." &amp;&amp; exit)
+[ -n $subdomain ] &amp;&amp; subdomain="--subdomain=${subdomain}"
+if [[ -n $username  ]] &amp;&amp; [[ -n $password ]]; then
+    httpauth="-httpauth=${username}:${password}"
+else
+    echo "Not using secure tunnel since auth params were not provided."
+fi
+ngrok $subdomain $httpauth $website
+</code></pre>
+
+<p>}
+```</p>
+
+<p>I am pretty sure that the above function can be further improved, but it works.
+It empowers me to issue a simplified command to serve any local domain.</p>
+
+<p>To best realize the power of this little snippet, we need to add the following one-line
+functions (after the above function) in our shell configuration:</p>
+
+<p><code>bash
+expose-dev() { expose $1.dev:88 $1 $2 $3; }
+expose-lab() { expose $1.lab:80 $1.lab $2 $3; }
+</code></p>
+
+<p>Now, to serve up a Pow based site, e.g. <code>myapp.dev</code>, we can simply run:</p>
+
+<p><code>bash
+expose-dev myapp
+</code></p>
+
+<p>And, to serve up an Apache based site, e.g. <code>myapp.lab</code>, we can simply run:
+<code>bash
+expose-lab myapp
+</code></p>
+
+<p>Not only that, we can, also, add HTTP Basic Authentication while serving up
+a local site, by simply passing two more parameters for username and password,
+like this:</p>
+
+<p><code>bash
+expose-lab myapp username password
+</code></p>
+
+<p>Now, when we visit <code>http://myapp.lab.ngrok.com</code>, we will be greeted with a HTTP
+Basic Authentication before we are allowed accessed to our local site.</p>
+
+<p><strong>Nice and really useful :)</strong></p>
+]]></content>
+  </entry>
+  
+</feed>

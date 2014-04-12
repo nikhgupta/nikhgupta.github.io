@@ -1,0 +1,258 @@
+
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>managing your scripts should not be that hard - Nikhil Gupta</title>
+	<meta name="author" content="Nikhil Gupta">
+
+	
+	<meta name="description" content="Managing Your Scripts Should Not Be That Hard I am, often, found creating simple scripts to automate one or the other part of
+my life. Most of the &hellip;">
+	
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Nikhil Gupta" type="application/atom+xml">
+	
+	<link rel="canonical" href="http://nikhgupta.com/personal/code/managing-your-scripts-should-not-be-that-hard/">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Alegreya:400,700|Mouse+Memoirs' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-21306915-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+  <div class="container">
+    <div class="left-col">
+      <div class="intrude-less">
+      <header id="header" class="inner"><div class="profilepic"> </div>
+<hgroup>
+  <h1><a href="/">Nikhil Gupta</a></h1>
+  
+    <h2>God is divine. And, so is code.</h2>
+  
+</hgroup>
+
+<!-- <div id="awesome"></div> -->
+
+<nav id="main-nav"><ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+<nav id="sub-nav">
+  <div class="social">
+    
+    <a class="email" href="mailto:me@nikhgupta.com" title="Email">Email</a>
+    
+    
+    
+    
+    <a class="twitter" href="http://twitter.com/nikhgupta" title="Twitter">Twitter</a>
+    
+    
+    <a class="github" href="https://github.com/nikhgupta" title="GitHub">GitHub</a>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+    
+  </div>
+</nav>
+
+<div id="authorinfo">
+  <h1>An entrepreneur, developer, photographer and a perfectionist.</h1>
+  <br/>
+  <h3>&quot;I am from Jaipur, India. I am a part of the Springboards Programme, 2012, whence I love to code little devils in Ruby.&quot;</h3>
+</div>
+</header>
+      </div>
+    </div>
+    <div class="mid-col">
+      
+        
+      
+      <div class="mid-col-container">
+        <div id="content" class="inner"><article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  
+	<h1 class="title" itemprop="name">Managing Your Scripts Should Not Be That Hard</h1>
+	<div class="entry-content" itemprop="articleBody"><p>I am, often, found creating simple scripts to automate one or the other part of
+my life. Most of the times, I would use a combination of project managers, task
+managers, automation tools, and so on to do the tedious work for me. But, at the
+other times, it is simply so much more easier to give my inner geek a kick in
+the butt and start writing some code which will explicitely be used by me to
+handle such one off tasks.</p>
+
+<!-- more -->
+
+
+<h2>The Problem</h2>
+
+<p>But, here comes the irony, no matter what I try, I end up either misplacing
+these little snippets of code, or otherwise it becomes so much tedious to
+collect and keep them in an organized manner. Not to mention, the really
+annoying part of creating aliases to these nice snippets and then, forgetting
+what aliases you, currently, have. Oh, did I mention, I have to keep them online
+in a Git repository, so that they are always versioned and sharing them is easy?
+And, what if I am booting a new server or working on some other one-time
+machine, it would kill me to do a clone of this repository, and then run them
+via their full paths, and what if the script does not work on this new machine,
+or what if I had to leave meanwhile?</p>
+
+<p>Let me have a quick answer: it is not the 1990s, where the above issues
+classified as a GNU license, and nor it is the 2000&rsquo;s, when I did not know how
+to create an app dedicated for my own purposes.</p>
+
+<h2>The Solution</h2>
+
+<p>The solution? It&rsquo;s easy. Search for an existing solution or roll out our own.
+Unfortunately, I was unable to find an existing solution (or, atleast, I will
+pretend the same), and therefore will be rolling out my own, with the following
+features:</p>
+
+<ul>
+<li>Has a client side gem that can be used to list a user&rsquo;s scripts, and allow him
+to copy them in a folder on his machine, and assign aliases to these scripts
+on the go.</li>
+<li>The gem should be able to search for scripts based on some keywords.</li>
+<li>User should be able to have CRUD rights over their scripts. They should be
+able to share these scripts, as well as export them. They should be able to
+reference another script inside the script they are creating.</li>
+<li>All the scripts would be created use Github Gists, and hence, be versioned.</li>
+<li>The application should provide an interface to write (and, probably, test) the
+scripts on the server, itself. Provide a dedicated backend to the user?</li>
+<li>The users should be able to run the scripts on their server via the app
+interface, once they have the SSH authentication established? This is not as
+straight-forward, since the app server will be the one connecting to the
+user&rsquo;s server and hence, it is not safe.</li>
+<li>Scripts should have a unique programming structure, which identifies their
+requirements and alike, and notifies the user about the same.</li>
+<li>Logging should be done on cloud for output of the scripts.</li>
+<li>Scripts should be marked as safe based on their MD5 hash, kinda like thor
+does for its installed scripts.</li>
+<li>Scripts should be intelligent in telling the user when the runtime is not
+available, e.g. the user tries to run a ruby script on a server with no-ruby
+installed.</li>
+</ul>
+
+</div>
+
+
+  <div class="author" style="text-align:right">- by Nikhil Gupta</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+
+</div>
+      </div>
+      <footer id="footer" class="inner"><p>
+  Copyright &copy; 2014 - Nikhil Gupta -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+      
+
+<script type="text/javascript">
+      var disqus_shortname = 'nikhgupta';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://nikhgupta.com/personal/code/managing-your-scripts-should-not-be-that-hard/';
+        var disqus_url = 'http://nikhgupta.com/personal/code/managing-your-scripts-should-not-be-that-hard/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+    </div>
+  </div>
+</body>
+</html>
