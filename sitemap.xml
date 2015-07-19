@@ -2,142 +2,146 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://nikhgupta.com/code/installing-graylog2-on-ubunty-natty-11-04/</loc>
-        <lastmod>2014-10-05T18:21:52+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/code/initialize-gitolite-bash-script/</loc>
-        <lastmod>2014-10-05T18:21:52+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/code/quattro-responsive-wordpress-theme-colophon/</loc>
-        <lastmod>2014-10-05T18:21:52+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/code/xslt-auto-incrementing-a-variable/</loc>
-        <lastmod>2014-10-05T18:21:52+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/code/installing-puppet-on-master-and-client/</loc>
-        <lastmod>2014-10-05T18:21:53+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/code/installing-squid-proxy-server-on-centos-5-vps/</loc>
-        <lastmod>2014-10-05T18:21:53+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/code/setting-up-anonymous-proxy-with-squid/</loc>
-        <lastmod>2014-10-05T18:21:53+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/code/thoughts-getting-started-with-ruby-rails/</loc>
-        <lastmod>2014-10-05T18:21:53+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/code/bootstrapping-my-rails-application/</loc>
-        <lastmod>2014-10-05T18:21:53+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/code/5minutes-to-beta-video/</loc>
-        <lastmod>2014-10-05T18:21:53+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/code/vim-awesomeness-gundo-and-tabular-plugins/</loc>
-        <lastmod>2014-10-05T18:21:53+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/code/using-vim-php-ide-exuberant-ctags-code-browsing/</loc>
-        <lastmod>2014-10-05T18:21:53+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/meet-the-amazing-hubot/</loc>
-        <lastmod>2014-10-05T18:21:53+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/personal/back-with-a-bang/</loc>
-        <lastmod>2014-10-05T18:21:53+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>
             http://nikhgupta.com/personal/code/managing-your-scripts-should-not-be-that-hard/
         </loc>
-        <lastmod>2014-10-05T18:21:53+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/code/finally-a-self-hosted-gitlab-instance/</loc>
-        <lastmod>2014-10-05T18:21:53+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>
             http://nikhgupta.com/code/custom-domains-on-github-pages-without-fucking-up-your-emails/
         </loc>
-        <lastmod>2014-10-05T18:21:53+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/code/wish-yourself-a-happy-new-year/</loc>
-        <lastmod>2014-10-05T18:21:54+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/personal/diary/the-overdue-silence/</loc>
-        <lastmod>2014-10-05T18:21:54+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>
             http://nikhgupta.com/code/wrapping-long-lines-in-ruby-for-display-in-source-files/
         </loc>
-        <lastmod>2014-10-05T18:21:54+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>
             http://nikhgupta.com/code/serving-legacy-php-applications-using-apache-alongside-pow/
         </loc>
-        <lastmod>2014-10-05T18:21:54+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>
             http://nikhgupta.com/workflow/making-ngrok-work-with-pow-and-apache-exposing-localhost-domains-to-the-internet/
         </loc>
-        <lastmod>2014-10-05T18:21:54+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>
             http://nikhgupta.com/rails/401-unoauthorized-with-omniauth-twitter-and-pow-domains/
         </loc>
-        <lastmod>2014-10-05T18:21:54+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>
             http://nikhgupta.com/code/activeadmin/custom-filters-using-ransacker-in-activeadmin-interfaces/
         </loc>
-        <lastmod>2014-10-05T18:21:54+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/code/rails/things-you-may-not-know-about-factorygirl/</loc>
-        <lastmod>2014-10-05T18:21:54+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>
             http://nikhgupta.com/code/a-rubyists-attempt-on-working-with-python-setup-and-first-notes/
         </loc>
-        <lastmod>2014-10-05T18:21:54+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/personal/the-bizarre-events-of-the-last-week/</loc>
-        <lastmod>2014-10-05T18:21:54+05:30</lastmod>
+        <lastmod>2015-07-19T14:09:10+05:30</lastmod>
+    </url>
+    <url>
+        <loc>http://nikhgupta.com/about-me/</loc>
+        <lastmod>2015-07-19T14:55:49+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/blog/archives/</loc>
-        <lastmod>2014-10-05T18:21:57+05:30</lastmod>
+        <lastmod>2015-07-19T14:09:10+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/blog/categories/</loc>
-        <lastmod>2014-10-05T18:21:57+05:30</lastmod>
+        <lastmod>2015-07-19T14:05:18+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/</loc>
-        <lastmod>2014-10-05T18:22:00+05:30</lastmod>
+        <lastmod>2015-07-19T14:09:10+05:30</lastmod>
     </url>
     <url>
         <loc>http://nikhgupta.com/robots.txt</loc>
-        <lastmod>2014-10-05T18:22:01+05:30</lastmod>
+        <lastmod>2015-07-19T14:01:46+05:30</lastmod>
     </url>
 </urlset>
